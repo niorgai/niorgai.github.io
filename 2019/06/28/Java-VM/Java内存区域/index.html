@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="分区根据 “Java 虚拟机规范”, Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.  而其实一个 Java 程序可以理解为一个进程, 进程里面的资源共享即区分以下区域的私有和共享. 私有:   程序计数器: 当前线程所执行的字节码的行号指示器. 虚拟机栈(VM Stack): 每个方法在执行时会创建一个栈帧来存储局部变量表, 操作数栈, 动态链接,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java内存区域">
+<meta property="og:url" content="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="分区根据 “Java 虚拟机规范”, Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.  而其实一个 Java 程序可以理解为一个进程, 进程里面的资源共享即区分以下区域的私有和共享. 私有:   程序计数器: 当前线程所执行的字节码的行号指示器. 虚拟机栈(VM Stack): 每个方法在执行时会创建一个栈帧来存储局部变量表, 操作数栈, 动态链接,">
+<meta property="og:locale">
+<meta property="og:image" content="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/images/img_jvm_memory_runtime.jpg">
+<meta property="article:published_time" content="2019-06-28T03:27:12.000Z">
+<meta property="article:modified_time" content="2019-07-03T14:56:04.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/images/img_jvm_memory_runtime.jpg">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Java内存区域 | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA"><span class="nav-number">1.</span> <span class="nav-text">分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6"><span class="nav-number">2.</span> <span class="nav-text">回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">对象引用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ReferenceQueue%E7%9A%84%E7%94%A8%E6%B3%95-%E4%BB%A5PhantomReference%E4%B8%BA%E4%BE%8B-%EF%BC%9A"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">ReferenceQueue的用法(以PhantomReference为例)：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6-1"><span class="nav-number">4.</span> <span class="nav-text">回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">4.0.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">4.0.2.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="nav-number">4.0.3.</span> <span class="nav-text">标记-整理算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E5%9B%9E%E6%94%B6"><span class="nav-number">4.0.4.</span> <span class="nav-text">分代回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GC-%E6%97%A5%E5%BF%97"><span class="nav-number">4.0.5.</span> <span class="nav-text">GC 日志</span></a></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java内存区域
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-06-28 11:27:12" itemprop="dateCreated datePublished" datetime="2019-06-28T11:27:12+08:00">2019-06-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-07-03 22:56:04" itemprop="dateModified" datetime="2019-07-03T22:56:04+08:00">2019-07-03</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/28/Java-VM/Java内存区域/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><p>根据 “Java 虚拟机规范”, Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.</p>
+<p><img src="images/img_jvm_memory_runtime.jpg"></p>
+<p>而其实一个 Java 程序可以理解为一个进程, 进程里面的资源共享即区分以下区域的私有和共享.</p>
+<p><strong>私有</strong>: </p>
+<ul>
+<li>程序计数器: 当前线程所执行的字节码的行号指示器.</li>
+<li>虚拟机栈(VM Stack): 每个方法在执行时会创建一个<strong>栈帧</strong>来存储局部变量表, 操作数栈, 动态链接, 方法出口等信息. 主要是局部变量表, 存储了各种基本数据类型和对象引用.</li>
+<li>本地方法栈(Native Method Stack): 对于 Native 方法的存储.</li>
+</ul>
+<p><strong>共享</strong>:</p>
+<ul>
+<li>Java 堆: 几乎所有的对象示例都要在这里分配内存, 也是 GC 的主要管理区域.</li>
+<li>方法区: 存储虚拟机加载的类信息, 常量, 静态变量, JIT 编译之后的代码.</li>
+</ul>
+<h2 id="回收"><a href="#回收" class="headerlink" title="回收"></a>回收</h2><p>GC 方案常见的是 <code>引用计数法</code> 和 <code>根搜索算法</code>.</p>
+<ul>
+<li><code>引用记数法</code>: 给对象添加一个引用计数器, 被引用时计数器 +1, 引用失效时计数器 -1. 如果任何时刻计数器都为0, 那就不可能再被使用, 就可以被回收. 因为引用计数法在循环引用时会导致对象无法回收, 所以目前被弃用了.</li>
+<li><code>可达性算法</code>: 目前认为比较成熟的算法, 即从 GC Roots 的对象作为起点, 向下搜索对象, 走过的路径称为引用链, 如果某个对象到 GC Roots 之间没有任何引用链, 那认为这个对象是不可达的, 它就可以被回收.</li>
+</ul>
+<p>GC Roots 有以下几种:</p>
+<ol>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象.</li>
+<li>方法区中类静态属性引用的对象.</li>
+<li>方法区中常量引用的对象.</li>
+<li>本地方法栈中 JNI 引用的对象.</li>
+</ol>
+<h2 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h2><p>涉及到内存回收, Java中对对象的引用可以使用以下四种，分别为强引用，软引用，弱引用，虚引用。<br><a target="_blank" rel="noopener" href="http://mobile.51cto.com/abased-406998.htm">参考地址</a>.</p>
+<ol>
+<li>强引用（StrongReference）</li>
+</ol>
+<p>强引用是使用最普遍的引用，如果一个对象具有强引用，那垃圾回收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题。**(默认的引用方式)**</p>
+<ol start="2">
+<li>软引用（SoftReference）</li>
+</ol>
+<p>如果一个对象只具有软引用，则内存空间足够，垃圾回收器就不会回收它；如果内存空间不足了，就会回收这些对象的内存**(即不抛出OOM错误)**。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存（下文给出示例）。软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中.</p>
+<ol start="3">
+<li>弱引用（WeakReference）</li>
+</ol>
+<p>弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程，因此 不一定会很快发现那些只具有弱引用的对象。弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<ol start="4">
+<li>虚引用（PhantomReference）</li>
+</ol>
+<p>“虚引用”顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。虚引用主要用来跟踪对象被垃圾回收器回收的活动。虚引用与软引用和弱引用的一个区别在于：虚引用必须和引用队列 （ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之 关联的引用队列中。 使用虚引用只是为了能够在对象回收时收到通知.</p>
+<h5 id="ReferenceQueue的用法-以PhantomReference为例-："><a href="#ReferenceQueue的用法-以PhantomReference为例-：" class="headerlink" title="ReferenceQueue的用法(以PhantomReference为例)："></a>ReferenceQueue的用法(以PhantomReference为例)：</h5><pre><code>ReferenceQueue queue = new ReferenceQueue (); 
+PhantomReference pr = new PhantomReference (object, queue);</code></pre>
+<p> 名字 | 引用方式 | GC是否回收 | 是否 OOM<br>     —    | — | — | —<br>     强引用 | 直接调用 | 否 | 是<br>     软引用 | .get | 看内存情况 | 否<br>     弱引用 | .get | 是 | 否<br>     虚引用 | null | 是 | 否</p>
+<h2 id="回收-1"><a href="#回收-1" class="headerlink" title="回收"></a>回收</h2><h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h4><p>即回收算法分为”标记”和”清除”两个阶段, 先扫描一次标记所有需要回收的对象, 再扫描一次回收所有被标记地对象.</p>
+<p>缺点:</p>
+<ul>
+<li>效率太低</li>
+<li>会产生大量不连续地内存碎片, 这些碎片会导致无法给大内存对象分配内存.</li>
+</ul>
+<h4 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h4><p>将可用内存分为大小相等的两块, 每次只使用其中的一块. 回收时把存活地对象复制到另一块区域即可, 其他空间都可以清理掉.</p>
+<p>缺点:</p>
+<ul>
+<li>可用内存直接变成一半了.</li>
+</ul>
+<h4 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h4><p>先扫描一次标记所有需要回收的对象, 再让所有的对象都向一端移动, 最后清理掉边界以外的内存.</p>
+<h4 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h4><p>现在的商业虚拟机大部分都是分代回收算法, 分为新生代(young gen)和老生代(old gen), 其中 young gen 又分为 eden 区, from survior 和 to survior 区. 新生代的 GC 叫做 Minor GC, 老生代的 GC 叫做 Major GC / Full GC . 数据一开始会分配到 Eden 区(大对象直接进入 old gen), young gen 采用的是复制算法, 因为 young gen 的大部分数据都是回马上死亡的, 所以只需复制少部分存货的对象从 From survior 到 To survior.  当 young gen 的数据经历了几次 GC 后(默认15次), 它会从 young gen 移到 old gen. 而 old gen 采用的是标记-整理算法, 可以应用 old gen 中对象 100% 都存活的情况.</p>
+<h4 id="GC-日志"><a href="#GC-日志" class="headerlink" title="GC 日志"></a>GC 日志</h4><p>33.125: [GC [DefNew: 3324K-&gt;152K(3712K), 0.0025925 secs] 3324K-&gt;152K(11904K), 0.0031680 secs]</p>
+<ul>
+<li>33.125: Java 虚拟机启动以来经过的秒数.</li>
+<li>GC 开头: 区分 GC 区域, 像这里的 DefNew 是 Serial 收集器的新生代区域, 还有 Full GC 表示全部 GC.</li>
+<li>3324K -&gt; 152K(3712K): GC 前该内存区域的可用容量 -&gt; GC 后该内存区域已使用容量(该内存区域总容量)</li>
+<li>0.0025925 secs: 该区域 GC 所占用的时间.</li>
+<li>3324K-&gt;152K(11904K): GC 前 Java 堆已使用容量 -&gt; GC 后 Java 堆已使用容量(Java 堆总容量)</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/01/20/WorkManager-Guide-Tips/" rel="prev" title="WorkManager-Guide&Tips">
+                  <i class="fa fa-chevron-left"></i> WorkManager-Guide&Tips
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/";
+    this.page.identifier = "2019/06/28/Java-VM/Java内存区域/";
+    this.page.title = "Java内存区域";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="####设置壁纸最常规的想法就是通过默认的WallpaperManager,方法如下：  WallpaperManager wallpaperManager &#x3D; WallpaperManager.getInstance(context);                         wallpaperManager.suggestDesiredDimensions(bitmap.getWid">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android壁纸设置">
+<meta property="og:url" content="http://niorgai.github.io/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="####设置壁纸最常规的想法就是通过默认的WallpaperManager,方法如下：  WallpaperManager wallpaperManager &#x3D; WallpaperManager.getInstance(context);                         wallpaperManager.suggestDesiredDimensions(bitmap.getWid">
+<meta property="og:locale">
+<meta property="article:published_time" content="2014-12-06T14:04:32.000Z">
+<meta property="article:modified_time" content="2016-02-10T05:33:41.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta property="article:tag" content="壁纸设置">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Android壁纸设置 | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android壁纸设置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-06 22:04:32" itemprop="dateCreated datePublished" datetime="2014-12-06T22:04:32+08:00">2014-12-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2016-02-10 13:33:41" itemprop="dateModified" datetime="2016-02-10T13:33:41+08:00">2016-02-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/06/Android壁纸设置/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <ol>
+<li><p>####设置壁纸最常规的想法就是通过默认的WallpaperManager,方法如下：</p>
+<pre><code> WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+                        wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());
+ wallpaperManager.setBitmap(bitmap);</code></pre>
+</li>
+</ol>
+<p>注意这里的</p>
+<pre><code>wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());</code></pre>
+<p>是表示设置目前的像素是图片的像素，最好先获取手机屏幕像素大小，然后传递宽度和高度作为参数。</p>
+<pre><code>WallpaperManager wallpaperManager = WallpaperManager.getInstance(DisplayPicture.this);
+        wallpaperManager.suggestDesiredDimensions(Utils.getDisplayWidth(),Utils.getDisplayHeight());</code></pre>
+<p>因为某些手机是可以设置壁纸跟桌面一起滑动的，这样所需的壁纸长宽跟手机屏幕的长宽是不一样的，所以需要这样设置。</p>
+<p>###但是问题来了，这样加载的bitmap需要裁减，并且加载后非常容易out of memory。所以尝试以下的解决方法：</p>
+<ol start="2">
+<li>####通过系统intent来设置，即传递一个image对象，系统luancher选择相应的程序来处理，这种方法还可以设置锁屏壁纸~~</li>
+</ol>
+<p>传递的sendUri为图片的Uri，代码如下：</p>
+<pre><code>Intent setAs = new Intent(Intent.ACTION_ATTACH_DATA);
+        setAs.setDataAndType(sendUri, &quot;image/jpg&quot;);
+        setAs.putExtra(&quot;mimeType&quot;,&quot;image/jpg&quot;);
+        startActivity(Intent.createChooser(setAs, &quot;set As&quot;));</code></pre>
+<p>其中</p>
+<pre><code>setAs.putExtra(&quot;mineType&quot;,&quot;image/jpg&quot;)</code></pre>
+<p>非常重要，通过这句告诉intent的Filter当前intent的data传递的是什么内容，不加这一句会导致某些机型的相册程序崩溃。如vivo。。</p>
+<p>另外关于mineType的其他可以参考<a target="_blank" rel="noopener" href="http://www.apkbus.com/blog-56077-44963.html">这里</a></p>
+<ol start="3">
+<li><p>####将bitmap传入系统裁减intent，裁减至手机屏幕大小，然后在onActivitiyResult中捕捉bitmap并设置壁纸（强行避免OOM）</p>
+<pre><code> Intent intent = new Intent(&quot;com.android.camera.action.CROP&quot;);
+     intent.setDataAndType(sendUri, &quot;image/*&quot;);
+     intent.putExtra(&quot;crop&quot;, &quot;true&quot;);
+     //裁剪框的比例，1：1
+     DisplayMetrics dm = new DisplayMetrics();
+     dm = getResources().getDisplayMetrics();
+     // float scale = (float)dm.heightPixels / (float)dm.widthPixels;
+     intent.putExtra(&quot;aspectX&quot;, dm.widthPixels);
+     intent.putExtra(&quot;aspectY&quot;, dm.heightPixels);
+     intent.putExtra(&quot;scale&quot;,true);
+     //裁剪后输出图片的尺寸大小
+     intent.putExtra(&quot;outputX&quot;, dm.widthPixels);
+     intent.putExtra(&quot;outputY&quot;, dm.heightPixels);
+     Uri uri = Uri.fromFile(file);
+     intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+     //图片格式
+     intent.putExtra(&quot;outputFormat&quot;, &quot;JPEG&quot;);
+     intent.putExtra(&quot;noFaceDetection&quot;, true);
+     intent.putExtra(&quot;return-data&quot;,false);
+     startActivityForResult(intent, 1);</code></pre>
+</li>
+</ol>
+<p>返回这里(file是通过sendUri new出来的)：</p>
+<pre><code>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;
+    if(requestCode == 1)&#123;
+        Uri uri = Uri.fromFile(file);
+         Bitmap bitmap = null;
+        if(uri != null)&#123;
+            try &#123;
+                bitmap= imgLoader.getBitmapByPath(uri.getPath());
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(DisplayPicture.this);
+                wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());
+                wallpaperManager.setBitmap(bitmap);
+            &#125;catch (Exception e)&#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+    super.onActivityResult(requestCode, resultCode, data);
+&#125;</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/" rel="tag"># 壁纸设置</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2014/12/06/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E5%8D%95%E4%BD%8D/" rel="prev" title="手机屏幕单位">
+                  <i class="fa fa-chevron-left"></i> 手机屏幕单位
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2014/12/13/EditText%E4%BC%98%E5%8C%96/" rel="next" title="EditText优化">
+                  EditText优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/";
+    this.page.identifier = "2014/12/06/Android壁纸设置/";
+    this.page.title = "Android壁纸设置";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

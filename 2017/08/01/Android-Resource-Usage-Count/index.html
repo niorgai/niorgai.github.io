@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="插件地址: Jetbrains Plugin Page Github 地址: Android-Resource-Usage-Count 插件说明使用 IntelliJ IDEA 或者 Android Studio 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 build 路径和 bin 路径的引用.   支持的标签:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android-Resource-Usage-Count">
+<meta property="og:url" content="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="插件地址: Jetbrains Plugin Page Github 地址: Android-Resource-Usage-Count 插件说明使用 IntelliJ IDEA 或者 Android Studio 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 build 路径和 bin 路径的引用.   支持的标签:">
+<meta property="og:locale">
+<meta property="og:image" content="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg">
+<meta property="og:image" content="http://www.methodscount.com/images/methods-count-plugin-1.png">
+<meta property="article:published_time" content="2017-08-01T11:32:55.000Z">
+<meta property="article:modified_time" content="2017-08-21T10:39:12.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Android-Resource-Usage-Count | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">插件说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">开发背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">开发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83"><span class="nav-number">4.</span> <span class="nav-text">打包发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">已知问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android-Resource-Usage-Count
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-08-01 19:32:55" itemprop="dateCreated datePublished" datetime="2017-08-01T19:32:55+08:00">2017-08-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2017-08-21 18:39:12" itemprop="dateModified" datetime="2017-08-21T18:39:12+08:00">2017-08-21</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/08/01/Android-Resource-Usage-Count/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/01/Android-Resource-Usage-Count/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>插件地址: <a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/9885-android-resource-usage-count">Jetbrains Plugin Page</a></p>
+<p>Github 地址: <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Android-Resource-Usage-Count</a></p>
+<h2 id="插件说明"><a href="#插件说明" class="headerlink" title="插件说明"></a>插件说明</h2><p>使用 <code>IntelliJ IDEA</code> 或者 <code>Android Studio</code> 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 <code>build</code> 路径和 <code>bin</code> 路径的引用.</p>
+<p><img src="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg"></p>
+<ul>
+<li><p>支持的标签: </p>
+<ul>
+<li><code>array</code></li>
+<li><code>attr</code></li>
+<li><code>bool</code></li>
+<li><code>color</code></li>
+<li><code>declare-styleable</code></li>
+<li><code>dimen</code></li>
+<li><code>drawable</code></li>
+<li><code>eat-comment</code></li>
+<li><code>fraction</code></li>
+<li><code>integer</code></li>
+<li><code>integer-array</code></li>
+<li><code>item</code></li>
+<li><code>plurals</code></li>
+<li><code>string</code></li>
+<li><code>string-array</code></li>
+<li><code>style</code></li>
+</ul>
+</li>
+<li><p>颜色说明:</p>
+<ul>
+<li>0 - 灰色</li>
+<li>1 - 蓝色</li>
+<li>其他 - 红色</li>
+<li>可以在 <code>Preferences</code> - <code>Other Settings</code> - <code>Android Resource Usage Count</code> 中自定义颜色</li>
+</ul>
+</li>
+</ul>
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>在 Android 项目开发过程中, 我一直都是把各种 <code>string</code> <code>color</code> 等资源定义在资源文件中, 再在代码中引用它. 如果有新的 <code>string</code> 或者 <code>color</code>, 我会先对比一下是否存在, 如果存在直接使用, 不存在才创建新的资源文件.</p>
+<p>但是资源文件可能会改动, 经常产品需要改动一个 <code>string</code>, 或者设计需要改动一个 <code>color</code>, 我都要先手动在那个资源文件上右键 - Find Usage , 引用次数为1就直接改动这个标签内容, 否则要新建一个标签. 但是觉得每次都要搜索很繁琐, 所以才产生了开发这个插件的想法, 直接显示每个资源文件的引用次数.</p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><p>其实插件开发的文档还是比较少的, <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started.html">官网</a> 提供的只是一个通用的开发过程, 按照文档你可以顺利创建项目, 然后就懵 B 了.</p>
+<p>不过这里也是因为不同的插件需求不同, 所以还是建议想清楚自己想实现的功能和展示方式, 再多参考一下已有的系统功能怎么实现的, 已有的开源库怎么实现的, 最后当然是善用搜索.</p>
+<p>说说我自己的开发过程, 我前期想实现的效果是</p>
+<ol>
+<li>打开资源文件时自动对每个标签统计引用次数. (功能)</li>
+<li>在标签上以 hint 的形式展示其引用次数. (展示形式)</li>
+</ol>
+<p>先说功能这块: </p>
+<ul>
+<li><p>开发的时候我也是先从一个大多数例子都会提到的 <code>Action</code> 开始, 可是我怎么也找不到自己想要的 <code>Action</code> (打开某个资源文件). 最后只好随便建一个 <code>Action</code> 作为触发按钮, 先实现 FindUsage 的功能.</p>
+</li>
+<li><p>然后在实现 FindUsage 的功能时, 直接参考系统的 <code>FindUsageAction</code> 类, 还可以通过 debug 模式直接断点代码, 简直不能更爽. 根据 <code>FindUsageAction</code> 类的实现过程, 把核心代码复制到自己的工具类, 简单修改后就实现了功能. 这里要说明的是, <strong>尽量使用老版本的代码, 新版本的代码可能会在老版本上找不到方法而报错.</strong></p>
+</li>
+</ul>
+<p>然后是展示形式:</p>
+<ul>
+<li>一开始我是希望像 <a target="_blank" rel="noopener" href="http://www.methodscount.com/plugins">Methods Count</a> 这样 <img src="http://www.methodscount.com/images/methods-count-plugin-1.png"><br>不过我找不到它是怎么实现的…尴尬</li>
+<li>后面翻到了 <code>LineMarkerProvider </code> 这个类, 感觉这也是一种实现形式, 查看一下实现后也很简单, 最重要的是 <code>LineMarkerProvider </code> 是通过打开文件触发, 我还不用去找 <code>Action</code> 了.</li>
+</ul>
+<p>最后是设置界面:</p>
+<ul>
+<li>主要参考了 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/f017097e4b26">Android Studio插件开发实践–从创建到发布</a> 这篇文章的设置代码.</li>
+</ul>
+<h2 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h2><ul>
+<li>打包主要按照 <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/deploying_plugin.html">官网</a> 操作.</li>
+<li>发布时, 在提交页面提交 jar 包后会进去编辑页面, 在 <code>Supported products</code> 模块去掉勾选 <code>Determine supported products by dependencies in plugin.xml</code>, 改为自定义支持所需平台就好. 我发布时发现 <code>plugin.xml</code> 无法解析 <code>com.intellij.modules.androidstudio</code>, 不知道是我的问题还是写法不对.</li>
+</ul>
+<h2 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h2><ol>
+<li>插件是由 <code>LineMarkerProvider</code> 来实现的, 打开文件会自动触发搜索统计操作. 但是有时候统计结果显示比较慢, 如果没有显示, 可以尝试重新打开文件/编辑文件/等待.</li>
+</ol>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>因为自己在开发插件方面的经历实在有限, 这个插件也是根据自己的需求而实现的. 一方面是想看看大家是否也会有这样的需求, 另一方面也是希望大家可以多帮忙看看代码, 有没有更好的实现或者插件本身有值得改进的地方, 博客通知不及时, 如果遇到问题多多去 <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Github</a> 上提 Issues 交流吧~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/21/draw_system/Android-Draw-System/" rel="prev" title="Android 绘制原理">
+                  <i class="fa fa-chevron-left"></i> Android 绘制原理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/09/01/Android-TraceView/" rel="next" title="Android绘制检测工具 -- TraceView">
+                  Android绘制检测工具 -- TraceView <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/";
+    this.page.identifier = "2017/08/01/Android-Resource-Usage-Count/";
+    this.page.title = "Android-Resource-Usage-Count";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

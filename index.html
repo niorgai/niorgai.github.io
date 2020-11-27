@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="Android | jianqiu&#39;s blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jianqiu&#39;s blog">
+<meta property="og:url" content="http://niorgai.github.io/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="Android | jianqiu&#39;s blog">
+<meta property="og:locale">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" class="post-title-link" itemprop="url">Java内存区域</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-06-28 11:27:12" itemprop="dateCreated datePublished" datetime="2019-06-28T11:27:12+08:00">2019-06-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-07-03 22:56:04" itemprop="dateModified" datetime="2019-07-03T22:56:04+08:00">2019-07-03</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/28/Java-VM/Java内存区域/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><p>根据 “Java 虚拟机规范”, Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.</p>
+<p><img src="images/img_jvm_memory_runtime.jpg"></p>
+<p>而其实一个 Java 程序可以理解为一个进程, 进程里面的资源共享即区分以下区域的私有和共享.</p>
+<p><strong>私有</strong>: </p>
+<ul>
+<li>程序计数器: 当前线程所执行的字节码的行号指示器.</li>
+<li>虚拟机栈(VM Stack): 每个方法在执行时会创建一个<strong>栈帧</strong>来存储局部变量表, 操作数栈, 动态链接, 方法出口等信息. 主要是局部变量表, 存储了各种基本数据类型和对象引用.</li>
+<li>本地方法栈(Native Method Stack): 对于 Native 方法的存储.</li>
+</ul>
+<p><strong>共享</strong>:</p>
+<ul>
+<li>Java 堆: 几乎所有的对象示例都要在这里分配内存, 也是 GC 的主要管理区域.</li>
+<li>方法区: 存储虚拟机加载的类信息, 常量, 静态变量, JIT 编译之后的代码.</li>
+</ul>
+<h2 id="回收"><a href="#回收" class="headerlink" title="回收"></a>回收</h2><p>GC 方案常见的是 <code>引用计数法</code> 和 <code>根搜索算法</code>.</p>
+<ul>
+<li><code>引用记数法</code>: 给对象添加一个引用计数器, 被引用时计数器 +1, 引用失效时计数器 -1. 如果任何时刻计数器都为0, 那就不可能再被使用, 就可以被回收. 因为引用计数法在循环引用时会导致对象无法回收, 所以目前被弃用了.</li>
+<li><code>可达性算法</code>: 目前认为比较成熟的算法, 即从 GC Roots 的对象作为起点, 向下搜索对象, 走过的路径称为引用链, 如果某个对象到 GC Roots 之间没有任何引用链, 那认为这个对象是不可达的, 它就可以被回收.</li>
+</ul>
+<p>GC Roots 有以下几种:</p>
+<ol>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象.</li>
+<li>方法区中类静态属性引用的对象.</li>
+<li>方法区中常量引用的对象.</li>
+<li>本地方法栈中 JNI 引用的对象.</li>
+</ol>
+<h2 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h2><p>涉及到内存回收, Java中对对象的引用可以使用以下四种，分别为强引用，软引用，弱引用，虚引用。<br><a target="_blank" rel="noopener" href="http://mobile.51cto.com/abased-406998.htm">参考地址</a>.</p>
+<ol>
+<li>强引用（StrongReference）</li>
+</ol>
+<p>强引用是使用最普遍的引用，如果一个对象具有强引用，那垃圾回收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题。**(默认的引用方式)**</p>
+<ol start="2">
+<li>软引用（SoftReference）</li>
+</ol>
+<p>如果一个对象只具有软引用，则内存空间足够，垃圾回收器就不会回收它；如果内存空间不足了，就会回收这些对象的内存**(即不抛出OOM错误)**。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存（下文给出示例）。软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中.</p>
+<ol start="3">
+<li>弱引用（WeakReference）</li>
+</ol>
+<p>弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程，因此 不一定会很快发现那些只具有弱引用的对象。弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<ol start="4">
+<li>虚引用（PhantomReference）</li>
+</ol>
+<p>“虚引用”顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。虚引用主要用来跟踪对象被垃圾回收器回收的活动。虚引用与软引用和弱引用的一个区别在于：虚引用必须和引用队列 （ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之 关联的引用队列中。 使用虚引用只是为了能够在对象回收时收到通知.</p>
+<h5 id="ReferenceQueue的用法-以PhantomReference为例-："><a href="#ReferenceQueue的用法-以PhantomReference为例-：" class="headerlink" title="ReferenceQueue的用法(以PhantomReference为例)："></a>ReferenceQueue的用法(以PhantomReference为例)：</h5><pre><code>ReferenceQueue queue = new ReferenceQueue (); 
+PhantomReference pr = new PhantomReference (object, queue);</code></pre>
+<p> 名字 | 引用方式 | GC是否回收 | 是否 OOM<br>     —    | — | — | —<br>     强引用 | 直接调用 | 否 | 是<br>     软引用 | .get | 看内存情况 | 否<br>     弱引用 | .get | 是 | 否<br>     虚引用 | null | 是 | 否</p>
+<h2 id="回收-1"><a href="#回收-1" class="headerlink" title="回收"></a>回收</h2><h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h4><p>即回收算法分为”标记”和”清除”两个阶段, 先扫描一次标记所有需要回收的对象, 再扫描一次回收所有被标记地对象.</p>
+<p>缺点:</p>
+<ul>
+<li>效率太低</li>
+<li>会产生大量不连续地内存碎片, 这些碎片会导致无法给大内存对象分配内存.</li>
+</ul>
+<h4 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h4><p>将可用内存分为大小相等的两块, 每次只使用其中的一块. 回收时把存活地对象复制到另一块区域即可, 其他空间都可以清理掉.</p>
+<p>缺点:</p>
+<ul>
+<li>可用内存直接变成一半了.</li>
+</ul>
+<h4 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h4><p>先扫描一次标记所有需要回收的对象, 再让所有的对象都向一端移动, 最后清理掉边界以外的内存.</p>
+<h4 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h4><p>现在的商业虚拟机大部分都是分代回收算法, 分为新生代(young gen)和老生代(old gen), 其中 young gen 又分为 eden 区, from survior 和 to survior 区. 新生代的 GC 叫做 Minor GC, 老生代的 GC 叫做 Major GC / Full GC . 数据一开始会分配到 Eden 区(大对象直接进入 old gen), young gen 采用的是复制算法, 因为 young gen 的大部分数据都是回马上死亡的, 所以只需复制少部分存货的对象从 From survior 到 To survior.  当 young gen 的数据经历了几次 GC 后(默认15次), 它会从 young gen 移到 old gen. 而 old gen 采用的是标记-整理算法, 可以应用 old gen 中对象 100% 都存活的情况.</p>
+<h4 id="GC-日志"><a href="#GC-日志" class="headerlink" title="GC 日志"></a>GC 日志</h4><p>33.125: [GC [DefNew: 3324K-&gt;152K(3712K), 0.0025925 secs] 3324K-&gt;152K(11904K), 0.0031680 secs]</p>
+<ul>
+<li>33.125: Java 虚拟机启动以来经过的秒数.</li>
+<li>GC 开头: 区分 GC 区域, 像这里的 DefNew 是 Serial 收集器的新生代区域, 还有 Full GC 表示全部 GC.</li>
+<li>3324K -&gt; 152K(3712K): GC 前该内存区域的可用容量 -&gt; GC 后该内存区域已使用容量(该内存区域总容量)</li>
+<li>0.0025925 secs: 该区域 GC 所占用的时间.</li>
+<li>3324K-&gt;152K(11904K): GC 前 Java 堆已使用容量 -&gt; GC 后 Java 堆已使用容量(Java 堆总容量)</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2019/01/20/WorkManager-Guide-Tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/01/20/WorkManager-Guide-Tips/" class="post-title-link" itemprop="url">WorkManager-Guide&Tips</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-01-20 18:16:00" itemprop="dateCreated datePublished" datetime="2019-01-20T18:16:00+08:00">2019-01-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-02-13 14:41:29" itemprop="dateModified" datetime="2019-02-13T14:41:29+08:00">2019-02-13</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/01/20/WorkManager-Guide-Tips/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/20/WorkManager-Guide-Tips/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="WorkManager-Guide-amp-Tips"><a href="#WorkManager-Guide-amp-Tips" class="headerlink" title="WorkManager-Guide&amp;Tips"></a>WorkManager-Guide&amp;Tips</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/workmanager/">WorkManager</a> 为了方便运行一些<strong>不着急的</strong>、<strong>异步的</strong>的<strong>后台</strong>任务而诞生. 大部分情况下, 只需要定义好自己想做的任务, 交给 <code>WorkManager</code> 去执行, 剩下就不用管了.</p>
+<p>注意一下, 同样是后台线程, <code>WorkManager</code> 的重点在于保证<strong>就算 App 关掉之后后台任务也能够被执行</strong>. 而那种可以随着 App 退出而关闭的后台任务, 还是更适合使用 <code>ThreadPools</code>.</p>
+<h2 id="以前的实现方案"><a href="#以前的实现方案" class="headerlink" title="以前的实现方案"></a>以前的实现方案</h2><ol>
+<li><p>Service: 这是最常见的需要后台运行的方案了. 对比来说, Service 有以下几个问题: </p>
+<ul>
+<li>可能会由于开发者的设置而疯狂运行, 这会导致手机电量被疯狂消耗. 对比之下 WorkManager 的同一个周期任务的最小间隔时间是15分钟.</li>
+<li><code>targetSdkVersion</code> 为 26 及以上的时候, 在不被允许创建后台服务的情况下, <code>startService()</code> 会抛出 <code>IllegalStateException</code>. 对比之下 WorkManager 会按照设定选择合适的时间运行.</li>
+</ul>
+</li>
+<li><p>JobScheduler: 这个最关键的就是只有 Android 5.0 以上才能使用, 其实 WorkManager 在 5.0 以上也是用这个实现的.</p>
+</li>
+<li><p>AlarmManager + BroadcastReceiver. 这个方案也是可以的, WorkManager 在 5.0 以下也是这样实现的, 只是封装了更好用的 API .</p>
+</li>
+</ol>
+<p>如果对更好用的 WorkManager 感兴趣, 就可以继续往下看了. 大概的介绍顺序是:</p>
+<ol>
+<li>导入</li>
+<li>一次性任务的使用</li>
+<li>周期性任务的使用</li>
+<li>任务如何取消</li>
+<li>给任务加上约束条件</li>
+<li>多个任务以特定顺序执行</li>
+<li>相同任务的重复处理策略</li>
+<li>任务的输入和输出</li>
+<li>一些需要注意的点</li>
+</ol>
+<p><strong>以下代码都可以在 <a target="_blank" rel="noopener" href="https://github.com/niorgai/WorkManagerDemo">Demo</a> 中找到.</strong></p>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>和其他 JetPack 的组件一样, 在 <strong>project</strong> 的 <code>build.gradle</code> 文件中添加 <code>google()</code> 源: </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在 <strong>module</strong> 的 <code>build.gradle</code> 中添加 <strong>WorkManager</strong> 的依赖:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    <span class="keyword">def</span> work_version = <span class="string">&quot;1.0.0-beta05&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Java 依赖版本</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-runtime:$work_version&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Kotlin 依赖版本, 和上面的依赖二选一即可</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-runtime-ktx:$work_version&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 可选 RxJava2 支持</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-rxjava2:$work_version&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可选 测试支持</span></span><br><span class="line">    androidTestImplementation <span class="string">&quot;android.arch.work:work-testing:$work_version&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用起来就如上面所说, 首先你需要创建一个 <code>任务 (Worker) </code>, 然后丢给 <code>WorkManager</code>.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestWorker</span></span>(context: Context, params: WorkerParameters)</span><br><span class="line">    : Worker(context, params) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">doWork</span><span class="params">()</span></span>: Result &#123;</span><br><span class="line">    </span><br><span class="line">		<span class="comment">// 这里已经是后台线程了, 只需要实现自己的业务逻辑就好了</span></span><br><span class="line">		<span class="comment">// return Result.retry(); 重试</span></span><br><span class="line">		<span class="comment">// return Result.failure(); 不再重试</span></span><br><span class="line">    	<span class="keyword">return</span> Result.success()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TestWorker</span><span class="params">(Context context, WorkerParameters params)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, params);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里已经是后台线程了, 只需要实现自己的业务逻辑就好了</span></span><br><span class="line">        <span class="comment">// return Result.retry(); 重试</span></span><br><span class="line">        <span class="comment">// return Result.failure(); 不再重试</span></span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>Worker</code> 里面只声明要实现的任务, 其他的约束条件要在 <code>WorkRequest</code> 中设置, 把 <code>Worker</code> 变成 <code>WorkRequest</code>. 再交给 <code>WorkManager</code> 去执行就好了.</p>
+<h3 id="一次性任务"><a href="#一次性任务" class="headerlink" title="一次性任务"></a>一次性任务</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="keyword">val</span> oneTimeWorker = OneTimeWorkRequest.Builder(TestWorker::<span class="keyword">class</span>.java).build()</span><br><span class="line">WorkManager.getInstance().enqueue(oneTimeWorker)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line">OneTimeWorkRequest oneTimeWorker =</span><br><span class="line">        <span class="keyword">new</span> OneTimeWorkRequest.Builder(TestWorker.class).build();</span><br><span class="line">WorkManager.getInstance().enqueue(oneTimeWorker);</span><br></pre></td></tr></table></figure>
+
+<p>就是这么简单, 接下来 Worker 就会在后台线程运行了. </p>
+<h3 id="周期性任务"><a href="#周期性任务" class="headerlink" title="周期性任务"></a>周期性任务</h3><p>周期性任务需要更加慎重一点. 开启之后如果不注意, 大部分情况下就会一直运行, 这可能带来很不好的用户体验.</p>
+<p>设置周期性任务的时候, 需要设置 <code>repeatInterval(重复区间)</code> 和 <code>flexInterval(弹性区间)</code> 参数, 配合注释说明:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[  弹性区间外  |  弹性区间内 (flex Interval) ][  弹性区间外  |  弹性区间内 (flex Interval) ]...</span><br><span class="line">[  任务不运行  |          任务可运行         ][  任务不运行  |          任务可运行         ]...</span><br><span class="line">\_________________________________________/\________________________________________/...</span><br><span class="line">       第一个区间 (repeat Interval)                 第二个区间 (repeat Interval)        ...(repeat)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>repeatInterval</code> 最小值是15分钟, 而 <code>flexInterval</code> 的最小值是5分钟, 如果 <code>flexInterval</code> 大于 <code>repeatInterval</code>, 也会被修改到和 <code>repeatInterval</code> 一样的值.</p>
+<h3 id="取消任务"><a href="#取消任务" class="headerlink" title="取消任务"></a>取消任务</h3><p>但是从 API 可以看到, WorkManager 是将这个 Worker 入队了, 那既然是以队列维护的异步操作, 肯定会有重复的问题. WorkManager 默认的操作是遇到一样的 Worker 时, 新 Worker 会等旧 Worker 运行完再运行, 即顺序执行.</p>
+<p>不过大部分情况下这都不是我们想要的模式, 所以在运行前最好取消相同的任务. 每个 <code>Worker</code> 都有一个唯一标识 UUID, 同时在构建 <code>WorkRequest</code> 的时候还可以添加任意个 Tag, 通过这两个标识都可以取消任务.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="comment">// UUID 方式</span></span><br><span class="line"><span class="keyword">val</span> workId: UUID = oneTimeWorker.getId()</span><br><span class="line">WorkManager.getInstance().cancelWorkById(workId)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Tag 方式</span></span><br><span class="line"><span class="keyword">val</span> oneTimeWorker = OneTimeWorkRequest.Builder(TestWorker::<span class="keyword">class</span>.java)</span><br><span class="line">    .addTag(<span class="string">&quot;myTag&quot;</span>)</span><br><span class="line">    .build()</span><br><span class="line">WorkManager.getInstance().cancelAllWorkByTag(<span class="string">&quot;myTag&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// UUID 方式</span></span><br><span class="line">UUID workId = oneTimeWorker.getId();</span><br><span class="line">WorkManager.getInstance().cancelWorkById(workId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Tag 方式</span></span><br><span class="line">OneTimeWorkRequest myTask = <span class="keyword">new</span> OneTimeWorkRequest.Builder(TestWorker.class)</span><br><span class="line">    .addTag(<span class="string">&quot;myTag&quot;</span>)</span><br><span class="line">    .build()</span><br><span class="line">WorkManager.getInstance().cancelAllWorkByTag(<span class="string">&quot;myTag&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>取消相同的任务已经避免了系统资源不必要的消耗, 不过为了防止 API 的滥用, 还推荐给任务加上一些约束条件, 方便任务在系统资源没那么紧张的时候再执行:</p>
+<h2 id="加上约束"><a href="#加上约束" class="headerlink" title="加上约束"></a>加上约束</h2><p>所有的约束 <code>Constraints</code> 都是由 <code>Constraints.Builder()</code> 来创建的, Builder 提供了以下的约束方式:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="comment">// 设置网络类型</span></span><br><span class="line">setRequiredNetworkType(networkType: NetworkType)</span><br><span class="line"><span class="comment">// 是否运行时电量不要太低</span></span><br><span class="line">setRequiresBatteryNotLow(requiresBatteryNotLow: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否在充电时才运行</span></span><br><span class="line">setRequiresCharging(requiresCharging: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否不太剩余存储空间过低时运行</span></span><br><span class="line">setRequiresStorageNotLow(requiresStorageNotLow: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否在设备空闲时运行, 这个最低版本是 23</span></span><br><span class="line">setRequiresDeviceIdle(requiresDeviceIdle: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 监听一个本地的 Uri, 第二个参数是否监听 Uri 的子节点. 在 Uri 的内容改变时运行任务, 最低版本是 24</span></span><br><span class="line">addContentUriTrigger(uri: Uri, triggerForDescendants: <span class="built_in">Boolean</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// 设置网络类型</span></span><br><span class="line">setRequiredNetworkType(NetworkType networkType)</span><br><span class="line"><span class="comment">// 是否运行时电量不要太低</span></span><br><span class="line">setRequiresBatteryNotLow(<span class="keyword">boolean</span> requiresBatteryNotLow)</span><br><span class="line"><span class="comment">// 是否在充电时才运行</span></span><br><span class="line">setRequiresStorageNotLow(<span class="keyword">boolean</span> requiresStorageNotLow)</span><br><span class="line"><span class="comment">// 是否不太剩余存储空间过低时运行</span></span><br><span class="line">setRequiresStorageNotLow(requiresStorageNotLow: Boolean)</span><br><span class="line"><span class="comment">// 是否在设备空闲时运行, 这个最低版本是 23</span></span><br><span class="line">setRequiresDeviceIdle(<span class="keyword">boolean</span> requiresDeviceIdle)</span><br><span class="line"><span class="comment">// 监听一个本地的 Uri, 第二个参数是否监听 Uri 的子节点. 在 Uri 的内容改变时运行任务, 最低版本是 24</span></span><br><span class="line">addContentUriTrigger(Uri uri, <span class="keyword">boolean</span> triggerForDescendants)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多个任务的执行顺序"><a href="#多个任务的执行顺序" class="headerlink" title="多个任务的执行顺序"></a>多个任务的执行顺序</h2><p>WorkManager 提供了相应的 API 使任务可以使一个或多个 <code>OneTimeWorkerRequest</code> 按某个顺序执行.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A, B, C 就会按顺序执行, 如果全部返回成功或者某一个返回失败, 那该任务链就会结束.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue()</span><br><span class="line"></span><br><span class="line"><span class="comment">// A, B 一起运行, 虽然这2个的开始顺序不定, 但是 C 一定是在这2个运行后才运行.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(Arrays.asList(workA, workB))</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue()</span><br><span class="line">    </span><br><span class="line"><span class="comment">// B 一定会在 A 后面运行, D 也一定会在 C 后面运行, 但是 AB 与 CD 这两条链的运行顺序不定, 但是 E 一定是在 B 和 D 都结束后才运行.</span></span><br><span class="line"><span class="keyword">val</span> chain1 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line"><span class="keyword">val</span> chain2 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workC)</span><br><span class="line">    .then(workD)</span><br><span class="line"><span class="keyword">val</span> chain3 = WorkContinuation</span><br><span class="line">    .combine(Arrays.asList(chain1, chain2))</span><br><span class="line">    .then(workE)</span><br><span class="line">chain3.enqueue()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A, B, C 就会按顺序执行, 如果全部返回成功或者某一个返回失败, 那该任务链就会结束.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue();</span><br><span class="line"></span><br><span class="line"><span class="comment">// A, B 一起运行, 虽然这2个的开始顺序不定, 但是 C 一定是在这2个运行后才运行.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(Arrays.asList(workA, workB))</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue();</span><br><span class="line">    </span><br><span class="line"><span class="comment">// B 一定会在 A 后面运行, D 也一定会在 C 后面运行, 但是 AB 与 CD 这两条链的运行顺序不定, 但是 E 一定是在 B 和 D 都结束后才运行.</span></span><br><span class="line">WorkContinuation chain1 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB);</span><br><span class="line">WorkContinuation chain2 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workC)</span><br><span class="line">    .then(workD);</span><br><span class="line">WorkContinuation chain3 = WorkContinuation</span><br><span class="line">    .combine(Arrays.asList(chain1, chain2))</span><br><span class="line">    .then(workE);</span><br><span class="line">chain3.enqueue();</span><br></pre></td></tr></table></figure>
+<h2 id="相同任务的重复策略"><a href="#相同任务的重复策略" class="headerlink" title="相同任务的重复策略"></a>相同任务的重复策略</h2><p>前面提到对于 Worker 来说, 可以通过 UUID 和 Tag 来保证其唯一性, 这样在需要的时候就可以避免任务重复执行. 但对于连续的任务链, 如果任务多了, 这样的方式会很繁琐. 于是, WorkerManager 也提供了相应的 API 来保证其唯一性.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line">beginUniqueWork(uniqueWorkName: String, existingWorkPolicy: ExistingWorkPolicy, work: OneTimeWorkRequest): WorkContinuation</span><br><span class="line"></span><br><span class="line">beginUniqueWork(uniqueWorkName: String, existingWorkPolicy: ExistingWorkPolicy, work: List&lt;OneTimeWorkRequest&gt;): WorkContinuation</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="function">WorkContinuation <span class="title">beginUniqueWork</span><span class="params">(String uniqueWorkName, ExistingWorkPolicy existingWorkPolicy, OneTimeWorkRequest work)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">WorkContinuation <span class="title">beginUniqueWork</span><span class="params">(String uniqueWorkName, ExistingWorkPolicy existingWorkPolicy, List&lt;OneTimeWorkRequest&gt; work)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数就是这一个或者一系列 worker 的名字, 第二个参数就是重复时的操作, 有以下几种模式:</p>
+<ul>
+<li>ExistingWorkPolicy.APPEND : 如果上一个任务处于等待或者未完成的状态, 则把当前任务添加到其任务链的后面. 这样它就在上一个任务执行完后执行.</li>
+<li>ExistingWorkPolicy.KEEP : 如果上一个任务处于等待或者未完成的状态, 什么都不做(继续等上一个任务执行).</li>
+<li>ExistingWorkPolicy.REPLACE : 如果上一个任务处于等待或者未完成的状态, 取消并删除上一个, 执行新的.</li>
+</ul>
+<h2 id="输入和输出"><a href="#输入和输出" class="headerlink" title="输入和输出"></a>输入和输出</h2><p>Worker 的输入输出是用 <code>Map&lt;String, Object&gt;</code> 来存储的, 用 <code>Data</code> 类封装了一层. 输出用 <code>LiveData</code> 来监听.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建输入</span></span><br><span class="line"><span class="keyword">val</span> inputData = Data.Builder()</span><br><span class="line">                    .putInt(<span class="string">&quot;KEY_FIRST&quot;</span>, firstNumber)</span><br><span class="line">                    .putInt(<span class="string">&quot;KEY_SECOND&quot;</span>, secondNumber)</span><br><span class="line">                    .build()</span><br><span class="line"><span class="keyword">val</span> worker = OneTimeWorkRequestBuilder&lt;MathWorker&gt;()</span><br><span class="line">        .setInputData(inputData)</span><br><span class="line">        .build()</span><br><span class="line">WorkManager.getInstance().enqueue(worker)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker 类:</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlusWorker</span></span>(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">doWork</span><span class="params">()</span></span>: Result &#123;</span><br><span class="line">        <span class="keyword">val</span> first = inputData.getInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">val</span> second = inputData.getInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">val</span> result = first + second <span class="comment">// 1 + 2 = 3</span></span><br><span class="line">        <span class="keyword">val</span> output = Data.Builder()</span><br><span class="line">                .putInt(<span class="string">&quot;KEY_RESULT&quot;</span>, result)</span><br><span class="line">                .build()</span><br><span class="line">        <span class="keyword">return</span> Result.success(output)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听返回</span></span><br><span class="line">WorkManager.getInstance().getWorkInfoByIdLiveData(worker.id)</span><br><span class="line">        .observe(<span class="keyword">this</span>, Observer &#123; info -&gt;</span><br><span class="line">            <span class="keyword">if</span> (info != <span class="literal">null</span> &amp;&amp; info.state.isFinished) &#123;</span><br><span class="line">               	<span class="comment">// 获取返回结果, 应该是3</span></span><br><span class="line">                <span class="keyword">val</span> result = info.outputData.getInt(<span class="string">&quot;KEY_RESULT&quot;</span>, <span class="number">0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// 创建输入</span></span><br><span class="line">Data inputData = <span class="keyword">new</span> Data.Builder()</span><br><span class="line">    .putInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">1</span>)</span><br><span class="line">    .putInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">2</span>)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">OneTimeWorkRequest worker = <span class="keyword">new</span> OneTimeWorkRequest.Builder(PlusWorker.class)</span><br><span class="line">        .setInputData(inputData)</span><br><span class="line">        .build();</span><br><span class="line">WorkManager.getInstance().enqueue(worker);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker 类:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlusWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlusWorker</span><span class="params">(<span class="meta">@NonNull</span> Context context, <span class="meta">@NonNull</span> WorkerParameters workerParams)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, workerParams);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> first = getInputData().getInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> second = getInputData().getInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> result = first + second; <span class="comment">// 1 + 2 = 3</span></span><br><span class="line">        Data output = <span class="keyword">new</span> Data.Builder()</span><br><span class="line">                .putInt(<span class="string">&quot;KEY_RESULT&quot;</span>, result)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> Result.success(output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听返回</span></span><br><span class="line">WorkManager.getInstance().getWorkInfoByIdLiveData(worker.getId())</span><br><span class="line">    .observe(lifecycleOwner, info -&gt; &#123;</span><br><span class="line">         <span class="keyword">if</span> (info != <span class="keyword">null</span> &amp;&amp; info.getState().isFinished()) &#123;</span><br><span class="line">           <span class="comment">// 获取返回结果, 应该是3</span></span><br><span class="line">           <span class="keyword">int</span> result = info.getOutputData().getInt(KEY_RESULT, <span class="number">0</span>));</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="一些需要注意的地方"><a href="#一些需要注意的地方" class="headerlink" title="一些需要注意的地方"></a>一些需要注意的地方</h2><ul>
+<li><p><code>WorkManager</code> 虽然在设计的时候是为了在 App 没运行的时候也能运行 Worker, 但是目前从 Google Issue Tracker 上的信息来看, 以下几种情况杀掉后任务的存活情况是这样的:</p>
+<ol>
+<li>从任务管理器(最近使用)关掉: 原生的 Android 上 Worker 仍然会运行, 但是在<a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/110745313">某些把这种操作当做强制停止的厂商</a> 或 <a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/113676489">一些中国厂商</a> 的机型上, Worker 要等到下次打开 App 才会运行.</li>
+<li>重启手机 (Worker 运行中的状态): 重启后 Worker 会继续运行.</li>
+<li>App 信息 -&gt; 强制关闭: Worker 会再下次打开 App 的时候运行.</li>
+<li>重启手机 (App 被强制关闭了): Worker 会再下次打开 App 的时候运行.</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2018/07/22/Count-Step-In-Android/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/07/22/Count-Step-In-Android/" class="post-title-link" itemprop="url">Count-Step-In-Android</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-07-22 13:01:13" itemprop="dateCreated datePublished" datetime="2018-07-22T13:01:13+08:00">2018-07-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2018-07-26 19:43:45" itemprop="dateModified" datetime="2018-07-26T19:43:45+08:00">2018-07-26</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/07/22/Count-Step-In-Android/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/22/Count-Step-In-Android/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>目前 Android 没有系统 Api 提供步数信息, 需要自己统计. 而系统能够提供的接口只有 Sensor 了.</p>
+<h2 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h2><h4 id="方案-1"><a href="#方案-1" class="headerlink" title="方案 1"></a>方案 1</h4><p>如果为了兼容低版本, 可以从 <code>Sensor.TYPE_ACCELEROMETER(加速度传感器)</code> 开始. 这个传感器从 Android 1.5 (API 3) 就有了, 通过传感器的 x, y, z. 利用算法计算出相应步数. 特点是兼容性强, 缺点是高功耗, 需要进程常驻.</p>
+<h4 id="方案-2"><a href="#方案-2" class="headerlink" title="方案 2:"></a>方案 2:</h4><p>从 Android 4.4 (API 14) 开始, 系统加入了新的传感器: <code>Sensor.TYPE_STEP_COUNTER</code> 和 <code>Sensor.TYPE_STEP_DETECTOR</code>.</p>
+<ul>
+<li><p>Sensor.TYPE_STEP_COUNTER</p>
+<ol>
+<li>当步数变化时, 返回从开机到现在的总步数, 重启清零.</li>
+<li>这个传感器就是为低功耗设计的, 如果想持续监听步数, 不要反注册</li>
+<li>用来实现健身类 App 统计步数.</li>
+</ol>
+</li>
+<li><p>Sensor.TYPE_STEP_DETECTOR </p>
+<ol>
+<li>走了一步就返回一步, 返回值只有1.</li>
+<li>方便用来统计某一段时间内的步数.</li>
+</ol>
+</li>
+</ul>
+<p>那么为了统计一天的步数, 当然是使用 方案2 中的 <code>Sensor.TYPE_STEP_COUNTER</code>. </p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><ol>
+<li><p>注册传感器.</p>
+</li>
+<li><p><strong>当手机步数变化时</strong>, <code>SensorEventListener#onSensorChanged()</code> 返回手机从开机到现在的总步数:</p>
+<ul>
+<li><p>记录中是否有今日步数?</p>
+</li>
+<li><p>没有 -&gt; 今日步数为0</p>
+</li>
+<li><p>有 -&gt; </p>
+<pre><code>  1. 如果传感器返回的步数 &lt; 记录的今日步数, 那么意味着重启了手机, 则</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>                今日步数 = 今日步数 + 传感器返回的步数.
+
+
+        2. 如果不是大于, 那么正常计步即可.
+
+
+                 今日步数 = 今日步数 + (传感器返回的步数 - 记录的今日步数)</code></pre>
+<h4 id="补充逻辑"><a href="#补充逻辑" class="headerlink" title="补充逻辑"></a>补充逻辑</h4><p>因为每天第一次打开 App 时, 步数一定为0, 所以可以监听时间变化广播 <code>Intent.ACTION_DATE_CHANGED</code> , 每天打开一次 App 更新本日步数变化, 也可使用 <a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/workmanager">WorkManager</a>, 这样就算 App 没有开启也能更新.</p>
+<h4 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h4><ol>
+<li>如果 <code>SensorEventListener</code> 没有收到回调(需要 App 没有被杀并且手机步数有变化), 那么今天的步数就会计入第二天.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2018/01/23/Lifecycle-arch-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/01/23/Lifecycle-arch-summary/" class="post-title-link" itemprop="url">Lifecycle-arch-ViewModel</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2018-01-23 15:30:46 / Modified: 19:22:03" itemprop="dateCreated datePublished" datetime="2018-01-23T15:30:46+08:00">2018-01-23</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/01/23/Lifecycle-arch-summary/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/23/Lifecycle-arch-summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>距离 Google 发布 Lifecycle 组件已经有一段时间了, 特意尝鲜用了一下, 这里主要记录一下 ViewModel 组件的原理和功能.</p>
+<h2 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/viewmodel.html">ViewModel</a></h2><h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><p>ViewModel 用来存储和管理 UI 相关的数据, 在 UI 重建时不需要重建其相应的 ViewModel, 也可以在不同的 Fragment 之间共享一个 ViewModel.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCleared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>它本身就是一个抽象类, 可以实现 onCleared() 方法做一些清理工作</p>
+<h4 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h4><p>获取 ViewModel 的方法很简单:</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewModel viewModel = ViewModelProviders.of(context).get(ViewModel.class);</span><br></pre></td></tr></table></figure>
+<p>通过这个方法去追踪实现即可, 实际代码不多, 就贴个实现过程吧.</p>
+<p>context 传入 <code>Fragment</code> 或 <code>FragmentActivity</code>, 因为他们都可以添加 Fragment. 这里就以 FragmentActivity 为例来说明.</p>
+<ol start="2">
+<li>创建一个没有 view 的 <code>HolderFragment</code>, <code>HolderFragment</code> 中通过设置 <code>setRetainInstance(true);</code> 实现它在 Activity 重建时能够保存自己的实例</li>
+<li><code>HolderFragment</code> 的 <code>ViewModelStores</code> 会维护一个 <code>HashMap&lt;String, ViewModel&gt;</code> 用于记录其实例化过的 ViewModel 对象, 并在 <code>HolderFragment</code> 的 <code>onDestroy()</code> 回调中执行 ViewModel 的 <code>onCleared()</code> 方法</li>
+</ol>
+<p>这里有一个关于生命周期的细节, 为了防止 Fragment 重复创建或者泄露, Google 对其做了一些保护:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;Activity, HolderFragment&gt; mNotCommittedActivityHolders = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>add Fragment 的流程(以 FragmentActivity 为例):</p>
+<ol>
+<li><p><code>Application</code> 注册 <code>ActivityLifecycleCallbacks</code>, 在 Activity <code>onDestroy()</code> 时从 mNotCommittedActivityHolders 中移除未 commit 的 <code>HolderFragment</code>.</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">activity.getApplication().registerActivityLifecycleCallbacks(<span class="keyword">new</span> EmptyActivityLifecycleCallbacks() &#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityDestroyed</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">           HolderFragment fragment = mNotCommittedActivityHolders.remove(activity);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>commit <code>HolderFragment</code> 到对应 Activity </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> HolderFragment <span class="title">createHolderFragment</span><span class="params">(FragmentManager fragmentManager)</span> </span>&#123;</span><br><span class="line">       HolderFragment holder = <span class="keyword">new</span> HolderFragment();</span><br><span class="line">       fragmentManager.beginTransaction().add(holder, HOLDER_TAG).commitAllowingStateLoss();</span><br><span class="line">       <span class="keyword">return</span> holder;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 HolderFragment 的 <code>onCreate()</code> 生命周期中从 mNotCommittedActivityHolders 中移除自己</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">holderFragmentCreated</span><span class="params">(Fragment holderFragment)</span> </span>&#123;</span><br><span class="line">       Fragment parentFragment = holderFragment.getParentFragment();</span><br><span class="line">       <span class="keyword">if</span> (parentFragment != <span class="keyword">null</span>) &#123;</span><br><span class="line">           mNotCommittedFragmentHolders.remove(parentFragment);</span><br><span class="line">           parentFragment.getFragmentManager().unregisterFragmentLifecycleCallbacks(</span><br><span class="line">                   mParentDestroyedCallback);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           mNotCommittedActivityHolders.remove(holderFragment.getActivity());</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>这样可以防止重复调用导致多次创建 HolderFragment, 也可以在 Fragment 创建后移除不必要的备份, 更可以防止内存泄露.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2018/01/18/App-Callback-Mark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/01/18/App-Callback-Mark/" class="post-title-link" itemprop="url">App-Callback-Mark</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-18 01:09:06" itemprop="dateCreated datePublished" datetime="2018-01-18T01:09:06+08:00">2018-01-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2018-01-19 17:51:18" itemprop="dateModified" datetime="2018-01-19T17:51:18+08:00">2018-01-19</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/01/18/App-Callback-Mark/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/18/App-Callback-Mark/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>App 之间回调是常有的事, 特别是一些提供第三方登录/第三方支付的 App, 更是需要提供调起, 登录/支付, 回调原 App 的功能. 在实现的过程中遇到一些问题, 所以记录一下.</p>
+<p>接下来调起界面称为 <code>CallActivity</code>, 调起 App 称为 <code>Call App</code> , 被调起页面称为 <code>PayActivity</code>. 被调起 App 称为 <code>Pay App</code>.</p>
+<h2 id="常见方案-startActivityForResult"><a href="#常见方案-startActivityForResult" class="headerlink" title="常见方案: startActivityForResult"></a>常见方案: startActivityForResult</h2><p>最常见的当然是 通过 <code>startActivityForResult()</code> 使用隐式 Intent 调起, 然后在 <code>onActivityResult()</code> 中捕捉回调并处理成功失败逻辑了. 这种方法大部分人都会, 说点遇到的问题吧:</p>
+<ul>
+<li><p>问题来了</p>
+<ul>
+<li>问题一:<ul>
+<li>打开 <code>Pay Activity</code> 后可以切到后台, 再切回来, 这样做一方面安全性不够, 另一方面不符合支付工具的特性. 第三方应用调起支付应用后, 对用户的感觉不应该是完整的打开了一个应用, 而应该是仅仅启动了支付的一个功能, 切到后台后应该无法再切回该支付页面, 最近打开的应用页面也不该展示 Pay App.</li>
+<li>在 <code>AndroidManifest.xml</code> 中加上 <code>android:excludeFromRecents=&quot;true&quot;</code></li>
+</ul>
+</li>
+<li>问题二:<ul>
+<li>支付成功后, 按 Home 键切到后台, 再切回 <code>Call App</code>, 这时候没有触发 <code>onActivityResult()</code></li>
+<li>这是系统问题, 正常逻辑, 只能在 <code>onResume()</code> 里面查询后台是否成功.</li>
+</ul>
+</li>
+<li>问题三:<ul>
+<li>如果已经打开了 <code>Pay App</code>, 然后切到后台, 打开到 <code>Call App</code>, 调起 <code>Pay Activity</code> 后按返回键, 返回到 <code>Pay App</code> 的界面了.</li>
+<li>需要指定 <code>PayActivity</code> 的 luanchMode 为 <code>singleInstance</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>大坑来了</p>
+<p>  坑就在于这个 <code>singleInstance</code>, 在 Android 5.0 上一切正常, 但是在 Android 4.4 及以下版本, <code>Call Activity</code> 调用 <code>startActivityForResult()</code> 后, 直接回调了 <code>onActivityResult()</code>, 然后才打开 <code>Pay Activity</code>.</p>
+<p>  为此我记录了一下不同 luanchMode 对 Android 4.4 及以下版本回调的影响.</p>
+<p>  <strong>正常回调 -&gt; Y</strong></p>
+<p>  <strong>直接回调 -&gt; N</strong></p>
+<pre><code>   | Call Activity  | Standard | SingleTop | SingleTask | SingleInstance 
+  :---: | :---:  | :---: | :---: | :---: | :---: 
+  Pay Activity  |
+  Standard | | Y | Y | Y | N 
+  SingleTop | | Y | Y | Y | N 
+  SingleTask | | N | N | N | N 
+  SingleInstance | | N | N | N | N </code></pre>
+</li>
+<li><p>startActivityForResult 方案不可行</p>
+<p>  对于 <code>startActivityForResult()</code> 来说, 想实现对 singleInstance 的回调是不可能了, 同时还有问题二也需要优化, 所以最好还是换个方案来执行.</p>
+</li>
+</ul>
+<h2 id="透明中间页-广播方案"><a href="#透明中间页-广播方案" class="headerlink" title="透明中间页 + 广播方案"></a>透明中间页 + 广播方案</h2><p>之前版本由于已经发布, 需要兼容旧版本, 同时为了优化问题二, 考虑在接入 sdk 中提供一个中间页面 <code>Entry Activity</code>. 另外对于 singleInstance 的问题, 考虑用广播来替代.</p>
+<p><code>Call Activity</code> -&gt; <code>Entry Activity</code> -&gt; <code>Pay Activity</code></p>
+<ul>
+<li><p>各页面功能如下:</p>
+<p>  <code>Call Activity</code></p>
+<ul>
+<li><p>依旧执行 startActivityForResult 方法, sdk 内部直接调起 <code>Pay Activity</code> 改为调起透明 <code>Entry Activity</code>.</p>
+</li>
+<li><p>在 onActivityResult 中处理回调逻辑.</p>
+<p><code>Entry Activity</code></p>
+</li>
+<li><p>设置 theme 为透明, 同时取消进入和退出的动画. 设置 luanchMode 为 singleTop</p>
+</li>
+<li><p>注册广播, 监听 <code>Pay Activity</code> 发来的支付成功的广播</p>
+</li>
+<li><p>直接通过 <code>startActivity</code> 调起 <code>PayActivity</code></p>
+</li>
+<li><p>在第二次进入 <code>onResume()</code> 时判断是否收到了支付成功的广播, 否则当做支付失败处理.</p>
+</li>
+<li><p>成功及支付都通过 <code>setResult()</code> 的方式回调</p>
+<p><code>Pay Activity</code></p>
+</li>
+<li><p>支付成功使用广播通知.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/12/07/AndroidTest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/12/07/AndroidTest/" class="post-title-link" itemprop="url">AndroidTest</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-12-07 20:43:40" itemprop="dateCreated datePublished" datetime="2017-12-07T20:43:40+08:00">2017-12-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2018-03-22 21:00:21" itemprop="dateModified" datetime="2018-03-22T21:00:21+08:00">2018-03-22</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/12/07/AndroidTest/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/07/AndroidTest/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Android 中单元测试并不常见, 这篇文章就我自己的知识范围来介绍:</p>
+<h2 id="JUnit"><a href="#JUnit" class="headerlink" title="JUnit"></a>JUnit</h2><p>在学习 Java 时就知道这是一个用来给纯 Java 测试的工具, 在 Android 中一样使用, Android Studio 可以用快捷键 <code>cmd + enter</code> 为每个类自动创建测试类. 在测试类中, 一般使用 <code>Assert</code> 来断言每个条件的对错, 而 JUnit 的注解则为单元测试提供框架.</p>
+<ul>
+<li><p><code>@Test</code> </p>
+<p>  定义测试单元(每个方法为一个单元用例), 接受参数有</p>
+<ul>
+<li><p>expected 预期会抛出某个异常, 不抛出则报错</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;? extends Throwable&gt; expected() <span class="keyword">default</span> None.class;</span><br></pre></td></tr></table></figure></li>
+<li><p>timeout 超时</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">timeout</span><span class="params">()</span> <span class="keyword">default</span> 0L</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>@Before</code> </p>
+<p>  每个 Test 方法执行之前都会调用, 可以做预处理操作, 必须修饰 public 方法</p>
+</li>
+<li><p><code>@After</code></p>
+<p>  每个 Test 方法执行之后都会调用, 可以做清理操作</p>
+</li>
+<li><p><code>@BeforeClass</code></p>
+<p>  由于连续测试可能需要共享一个变量, 或者每个测试单元执行前都需要很长时间的准备工作, 可以把这些准备工作移到 BeforeClass 中, 该注解必须注解于一个 <strong>public static void</strong> 且<strong>没有参数</strong>的方法.</p>
+</li>
+<li><p><code>@AfterClass</code></p>
+<p>  用于 @BeforeClass 的清理工作</p>
+</li>
+<li><p><code>@Ignore</code></p>
+<p>  用于执行测试的时候忽略某个 @Test 单元</p>
+</li>
+<li><p><code>@Rule</code></p>
+<p>  定义 <code>@Test</code> 单元执行时的逻辑, <code>org.junit.rules</code> 包定义了一些常用的 Rule 规则, 但我们也可以自定义 Rule.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RuleSample</span> <span class="keyword">implements</span> <span class="title">TestRule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> Statement <span class="title">apply</span><span class="params">(Statement base, Description description)</span> </span>&#123;</span><br><span class="line">           base.evaluate();</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Mockito"><a href="#Mockito" class="headerlink" title="Mockito"></a>Mockito</h2><p>Mock 即[模拟]的意思, 当某些类因为依赖太多等关系难以创造, 或者我们只需要一个类的对象时, Mock 便是一个很好的工具, 可以帮助我们隔离代码进行测试. 而 Mockito 便是一个 Android 常用的 Mock 工具类.</p>
+<h4 id="模拟对象"><a href="#模拟对象" class="headerlink" title="模拟对象"></a>模拟对象</h4><p>Mockito 支持多种模拟对象方法.</p>
+<ul>
+<li><p><code>@Mock</code> 直接注解对象. 注解对象需要初始化, 可以有四种初始化方法.</p>
+<ul>
+<li><p>在 <code>@Before</code>  注解的初始化方法中使用<code>MockitoAnnotations.initMocks(this);</code> </p>
+</li>
+<li><p>使用自带的 <code>@Rule</code> 初始化</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Rule</span></span><br><span class="line">  	<span class="keyword">public</span> MockitoRule mockitoRule = MockitoJUnit.rule();</span><br></pre></td></tr></table></figure></li>
+<li><p>使用 <code>@RunWith</code> 注解测试类.</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(MockitoJUnitRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用 <code>Mockito.mock()</code> 初始化对象.</p>
+</li>
+</ul>
+</li>
+<li><p><code>@InjectMock</code> 创建一个实例, 其余用 <code>@Mock</code> 或 <code>@Spy</code> 注解创建的 mock 对象将被注入到用该实例中.</p>
+</li>
+</ul>
+<h4 id="设置桩"><a href="#设置桩" class="headerlink" title="设置桩"></a>设置桩</h4><p>Mockito 支持以下方法设置桩</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Mockito.doXXX().when(XXX)</span><br><span class="line">Mockito.when(XXX).thenXXX()</span><br></pre></td></tr></table></figure>
+
+<p>举个例子, 如果希望 <code>TextView</code> 在调用 <code>getText()</code> 时返回特定的内容, 可以使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Mockito.when(mTextView.getText()).thenReturn(<span class="string">&quot;123);</span></span><br><span class="line"><span class="string">Mockito.doReturn(&quot;</span><span class="number">123</span><span class="string">&quot;).when(mTextView).getText();</span></span><br></pre></td></tr></table></figure>
+
+<p>桩可以设置多次, 最终只会返回最后一次设置的值.</p>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>Mockito 支持以下方法来验证函数执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">verify</span><span class="params">(T mock)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title">verify</span><span class="params">(T mock, VerificationMode mode)</span></span></span><br></pre></td></tr></table></figure>
+<p>默认的 VerificationMode 即 <code>times(1)</code>, 即方法执行了一次, sdk 也提供了几种默认的验证模式实现, 如 <code>never()</code> , <code>atLeastOnce()</code> 等.</p>
+<h4 id="参数匹配"><a href="#参数匹配" class="headerlink" title="参数匹配"></a>参数匹配</h4><p>为了模拟某些参数的输入, 可以匹配这些参数的输入, 并返回所需的值. <code>ArgumentMatchers.any()</code> 是一个比较常用的方法. </p>
+<p>比如模拟 TextView 的 OnClickListener().</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Mockito.doAnswer(<span class="keyword">new</span> Answer() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">answer</span><span class="params">(InvocationOnMock invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        View.OnClickListener listener = invocation.getArgument(<span class="number">0</span>);</span><br><span class="line">        listener.onClick(<span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">return</span> listener;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).when(mTextView).setOnClickListener(ArgumentMatchers.any(View.OnClickListener.class));</span><br></pre></td></tr></table></figure>
+
+<h4 id="Spy"><a href="#Spy" class="headerlink" title="@Spy"></a>@Spy</h4><p>Mockito.spy() 返回的对象, 除非该方法已经有设置桩, 否则会调用该对象的真实方法. 可以用来改变对象特定方法的返回值, 而不改变对象本身. 注意 spy 不能 mock final 方法.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> LinkedList();</span><br><span class="line">List spy = Mockito.spy(list);</span><br><span class="line">spy.add(<span class="string">&quot;one&quot;</span>);</span><br><span class="line">when(spy.size()).thenReturn(<span class="number">100</span>);</span><br><span class="line">spy.add(<span class="string">&quot;two&quot;</span>);</span><br><span class="line">System.out.println(spy.size());</span><br></pre></td></tr></table></figure>
+
+<h2 id="JMockit"><a href="#JMockit" class="headerlink" title="JMockit"></a><a target="_blank" rel="noopener" href="https://github.com/jmockit/jmockit1">JMockit</a></h2><p>Mockito 的语法虽然比较简单易懂, 但它支持的功能还是不够多, 有一部分人是配合 PowerMock 一起使用, 但还有一个更强大的 Mock 工具值得使用.</p>
+<h4 id="模拟对象-1"><a href="#模拟对象-1" class="headerlink" title="模拟对象"></a>模拟对象</h4><p>注意 <code>@RunWith</code> 注解初始化测试类.</p>
+<ul>
+<li><p>@Mocked 注解对象, 除了基本类型和数组对象, 其余所有都可以 mock, 会 mock 类中全部方法及其父类. 可以指定 <code>stubOutClassInitialization</code> 来决定 mock 对象时是否需要初始化静态变量, 某些 JNI 调用的静态变量在 mock 时初始化可能为 false, 这时候可以指定为 true 来跳过初始化.</p>
+</li>
+<li><p>@Injectable 仅 mock 指定的对象, 对于可以传入的对象, 使用 @Injectable 比 @Mock 更好</p>
+</li>
+<li><p>@Capturing mock 类及其子类, 也可以 mock 接口, 可以指定 maxInstances 来决定需要 mock 多少个对象.</p>
+</li>
+</ul>
+<h4 id="常规使用"><a href="#常规使用" class="headerlink" title="常规使用"></a>常规使用</h4><p>JMockit 用法是 录制 - 执行 - 验证 (record - replay - verify).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMethod</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//record</span></span><br><span class="line">    <span class="keyword">new</span> Expectations()&#123;&#123;</span><br><span class="line">        <span class="comment">//执行方法, 可以是构造函数</span></span><br><span class="line">        a.getName();</span><br><span class="line">        <span class="comment">//指定返回</span></span><br><span class="line">        result = <span class="string">&quot;123&quot;</span>;</span><br><span class="line">    &#125;&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//run test code</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//verify</span></span><br><span class="line">    <span class="keyword">new</span> Verifications()&#123;&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="参数匹配-1"><a href="#参数匹配-1" class="headerlink" title="参数匹配"></a>参数匹配</h4><p>参数匹配有很多, 最宽松的是 anyXXX , 其次是 withXXX.<br>使用 <code>null</code> 时, 必须有一个 anyXXX 或者 withXXX .</p>
+<h4 id="MockUp-API"><a href="#MockUp-API" class="headerlink" title="MockUp API"></a>MockUp API</h4><p>JMockit 我觉得 MockUp Api 特别强大, 几乎可以 Mock 所有的方法, 静态方法, 构造函数, 私有函数都可以, 这也是这个工具强大的地方.</p>
+<p>比如有如下测试类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getAnswer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么可以通过这样去 mock 对应的方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> MockUp&lt;Test&gt;() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Mock</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> $init(Invocation invocation, String name) &#123;</span><br><span class="line">            Test test = invocation.getInvokedInstance();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="meta">@Mock</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Mocked Name&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="meta">@Mock</span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> String <span class="title">getAnswer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Mocked Answer&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一些-Tip"><a href="#一些-Tip" class="headerlink" title="一些 Tip"></a>一些 Tip</h2><ul>
+<li><p>如果只是某个方法需要某个 mock 过的变量, 可以在测试方法的入参中传入, 不需要写成全局变量.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="meta">@Mocked</span> TextView textView)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/11/20/Android-Arch-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/11/20/Android-Arch-summary/" class="post-title-link" itemprop="url">Android-Arch-summary</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2017-11-20 17:00:08 / Modified: 17:00:33" itemprop="dateCreated datePublished" datetime="2017-11-20T17:00:08+08:00">2017-11-20</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/11/20/Android-Arch-summary/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/20/Android-Arch-summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本文主要列举一些常见的架构及自己的理解.</p>
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p><a target="_blank" rel="noopener" href="https://heim.ifi.uio.no/~trygver/themes/mvc/mvc-index.html">经典 MVC 架构</a>, 是在 1979 年由 Trygve Reenskaug 在<a target="_blank" rel="noopener" href="https://heim.ifi.uio.no/~trygver/1979/mvc-2/1979-12-MVC.pdf">这篇论文</a>中提出的, 这里附上一篇 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/winter-cn/archive/2012/06/13/2547662.html">winter 老师的翻译</a>, 当时文章提到的关键词有 <code>Model</code>, <code>View</code>, <code>Controller</code> 和 <code>Editor</code>.</p>
+<p>那时候并没有操作系统和消息循环(即不像现在的 Android ,不是事件驱动), 当时更多是面对鼠标, 键盘驱动这样的底层环境, 甚至鼠标的光标 UI 都要自己绘制.</p>
+<p>原作者给出的关系图是这样的 <img src="https://camo.githubusercontent.com/17749aa6915f9bab027dddc91783c86ac0a2010c/68747470733a2f2f6865696d2e6966692e75696f2e6e6f2f253745747279677665722f7468656d65732f6d76632f4d56432d323030362e676966?_=4285171"></p>
+<ul>
+<li><p>Model</p>
+<p>  Model 是计算机对现实世界建立的模型, 可以是数据存储, 也可以是数据对象.</p>
+</li>
+<li><p>Controller</p>
+<p>  因为用户是接触鼠标和键盘, 所以输入是从 Controller 开始, Controller 根据指定的输入选择相应的 View 来显示, 即 Controller 与 View 是一对多的关系.</p>
+</li>
+<li><p>View</p>
+<p>  View 是 model 的表现形式, 可以从一个或多个 model 获取想要的数据. View 向 model 获取数据, 也可以更新 model. View 不知道用户输入, 只是用来展示给用户.</p>
+</li>
+<li><p>Editor</p>
+<p>  Controller 与 View 连接, 而某些 View 提供一种特殊的 Controller, 即 Editor, 它允许用户修改 View 表示的信息.</p>
+</li>
+</ul>
+<p>由于当年的开发环境与现在有很大不同, 所以我认为<strong>经典MVC架构已经不适用于现在的开发</strong>.</p>
+<p>1996年, Mike(提出 MVP 架构)对当时的开发架构以 MVC 的角度给出了另一个<strong>依赖关系</strong>图:<img src="https://camo.githubusercontent.com/c3dd0f9f77b116f5b5b4ce9fb82ac136a68664b3/687474703a2f2f7777322e73696e61696d672e636e2f6d773639302f34373465626633356777316570346f6b727a34716a6a32306f6d3065753430352e6a7067?_=4285171"></p>
+<p>此时用户输入已经从 Controller(mouse.onClick) 转移到 View (View.onClick) 上.</p>
+<h5 id="Android-中的-MVC"><a href="#Android-中的-MVC" class="headerlink" title="Android 中的 MVC"></a>Android 中的 MVC</h5><p>Android 并不是完全符合 MVC 架构, 各组件之间并不是能够完全解耦. 以下是我的理解:</p>
+<ul>
+<li><p>View : xml布局, 即用户接触到的界面和控件.</p>
+</li>
+<li><p>Model: Java 对象, POJO 和 Java Bean, 还有一些数据中心, 如 Retrofit 的 Service.</p>
+</li>
+<li><p>Controller: Activity 或 Fragment.  因为 View 不能根据逻辑控制自己, 所以 Controller 会操作 View, 同时也会获取数据. 这些操作都放在 Controller 里面了.</p>
+</li>
+</ul>
+<h2 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h2><p>随着计算机的发展, 操作系统对开发提供的帮助越来越多, Controller 所提供的桥梁功能, 已经逐渐被操作系统代替. 而 Mike 提出的 Presenter , 只是在 MVC 的基础上对 Controller 做了更详细的规定:</p>
+<p><img src="https://camo.githubusercontent.com/5dc631b7b8b34d3bd1e98debbbe138604e3186f5/687474703a2f2f7777322e73696e61696d672e636e2f6d773639302f34373465626633356777316570346f697a7575776f6a3230767730666f7768612e6a7067?_=4285171"></p>
+<p>他在论文中提到 <code>we refer to this kind（指应用程序全局且使用interactor, command以及selection概念的） of controller as a presenter</code>, 所以 Presenter 也是一种 Controller. MVC 和 MVP 的<strong>依赖关系</strong>图是一样的.</p>
+<h5 id="Android-中的-MVP"><a href="#Android-中的-MVP" class="headerlink" title="Android 中的 MVP"></a>Android 中的 MVP</h5><p>Android 中的 MVP, Presenter 作为桥梁的功能更加明显, 但是也有一些变种类型, 比如 Google 的 MVP 模式, 添加了 Contract 作为合约类, 定义了 View 和 Presenter 之间的接口, 而 Model 则作为数据中心, 提供所有获取数据的接口, Prsenter 中只需要选择是使用测试的 Data Repo 还是 正式的 Data Repo 即可.</p>
+<p>这里我习惯用另一种 MVP:</p>
+<ul>
+<li><p>View: Activity 和 Xml, 作为页面的展示, Activity 控制 View 的逻辑.</p>
+</li>
+<li><p>Model : Java 对象. 部分共用的 Data Repo.</p>
+</li>
+<li><p>Presenter : 每个 View 对应一个 Presenter, Presenter 获取数据(Retrofit 或 DataBase).</p>
+</li>
+<li><p>Contract : 约定 View 与 Presenter 之间的接口.</p>
+</li>
+</ul>
+<p>按照 Google 的做法, MVP 中 Model 应该包含数据中心, 负责提供获取数据的接口. 这样确实方便切换和测试. 但是实际项目中, 我认为大部分接口都只调用一次, 并且是在特定的页面, 所以我没有这样做.</p>
+<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h2><p>由于现在大部分开发的模式是标记语言 + 程序语音的组合, 如 (Android 的 Java + xml), view 与其他部分解耦得更加彻底, 2005年微软架构师在<a target="_blank" rel="noopener" href="https://blogs.msdn.microsoft.com/johngossman/2005/10/08/introduction-to-modelviewviewmodel-pattern-for-building-wpf-apps/">这篇文章</a>中提出了 MVVM 的概念, 最重要的一点便是 View 和 ViewModel 之间实现了双向绑定.</p>
+<ul>
+<li><p>View : xml 和 Activity, 与用户交互.</p>
+</li>
+<li><p>Model : 数据中心.</p>
+</li>
+<li><p>ViewModel: 其实只是普通 Java 类, 因为有 binding 的关系, 可以控制 View.</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/09/01/Android-TraceView/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/09/01/Android-TraceView/" class="post-title-link" itemprop="url">Android绘制检测工具 -- TraceView</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2017-09-01 13:50:03 / Modified: 16:28:29" itemprop="dateCreated datePublished" datetime="2017-09-01T13:50:03+08:00">2017-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">性能检测</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/09/01/Android-TraceView/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/01/Android-TraceView/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>TraceView 是 Android 自带的工具, 可以在 DDMS 中找到. 最终的分析结果会导出为 .trace 格式的文件. 文件获取有以下方式:</p>
+<h5 id="获取方式"><a href="#获取方式" class="headerlink" title="获取方式"></a>获取方式</h5><ol>
+<li><p>手动检测:</p>
+<ul>
+<li>在 DDMS 中选择进程.</li>
+<li>点击 Start Method Profiling 开始记录.</li>
+<li>操作完成后点击 Stop Method Profiling 结束记录.</li>
+</ul>
+</li>
+<li><p>代码检测 (需要权限 <code>WRITE_EXTERNAL_STORAGE</code>):</p>
+<ul>
+<li>在开始监控的地方调用 <code>Debug.startMethodTracing(&quot;name&quot;)</code> .</li>
+<li>在结束监控的地方调用 <code>Debug.stopMethodTracing()</code>.</li>
+<li>在 sd 卡中生成 name.trace 文件.</li>
+</ul>
+</li>
+</ol>
+<p>通过 DDMS 打开 trace 文件, 下面会有一个表格展示每个函数的各项数据, 分别介绍一下各个数据的含义.</p>
+<h5 id="分析表格"><a href="#分析表格" class="headerlink" title="分析表格"></a>分析表格</h5><p>以下面这个函数块为例子:</p>
+<pre><code>    void main() &#123;                --- 10s
+        A();                    --- 1s
+        B();                    --- 5s
+        XXX;                    --- 4s
+    &#125;</code></pre>
+<ul>
+<li><p><code>Incl Cpu Time %</code> : 表示每个函数运行所占 Cpu 时间的<strong>百分比</strong>, <strong>包括</strong>该函数内所调用的其他函数的时间.</p>
+<p>  如果记录的正好是 main() 的执行周期, 那么 main() 的百分比就是 100%. 以 100% 为总和来计算, 每个函数执行的时间所占百分比就是其 <code>Incl Cpu Time %</code> 的值.</p>
+<pre><code>  void main() &#123;                --- 100%
+      A();                    --- 10%
+      B();                    --- 50%
+      XXX;                    --- 40%
+  &#125;</code></pre>
+</li>
+<li><p><code>Incl Cpu Time</code> : 表示每个函数运行所占的 Cpu <strong>时间</strong>, <strong>包括</strong>该函数内调用的其他函数的时间.</p>
+</li>
+<li><p><code>Excl Cpu Time %</code> : 表示每个函数运行所占 Cpu 时间的<strong>百分比</strong>, <strong>不包括</strong>该函数内所调用的其他函数的时间.</p>
+</li>
+<li><p><code>Excl Cpu Time</code> : 表示每个函数运行所占的 Cpu <strong>时间</strong>, <strong>不包括</strong>该函数内调用的其他函数的时间.</p>
+</li>
+<li><p><code>Incl Real Time %</code> : 表示每个函数运行所占实际时间的<strong>百分比</strong>, <strong>包括</strong>该函数内调用其他函数的时间.</p>
+<table>
+<thead>
+<tr>
+<th>Cpu Time</th>
+<th>Real Time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>进程运行在 Cpu 上的时间</td>
+<td>从进程开始到进程结束的整个时间, 包括 I/O 的等待时间</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>Incl Real Time</code> : 表示每个函数运行所占的实际<strong>时间</strong>, <strong>包括</strong>该函数内调用其他函数的时间.</p>
+</li>
+<li><p><code>Excl Real Time %</code> : 表示每个函数运行所占实际时间的<strong>百分比</strong>, <strong>不包括</strong>该函数内调用其他函数的时间.</p>
+</li>
+<li><p><code>Excl Real Time</code> : 表示每个函数运行所占的实际<strong>时间</strong>, <strong>不包括</strong>该函数内调用其他函数的时间.</p>
+</li>
+<li><p><code>Calls + Recur Calls / Total</code> : 对于父函数而言, 会显示 <code>调用次数 + 递归调用次数</code>. 对于子函数而言, 会显示 <code>该子函数被父函数调用的次数 / 该子函数总共被调用的次数</code>.</p>
+<p>  以下面的表格为例子.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Calls + Recur Calls / Total</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>main()</td>
+<td>10 + 0</td>
+<td>main() 是父函数, 被调用了10次, 被递归调用了0次.</td>
+</tr>
+<tr>
+<td>A()</td>
+<td>1 / 3</td>
+<td>A() 是子函数, 被 main() 调用了1次, 被其他函数调用了3次.</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>Cpu Time / Call</code> : <code>Incl Cpu Time</code> / <code>Calls</code> , 表示每个函数在 Cpu 上的执行时间.</p>
+</li>
+<li><p><code>Real Time / Call</code> : <code>Incl Real Time</code> / <code>Calls</code> , 表示每个函数运行的实际时间.</p>
+</li>
+</ul>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><p>TraceView 的思路是把一段时间内所有的函数都记录下来, 因为记录的东西太多, 所以记录的结果比不开启 TraceView 要慢一些.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/08/01/Android-Resource-Usage-Count/" class="post-title-link" itemprop="url">Android-Resource-Usage-Count</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-08-01 19:32:55" itemprop="dateCreated datePublished" datetime="2017-08-01T19:32:55+08:00">2017-08-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2017-08-21 18:39:12" itemprop="dateModified" datetime="2017-08-21T18:39:12+08:00">2017-08-21</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/08/01/Android-Resource-Usage-Count/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/01/Android-Resource-Usage-Count/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>插件地址: <a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/9885-android-resource-usage-count">Jetbrains Plugin Page</a></p>
+<p>Github 地址: <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Android-Resource-Usage-Count</a></p>
+<h2 id="插件说明"><a href="#插件说明" class="headerlink" title="插件说明"></a>插件说明</h2><p>使用 <code>IntelliJ IDEA</code> 或者 <code>Android Studio</code> 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 <code>build</code> 路径和 <code>bin</code> 路径的引用.</p>
+<p><img src="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg"></p>
+<ul>
+<li><p>支持的标签: </p>
+<ul>
+<li><code>array</code></li>
+<li><code>attr</code></li>
+<li><code>bool</code></li>
+<li><code>color</code></li>
+<li><code>declare-styleable</code></li>
+<li><code>dimen</code></li>
+<li><code>drawable</code></li>
+<li><code>eat-comment</code></li>
+<li><code>fraction</code></li>
+<li><code>integer</code></li>
+<li><code>integer-array</code></li>
+<li><code>item</code></li>
+<li><code>plurals</code></li>
+<li><code>string</code></li>
+<li><code>string-array</code></li>
+<li><code>style</code></li>
+</ul>
+</li>
+<li><p>颜色说明:</p>
+<ul>
+<li>0 - 灰色</li>
+<li>1 - 蓝色</li>
+<li>其他 - 红色</li>
+<li>可以在 <code>Preferences</code> - <code>Other Settings</code> - <code>Android Resource Usage Count</code> 中自定义颜色</li>
+</ul>
+</li>
+</ul>
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>在 Android 项目开发过程中, 我一直都是把各种 <code>string</code> <code>color</code> 等资源定义在资源文件中, 再在代码中引用它. 如果有新的 <code>string</code> 或者 <code>color</code>, 我会先对比一下是否存在, 如果存在直接使用, 不存在才创建新的资源文件.</p>
+<p>但是资源文件可能会改动, 经常产品需要改动一个 <code>string</code>, 或者设计需要改动一个 <code>color</code>, 我都要先手动在那个资源文件上右键 - Find Usage , 引用次数为1就直接改动这个标签内容, 否则要新建一个标签. 但是觉得每次都要搜索很繁琐, 所以才产生了开发这个插件的想法, 直接显示每个资源文件的引用次数.</p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><p>其实插件开发的文档还是比较少的, <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started.html">官网</a> 提供的只是一个通用的开发过程, 按照文档你可以顺利创建项目, 然后就懵 B 了.</p>
+<p>不过这里也是因为不同的插件需求不同, 所以还是建议想清楚自己想实现的功能和展示方式, 再多参考一下已有的系统功能怎么实现的, 已有的开源库怎么实现的, 最后当然是善用搜索.</p>
+<p>说说我自己的开发过程, 我前期想实现的效果是</p>
+<ol>
+<li>打开资源文件时自动对每个标签统计引用次数. (功能)</li>
+<li>在标签上以 hint 的形式展示其引用次数. (展示形式)</li>
+</ol>
+<p>先说功能这块: </p>
+<ul>
+<li><p>开发的时候我也是先从一个大多数例子都会提到的 <code>Action</code> 开始, 可是我怎么也找不到自己想要的 <code>Action</code> (打开某个资源文件). 最后只好随便建一个 <code>Action</code> 作为触发按钮, 先实现 FindUsage 的功能.</p>
+</li>
+<li><p>然后在实现 FindUsage 的功能时, 直接参考系统的 <code>FindUsageAction</code> 类, 还可以通过 debug 模式直接断点代码, 简直不能更爽. 根据 <code>FindUsageAction</code> 类的实现过程, 把核心代码复制到自己的工具类, 简单修改后就实现了功能. 这里要说明的是, <strong>尽量使用老版本的代码, 新版本的代码可能会在老版本上找不到方法而报错.</strong></p>
+</li>
+</ul>
+<p>然后是展示形式:</p>
+<ul>
+<li>一开始我是希望像 <a target="_blank" rel="noopener" href="http://www.methodscount.com/plugins">Methods Count</a> 这样 <img src="http://www.methodscount.com/images/methods-count-plugin-1.png"><br>不过我找不到它是怎么实现的…尴尬</li>
+<li>后面翻到了 <code>LineMarkerProvider </code> 这个类, 感觉这也是一种实现形式, 查看一下实现后也很简单, 最重要的是 <code>LineMarkerProvider </code> 是通过打开文件触发, 我还不用去找 <code>Action</code> 了.</li>
+</ul>
+<p>最后是设置界面:</p>
+<ul>
+<li>主要参考了 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/f017097e4b26">Android Studio插件开发实践–从创建到发布</a> 这篇文章的设置代码.</li>
+</ul>
+<h2 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h2><ul>
+<li>打包主要按照 <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/deploying_plugin.html">官网</a> 操作.</li>
+<li>发布时, 在提交页面提交 jar 包后会进去编辑页面, 在 <code>Supported products</code> 模块去掉勾选 <code>Determine supported products by dependencies in plugin.xml</code>, 改为自定义支持所需平台就好. 我发布时发现 <code>plugin.xml</code> 无法解析 <code>com.intellij.modules.androidstudio</code>, 不知道是我的问题还是写法不对.</li>
+</ul>
+<h2 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h2><ol>
+<li>插件是由 <code>LineMarkerProvider</code> 来实现的, 打开文件会自动触发搜索统计操作. 但是有时候统计结果显示比较慢, 如果没有显示, 可以尝试重新打开文件/编辑文件/等待.</li>
+</ol>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>因为自己在开发插件方面的经历实在有限, 这个插件也是根据自己的需求而实现的. 一方面是想看看大家是否也会有这样的需求, 另一方面也是希望大家可以多帮忙看看代码, 有没有更好的实现或者插件本身有值得改进的地方, 博客通知不及时, 如果遇到问题多多去 <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Github</a> 上提 Issues 交流吧~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/03/21/draw_system/Android-Draw-System/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/03/21/draw_system/Android-Draw-System/" class="post-title-link" itemprop="url">Android 绘制原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-03-21 20:23:27" itemprop="dateCreated datePublished" datetime="2017-03-21T20:23:27+08:00">2017-03-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-05-30 17:14:09" itemprop="dateModified" datetime="2019-05-30T17:14:09+08:00">2019-05-30</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/03/21/draw_system/Android-Draw-System/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/21/draw_system/Android-Draw-System/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="硬件分工"><a href="#硬件分工" class="headerlink" title="硬件分工"></a>硬件分工</h2><p>在计算机硬件中, 通常 CPU 用来处理数据, GPU 用来渲染数据. Android 系统也不例外, 绘制过程首先是 CPU 准备数据, 通过 Driver 层把数据交给 GPU 渲染. 其中 CPU 主要负责 Measure 、Layout 、Record 、Execute 的数据计算工作, GPU 负责 Rasterization（栅格化）、渲染. 由于图形 API 不允许 CPU 直接与 GPU 通信, 而是通过中间的一个图形驱动层（Graphics Driver）来连接这两部分. 图形驱动维护了一个队列, CPU 把 display list 添加到队列中, GPU 从这个队列取出数据进行绘制, 最终才在显示屏上显示出来.</p>
+<p>那么无论是 CPU 准备的数据, 还是 GPU 渲染的数据, 都是以一帧一帧的形式来的. 我们所看到的界面也是有一帧一帧的图像连续显示而来. 对于人眼来说, 每秒钟看到60帧则比较流畅了, 即 FPS(Frame Per second) 为60, <code>1/60 = 0.01666667</code>, 即每 16ms 进行一次准备-渲染操作.</p>
+<h2 id="系统变更历史"><a href="#系统变更历史" class="headerlink" title="系统变更历史"></a>系统变更历史</h2><p>在 Android 4.1 以前, 每一次渲染的流程可以用下图表示:</p>
+<p><img src="image/android_draw_system_img_before.png"></p>
+<p>横轴表示时间, 每条 VSync 线表示 16ms:</p>
+<ol>
+<li>第一个16ms中, 系统显示缓存块 A 中的第0帧, 同时 CPU 和 GPU 在缓存块 B 中准备第1帧.</li>
+<li>第二个16ms中, 系统显示缓存块 B 中的第1帧, 但是此时 CPU 可能在处理其他事情, 所以在第二个16ms快结束时才开始在缓存块 A 中准备第2帧.</li>
+<li>第三个16ms中, 由于第2帧还没准备好, 所以只能继续显示第1帧, 此时用户就会感知到卡顿.</li>
+</ol>
+<p>在 Android 4.1 版本中, 为了解决这些问题推出了 Project Butter, 主要引入 VSync, Triple Buffer和Choreographer.</p>
+<ul>
+<li><p>VSync : Vertical Synchronization, 即垂直同步, 可以理解为一种定时中断, GPU 和 CPU 在收到 VSync 信号时开始准备数据.</p>
+<p>  引入 VSync 后的渲染流程如下:</p>
+<p>  <img src="image/android_draw_system_with_vsync.png"></p>
+<ol>
+<li>这样每次收到 VSync 中断时, CPU 和 GPU 开始工作. <strong>只要 CPU 和 GPU 的 FPS 略高于 Display 的 FPS</strong>, 则每次都能在 16ms 之内准备好下一帧, 能够顺利显示. </li>
+<li>如果 CPU 和 GPU 已经准备完毕, 只要没有收到 VSync 信号, 都不会进行渲染工作.</li>
+</ol>
+</li>
+<li><p>Triple Buffer: 即3个缓存块. 在 Android 4.1 以前, 只有2个缓存块用于准备数据, 两个缓存块交替使用. 在引入 VSync 后, 如果 CPU 和 GPU 的 FPS 比 Display 的 FPS 低, 即不能在 16ms 内准备好数据, 会导致很严重的掉帧效果.</p>
+<p>  <img src="image/android_draw_system_fps_small.png"></p>
+<ol>
+<li>在第一个16ms中, 系统显示缓存块A, CPU 和 GPU 在缓存块 B 中准备第1帧.</li>
+<li>在第二个16ms中, 由于 GPU 还没有准备好, 所以只能继续显示缓存块 A 的内容, 用户感知到卡顿.</li>
+</ol>
+<p>为了解决这个问题, Android 4.1 引入第三个缓存块:</p>
+<p><img src="image/android_draw_system_triple_buffer.png"></p>
+<ol>
+<li><p>在第一个16ms中, 系统显示缓存块A, CPU 和 GPU 在缓存块 B 中准备第1帧.</p>
+</li>
+<li><p>在第二个16ms中, 由于 GPU 还没有准备好, 所以只能继续显示缓存块 A 的内容, 用户感知到卡顿. 但此时 CPU 可以在缓存块 C 中准备数据.</p>
+</li>
+<li><p>正常显示不会再丢帧.</p>
+<p>但是缓存块并不是越多越好, CPU 和 GPU 准备的数据最好在下一个 16ms 显示, 但是 Triple Buffer 中 CPU 准备的缓存块C, 在第四个 16ms 中才显示, 滞后了 16ms. 所以第三个缓存块主要是备用, 一般来说两个缓存块就够了.</p>
+</li>
+</ol>
+</li>
+<li><p>Choreographer: 译为舞蹈编排, 起到调度作用, 收到 VSync 信号时调用用户设置的回调函数, 回调类型有三种:</p>
+<ul>
+<li>CALLBACK_INPUT：优先级最高，和输入事件处理有关。</li>
+<li>CALLBACK_ANIMATION：优先级其次，和Animation的处理有关。</li>
+<li>CALLBACK_TRAVERSAL：优先级最低，和UI等控件绘制有关。</li>
+</ul>
+</li>
+</ul>
+<h4 id="invalidate-调用顺序"><a href="#invalidate-调用顺序" class="headerlink" title="invalidate() 调用顺序"></a>invalidate() 调用顺序</h4><ul>
+<li>View.invalidate()</li>
+<li>View.invalidateInternal() -&gt; 找到 dirty 区域并传给 ViewParent</li>
+<li>ViewParent.invalidateChild -&gt; 接口, 由 ViewGroup 和 ViewRootImpl 实现</li>
+<li>ViewGroup.invalidateChild -&gt; 向上递归调用 ViewParent.invalidateChildInParent, 直到 ViewRootImpl</li>
+<li>ViewRootImpl.invalidateChildInParent -&gt; ViewRootImpl.scheduleTraversals</li>
+<li>ViewRootImpl.scheduleTraversals -&gt; Choreographer.postCallback(Choreographer.TRAVERSAL)</li>
+<li>Choreographer 调度到下一个 VSYNC 信号来时再回调. ViewRootImpl.doTraversal</li>
+<li>ViewRootImpl.doTraversal -&gt; ViewRootImpl.performTraversals 开始绘制</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="WorkManager-Guide&amp;TipsWorkManager 为了方便运行一些不着急的、异步的的后台任务而诞生. 大部分情况下, 只需要定义好自己想做的任务, 交给 WorkManager 去执行, 剩下就不用管了. 注意一下, 同样是后台线程, WorkManager 的重点在于保证就算 App 关掉之后后台任务也能够被执行. 而那种可以随着 App 退出而关闭的后台任务, 还是更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WorkManager-Guide&amp;Tips">
+<meta property="og:url" content="http://niorgai.github.io/2019/01/20/WorkManager-Guide-Tips/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="WorkManager-Guide&amp;TipsWorkManager 为了方便运行一些不着急的、异步的的后台任务而诞生. 大部分情况下, 只需要定义好自己想做的任务, 交给 WorkManager 去执行, 剩下就不用管了. 注意一下, 同样是后台线程, WorkManager 的重点在于保证就算 App 关掉之后后台任务也能够被执行. 而那种可以随着 App 退出而关闭的后台任务, 还是更">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-20T10:16:00.000Z">
+<meta property="article:modified_time" content="2019-02-13T06:41:29.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2019/01/20/WorkManager-Guide-Tips/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>WorkManager-Guide&Tips | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WorkManager-Guide-amp-Tips"><span class="nav-number">1.</span> <span class="nav-text">WorkManager-Guide&amp;Tips</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%89%8D%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="nav-number">1.1.</span> <span class="nav-text">以前的实现方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E6%80%A7%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.3.1.</span> <span class="nav-text">一次性任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%A8%E6%9C%9F%E6%80%A7%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.3.2.</span> <span class="nav-text">周期性任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.3.3.</span> <span class="nav-text">取消任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E4%B8%8A%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.4.</span> <span class="nav-text">加上约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.5.</span> <span class="nav-text">多个任务的执行顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E4%BB%BB%E5%8A%A1%E7%9A%84%E9%87%8D%E5%A4%8D%E7%AD%96%E7%95%A5"><span class="nav-number">1.6.</span> <span class="nav-text">相同任务的重复策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA"><span class="nav-number">1.7.</span> <span class="nav-text">输入和输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="nav-number">1.8.</span> <span class="nav-text">一些需要注意的地方</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2019/01/20/WorkManager-Guide-Tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WorkManager-Guide&Tips
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-01-20 18:16:00" itemprop="dateCreated datePublished" datetime="2019-01-20T18:16:00+08:00">2019-01-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-02-13 14:41:29" itemprop="dateModified" datetime="2019-02-13T14:41:29+08:00">2019-02-13</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2019/01/20/WorkManager-Guide-Tips/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/20/WorkManager-Guide-Tips/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="WorkManager-Guide-amp-Tips"><a href="#WorkManager-Guide-amp-Tips" class="headerlink" title="WorkManager-Guide&amp;Tips"></a>WorkManager-Guide&amp;Tips</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/workmanager/">WorkManager</a> 为了方便运行一些<strong>不着急的</strong>、<strong>异步的</strong>的<strong>后台</strong>任务而诞生. 大部分情况下, 只需要定义好自己想做的任务, 交给 <code>WorkManager</code> 去执行, 剩下就不用管了.</p>
+<p>注意一下, 同样是后台线程, <code>WorkManager</code> 的重点在于保证<strong>就算 App 关掉之后后台任务也能够被执行</strong>. 而那种可以随着 App 退出而关闭的后台任务, 还是更适合使用 <code>ThreadPools</code>.</p>
+<h2 id="以前的实现方案"><a href="#以前的实现方案" class="headerlink" title="以前的实现方案"></a>以前的实现方案</h2><ol>
+<li><p>Service: 这是最常见的需要后台运行的方案了. 对比来说, Service 有以下几个问题: </p>
+<ul>
+<li>可能会由于开发者的设置而疯狂运行, 这会导致手机电量被疯狂消耗. 对比之下 WorkManager 的同一个周期任务的最小间隔时间是15分钟.</li>
+<li><code>targetSdkVersion</code> 为 26 及以上的时候, 在不被允许创建后台服务的情况下, <code>startService()</code> 会抛出 <code>IllegalStateException</code>. 对比之下 WorkManager 会按照设定选择合适的时间运行.</li>
+</ul>
+</li>
+<li><p>JobScheduler: 这个最关键的就是只有 Android 5.0 以上才能使用, 其实 WorkManager 在 5.0 以上也是用这个实现的.</p>
+</li>
+<li><p>AlarmManager + BroadcastReceiver. 这个方案也是可以的, WorkManager 在 5.0 以下也是这样实现的, 只是封装了更好用的 API .</p>
+</li>
+</ol>
+<p>如果对更好用的 WorkManager 感兴趣, 就可以继续往下看了. 大概的介绍顺序是:</p>
+<ol>
+<li>导入</li>
+<li>一次性任务的使用</li>
+<li>周期性任务的使用</li>
+<li>任务如何取消</li>
+<li>给任务加上约束条件</li>
+<li>多个任务以特定顺序执行</li>
+<li>相同任务的重复处理策略</li>
+<li>任务的输入和输出</li>
+<li>一些需要注意的点</li>
+</ol>
+<p><strong>以下代码都可以在 <a target="_blank" rel="noopener" href="https://github.com/niorgai/WorkManagerDemo">Demo</a> 中找到.</strong></p>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>和其他 JetPack 的组件一样, 在 <strong>project</strong> 的 <code>build.gradle</code> 文件中添加 <code>google()</code> 源: </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在 <strong>module</strong> 的 <code>build.gradle</code> 中添加 <strong>WorkManager</strong> 的依赖:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    <span class="keyword">def</span> work_version = <span class="string">&quot;1.0.0-beta05&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Java 依赖版本</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-runtime:$work_version&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Kotlin 依赖版本, 和上面的依赖二选一即可</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-runtime-ktx:$work_version&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 可选 RxJava2 支持</span></span><br><span class="line">    implementation <span class="string">&quot;android.arch.work:work-rxjava2:$work_version&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可选 测试支持</span></span><br><span class="line">    androidTestImplementation <span class="string">&quot;android.arch.work:work-testing:$work_version&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用起来就如上面所说, 首先你需要创建一个 <code>任务 (Worker) </code>, 然后丢给 <code>WorkManager</code>.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestWorker</span></span>(context: Context, params: WorkerParameters)</span><br><span class="line">    : Worker(context, params) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">doWork</span><span class="params">()</span></span>: Result &#123;</span><br><span class="line">    </span><br><span class="line">		<span class="comment">// 这里已经是后台线程了, 只需要实现自己的业务逻辑就好了</span></span><br><span class="line">		<span class="comment">// return Result.retry(); 重试</span></span><br><span class="line">		<span class="comment">// return Result.failure(); 不再重试</span></span><br><span class="line">    	<span class="keyword">return</span> Result.success()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TestWorker</span><span class="params">(Context context, WorkerParameters params)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, params);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里已经是后台线程了, 只需要实现自己的业务逻辑就好了</span></span><br><span class="line">        <span class="comment">// return Result.retry(); 重试</span></span><br><span class="line">        <span class="comment">// return Result.failure(); 不再重试</span></span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>Worker</code> 里面只声明要实现的任务, 其他的约束条件要在 <code>WorkRequest</code> 中设置, 把 <code>Worker</code> 变成 <code>WorkRequest</code>. 再交给 <code>WorkManager</code> 去执行就好了.</p>
+<h3 id="一次性任务"><a href="#一次性任务" class="headerlink" title="一次性任务"></a>一次性任务</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="keyword">val</span> oneTimeWorker = OneTimeWorkRequest.Builder(TestWorker::<span class="keyword">class</span>.java).build()</span><br><span class="line">WorkManager.getInstance().enqueue(oneTimeWorker)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line">OneTimeWorkRequest oneTimeWorker =</span><br><span class="line">        <span class="keyword">new</span> OneTimeWorkRequest.Builder(TestWorker.class).build();</span><br><span class="line">WorkManager.getInstance().enqueue(oneTimeWorker);</span><br></pre></td></tr></table></figure>
+
+<p>就是这么简单, 接下来 Worker 就会在后台线程运行了. </p>
+<h3 id="周期性任务"><a href="#周期性任务" class="headerlink" title="周期性任务"></a>周期性任务</h3><p>周期性任务需要更加慎重一点. 开启之后如果不注意, 大部分情况下就会一直运行, 这可能带来很不好的用户体验.</p>
+<p>设置周期性任务的时候, 需要设置 <code>repeatInterval(重复区间)</code> 和 <code>flexInterval(弹性区间)</code> 参数, 配合注释说明:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[  弹性区间外  |  弹性区间内 (flex Interval) ][  弹性区间外  |  弹性区间内 (flex Interval) ]...</span><br><span class="line">[  任务不运行  |          任务可运行         ][  任务不运行  |          任务可运行         ]...</span><br><span class="line">\_________________________________________/\________________________________________/...</span><br><span class="line">       第一个区间 (repeat Interval)                 第二个区间 (repeat Interval)        ...(repeat)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>repeatInterval</code> 最小值是15分钟, 而 <code>flexInterval</code> 的最小值是5分钟, 如果 <code>flexInterval</code> 大于 <code>repeatInterval</code>, 也会被修改到和 <code>repeatInterval</code> 一样的值.</p>
+<h3 id="取消任务"><a href="#取消任务" class="headerlink" title="取消任务"></a>取消任务</h3><p>但是从 API 可以看到, WorkManager 是将这个 Worker 入队了, 那既然是以队列维护的异步操作, 肯定会有重复的问题. WorkManager 默认的操作是遇到一样的 Worker 时, 新 Worker 会等旧 Worker 运行完再运行, 即顺序执行.</p>
+<p>不过大部分情况下这都不是我们想要的模式, 所以在运行前最好取消相同的任务. 每个 <code>Worker</code> 都有一个唯一标识 UUID, 同时在构建 <code>WorkRequest</code> 的时候还可以添加任意个 Tag, 通过这两个标识都可以取消任务.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="comment">// UUID 方式</span></span><br><span class="line"><span class="keyword">val</span> workId: UUID = oneTimeWorker.getId()</span><br><span class="line">WorkManager.getInstance().cancelWorkById(workId)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Tag 方式</span></span><br><span class="line"><span class="keyword">val</span> oneTimeWorker = OneTimeWorkRequest.Builder(TestWorker::<span class="keyword">class</span>.java)</span><br><span class="line">    .addTag(<span class="string">&quot;myTag&quot;</span>)</span><br><span class="line">    .build()</span><br><span class="line">WorkManager.getInstance().cancelAllWorkByTag(<span class="string">&quot;myTag&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// UUID 方式</span></span><br><span class="line">UUID workId = oneTimeWorker.getId();</span><br><span class="line">WorkManager.getInstance().cancelWorkById(workId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Tag 方式</span></span><br><span class="line">OneTimeWorkRequest myTask = <span class="keyword">new</span> OneTimeWorkRequest.Builder(TestWorker.class)</span><br><span class="line">    .addTag(<span class="string">&quot;myTag&quot;</span>)</span><br><span class="line">    .build()</span><br><span class="line">WorkManager.getInstance().cancelAllWorkByTag(<span class="string">&quot;myTag&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>取消相同的任务已经避免了系统资源不必要的消耗, 不过为了防止 API 的滥用, 还推荐给任务加上一些约束条件, 方便任务在系统资源没那么紧张的时候再执行:</p>
+<h2 id="加上约束"><a href="#加上约束" class="headerlink" title="加上约束"></a>加上约束</h2><p>所有的约束 <code>Constraints</code> 都是由 <code>Constraints.Builder()</code> 来创建的, Builder 提供了以下的约束方式:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"><span class="comment">// 设置网络类型</span></span><br><span class="line">setRequiredNetworkType(networkType: NetworkType)</span><br><span class="line"><span class="comment">// 是否运行时电量不要太低</span></span><br><span class="line">setRequiresBatteryNotLow(requiresBatteryNotLow: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否在充电时才运行</span></span><br><span class="line">setRequiresCharging(requiresCharging: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否不太剩余存储空间过低时运行</span></span><br><span class="line">setRequiresStorageNotLow(requiresStorageNotLow: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 是否在设备空闲时运行, 这个最低版本是 23</span></span><br><span class="line">setRequiresDeviceIdle(requiresDeviceIdle: <span class="built_in">Boolean</span>)</span><br><span class="line"><span class="comment">// 监听一个本地的 Uri, 第二个参数是否监听 Uri 的子节点. 在 Uri 的内容改变时运行任务, 最低版本是 24</span></span><br><span class="line">addContentUriTrigger(uri: Uri, triggerForDescendants: <span class="built_in">Boolean</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// 设置网络类型</span></span><br><span class="line">setRequiredNetworkType(NetworkType networkType)</span><br><span class="line"><span class="comment">// 是否运行时电量不要太低</span></span><br><span class="line">setRequiresBatteryNotLow(<span class="keyword">boolean</span> requiresBatteryNotLow)</span><br><span class="line"><span class="comment">// 是否在充电时才运行</span></span><br><span class="line">setRequiresStorageNotLow(<span class="keyword">boolean</span> requiresStorageNotLow)</span><br><span class="line"><span class="comment">// 是否不太剩余存储空间过低时运行</span></span><br><span class="line">setRequiresStorageNotLow(requiresStorageNotLow: Boolean)</span><br><span class="line"><span class="comment">// 是否在设备空闲时运行, 这个最低版本是 23</span></span><br><span class="line">setRequiresDeviceIdle(<span class="keyword">boolean</span> requiresDeviceIdle)</span><br><span class="line"><span class="comment">// 监听一个本地的 Uri, 第二个参数是否监听 Uri 的子节点. 在 Uri 的内容改变时运行任务, 最低版本是 24</span></span><br><span class="line">addContentUriTrigger(Uri uri, <span class="keyword">boolean</span> triggerForDescendants)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多个任务的执行顺序"><a href="#多个任务的执行顺序" class="headerlink" title="多个任务的执行顺序"></a>多个任务的执行顺序</h2><p>WorkManager 提供了相应的 API 使任务可以使一个或多个 <code>OneTimeWorkerRequest</code> 按某个顺序执行.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A, B, C 就会按顺序执行, 如果全部返回成功或者某一个返回失败, 那该任务链就会结束.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue()</span><br><span class="line"></span><br><span class="line"><span class="comment">// A, B 一起运行, 虽然这2个的开始顺序不定, 但是 C 一定是在这2个运行后才运行.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(Arrays.asList(workA, workB))</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue()</span><br><span class="line">    </span><br><span class="line"><span class="comment">// B 一定会在 A 后面运行, D 也一定会在 C 后面运行, 但是 AB 与 CD 这两条链的运行顺序不定, 但是 E 一定是在 B 和 D 都结束后才运行.</span></span><br><span class="line"><span class="keyword">val</span> chain1 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line"><span class="keyword">val</span> chain2 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workC)</span><br><span class="line">    .then(workD)</span><br><span class="line"><span class="keyword">val</span> chain3 = WorkContinuation</span><br><span class="line">    .combine(Arrays.asList(chain1, chain2))</span><br><span class="line">    .then(workE)</span><br><span class="line">chain3.enqueue()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A, B, C 就会按顺序执行, 如果全部返回成功或者某一个返回失败, 那该任务链就会结束.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB)</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue();</span><br><span class="line"></span><br><span class="line"><span class="comment">// A, B 一起运行, 虽然这2个的开始顺序不定, 但是 C 一定是在这2个运行后才运行.</span></span><br><span class="line">WorkManager.getInstance()</span><br><span class="line">    .beginWith(Arrays.asList(workA, workB))</span><br><span class="line">    .then(workC)</span><br><span class="line">    .enqueue();</span><br><span class="line">    </span><br><span class="line"><span class="comment">// B 一定会在 A 后面运行, D 也一定会在 C 后面运行, 但是 AB 与 CD 这两条链的运行顺序不定, 但是 E 一定是在 B 和 D 都结束后才运行.</span></span><br><span class="line">WorkContinuation chain1 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workA)</span><br><span class="line">    .then(workB);</span><br><span class="line">WorkContinuation chain2 = WorkManager.getInstance()</span><br><span class="line">    .beginWith(workC)</span><br><span class="line">    .then(workD);</span><br><span class="line">WorkContinuation chain3 = WorkContinuation</span><br><span class="line">    .combine(Arrays.asList(chain1, chain2))</span><br><span class="line">    .then(workE);</span><br><span class="line">chain3.enqueue();</span><br></pre></td></tr></table></figure>
+<h2 id="相同任务的重复策略"><a href="#相同任务的重复策略" class="headerlink" title="相同任务的重复策略"></a>相同任务的重复策略</h2><p>前面提到对于 Worker 来说, 可以通过 UUID 和 Tag 来保证其唯一性, 这样在需要的时候就可以避免任务重复执行. 但对于连续的任务链, 如果任务多了, 这样的方式会很繁琐. 于是, WorkerManager 也提供了相应的 API 来保证其唯一性.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line">beginUniqueWork(uniqueWorkName: String, existingWorkPolicy: ExistingWorkPolicy, work: OneTimeWorkRequest): WorkContinuation</span><br><span class="line"></span><br><span class="line">beginUniqueWork(uniqueWorkName: String, existingWorkPolicy: ExistingWorkPolicy, work: List&lt;OneTimeWorkRequest&gt;): WorkContinuation</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="function">WorkContinuation <span class="title">beginUniqueWork</span><span class="params">(String uniqueWorkName, ExistingWorkPolicy existingWorkPolicy, OneTimeWorkRequest work)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">WorkContinuation <span class="title">beginUniqueWork</span><span class="params">(String uniqueWorkName, ExistingWorkPolicy existingWorkPolicy, List&lt;OneTimeWorkRequest&gt; work)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数就是这一个或者一系列 worker 的名字, 第二个参数就是重复时的操作, 有以下几种模式:</p>
+<ul>
+<li>ExistingWorkPolicy.APPEND : 如果上一个任务处于等待或者未完成的状态, 则把当前任务添加到其任务链的后面. 这样它就在上一个任务执行完后执行.</li>
+<li>ExistingWorkPolicy.KEEP : 如果上一个任务处于等待或者未完成的状态, 什么都不做(继续等上一个任务执行).</li>
+<li>ExistingWorkPolicy.REPLACE : 如果上一个任务处于等待或者未完成的状态, 取消并删除上一个, 执行新的.</li>
+</ul>
+<h2 id="输入和输出"><a href="#输入和输出" class="headerlink" title="输入和输出"></a>输入和输出</h2><p>Worker 的输入输出是用 <code>Map&lt;String, Object&gt;</code> 来存储的, 用 <code>Data</code> 类封装了一层. 输出用 <code>LiveData</code> 来监听.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Kotlin</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建输入</span></span><br><span class="line"><span class="keyword">val</span> inputData = Data.Builder()</span><br><span class="line">                    .putInt(<span class="string">&quot;KEY_FIRST&quot;</span>, firstNumber)</span><br><span class="line">                    .putInt(<span class="string">&quot;KEY_SECOND&quot;</span>, secondNumber)</span><br><span class="line">                    .build()</span><br><span class="line"><span class="keyword">val</span> worker = OneTimeWorkRequestBuilder&lt;MathWorker&gt;()</span><br><span class="line">        .setInputData(inputData)</span><br><span class="line">        .build()</span><br><span class="line">WorkManager.getInstance().enqueue(worker)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker 类:</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlusWorker</span></span>(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">doWork</span><span class="params">()</span></span>: Result &#123;</span><br><span class="line">        <span class="keyword">val</span> first = inputData.getInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">val</span> second = inputData.getInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">val</span> result = first + second <span class="comment">// 1 + 2 = 3</span></span><br><span class="line">        <span class="keyword">val</span> output = Data.Builder()</span><br><span class="line">                .putInt(<span class="string">&quot;KEY_RESULT&quot;</span>, result)</span><br><span class="line">                .build()</span><br><span class="line">        <span class="keyword">return</span> Result.success(output)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听返回</span></span><br><span class="line">WorkManager.getInstance().getWorkInfoByIdLiveData(worker.id)</span><br><span class="line">        .observe(<span class="keyword">this</span>, Observer &#123; info -&gt;</span><br><span class="line">            <span class="keyword">if</span> (info != <span class="literal">null</span> &amp;&amp; info.state.isFinished) &#123;</span><br><span class="line">               	<span class="comment">// 获取返回结果, 应该是3</span></span><br><span class="line">                <span class="keyword">val</span> result = info.outputData.getInt(<span class="string">&quot;KEY_RESULT&quot;</span>, <span class="number">0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Java</span><br><span class="line"><span class="comment">// 创建输入</span></span><br><span class="line">Data inputData = <span class="keyword">new</span> Data.Builder()</span><br><span class="line">    .putInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">1</span>)</span><br><span class="line">    .putInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">2</span>)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">OneTimeWorkRequest worker = <span class="keyword">new</span> OneTimeWorkRequest.Builder(PlusWorker.class)</span><br><span class="line">        .setInputData(inputData)</span><br><span class="line">        .build();</span><br><span class="line">WorkManager.getInstance().enqueue(worker);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker 类:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlusWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlusWorker</span><span class="params">(<span class="meta">@NonNull</span> Context context, <span class="meta">@NonNull</span> WorkerParameters workerParams)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, workerParams);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> first = getInputData().getInt(<span class="string">&quot;KEY_FIRST&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> second = getInputData().getInt(<span class="string">&quot;KEY_SECOND&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> result = first + second; <span class="comment">// 1 + 2 = 3</span></span><br><span class="line">        Data output = <span class="keyword">new</span> Data.Builder()</span><br><span class="line">                .putInt(<span class="string">&quot;KEY_RESULT&quot;</span>, result)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> Result.success(output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听返回</span></span><br><span class="line">WorkManager.getInstance().getWorkInfoByIdLiveData(worker.getId())</span><br><span class="line">    .observe(lifecycleOwner, info -&gt; &#123;</span><br><span class="line">         <span class="keyword">if</span> (info != <span class="keyword">null</span> &amp;&amp; info.getState().isFinished()) &#123;</span><br><span class="line">           <span class="comment">// 获取返回结果, 应该是3</span></span><br><span class="line">           <span class="keyword">int</span> result = info.getOutputData().getInt(KEY_RESULT, <span class="number">0</span>));</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="一些需要注意的地方"><a href="#一些需要注意的地方" class="headerlink" title="一些需要注意的地方"></a>一些需要注意的地方</h2><ul>
+<li><p><code>WorkManager</code> 虽然在设计的时候是为了在 App 没运行的时候也能运行 Worker, 但是目前从 Google Issue Tracker 上的信息来看, 以下几种情况杀掉后任务的存活情况是这样的:</p>
+<ol>
+<li>从任务管理器(最近使用)关掉: 原生的 Android 上 Worker 仍然会运行, 但是在<a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/110745313">某些把这种操作当做强制停止的厂商</a> 或 <a target="_blank" rel="noopener" href="https://issuetracker.google.com/issues/113676489">一些中国厂商</a> 的机型上, Worker 要等到下次打开 App 才会运行.</li>
+<li>重启手机 (Worker 运行中的状态): 重启后 Worker 会继续运行.</li>
+<li>App 信息 -&gt; 强制关闭: Worker 会再下次打开 App 的时候运行.</li>
+<li>重启手机 (App 被强制关闭了): Worker 会再下次打开 App 的时候运行.</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/07/22/Count-Step-In-Android/" rel="prev" title="Count-Step-In-Android">
+                  <i class="fa fa-chevron-left"></i> Count-Step-In-Android
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/06/28/Java-VM/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" rel="next" title="Java内存区域">
+                  Java内存区域 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2019/01/20/WorkManager-Guide-Tips/";
+    this.page.identifier = "2019/01/20/WorkManager-Guide-Tips/";
+    this.page.title = "WorkManager-Guide&Tips";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

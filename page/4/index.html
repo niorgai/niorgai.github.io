@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="Android | jianqiu&#39;s blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jianqiu&#39;s blog">
+<meta property="og:url" content="http://niorgai.github.io/page/4/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="Android | jianqiu&#39;s blog">
+<meta property="og:locale">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/page/4/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2015/01/31/Android%E7%9B%B8%E5%86%8C%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2015/01/31/Android%E7%9B%B8%E5%86%8C%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">Android相册选取图片</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-01-31 00:39:36" itemprop="dateCreated datePublished" datetime="2015-01-31T00:39:36+08:00">2015-01-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2015-11-29 21:19:53" itemprop="dateModified" datetime="2015-11-29T21:19:53+08:00">2015-11-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/01/31/Android%E7%9B%B8%E5%86%8C%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/31/Android相册选取图片/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>目前从图库选择图片可以有两种方法：</p>
+<p><strong>以下结果属于vivo Xplay,Android Version 4.4.4测试结果，如果有其他机型测试我会补充</strong><br>1.<strong>Intent.ACTION_PICK：</strong></p>
+<pre><code>Intent intent = new Intent(Intent.ACTION_PICK,
+            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+startActivityForResult(intent, PHOTO_PICK);</code></pre>
+<p> onActivityResult返回的Intent中：</p>
+<ul>
+<li><code>intent.getData()</code>会返回所选图片的Uri，格式为<code>content://media/external/images/media/919</code></li>
+<li><code>intent.getExtras()</code>返回的bundle中包含一个boolean变量，通过<code>data.getExtras().get(&quot;isFinishGallery&quot;)</code>获取,应该是指是否获取完毕，查询文档没有官方结果。</li>
+<li><code>intent.putExtra(&quot;return-data&quot;,false)</code>对返回值没有影响。</li>
+</ul>
+<p>2.<strong>Intent.ACTION_GET_CONTENT</strong></p>
+<pre><code>Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+intent.setType(&quot;image/*&quot;);//不加会导致crash</code></pre>
+<p>  onActivityResult返回的Intent中：</p>
+<ul>
+<li><code>intent.getData()</code>返回所选图片的Uri：</li>
+</ul>
+<hr>
+<p>关于返回Uri格式的说明：</p>
+<ul>
+<li><p>系统版本大于等于19(KitKat):<code>content://com.android.providers.media.documents/document/image%3A919</code></p>
+</li>
+<li><p>系统版本低于19:<code>content://media/external/images/media/919</code></p>
+</li>
+</ul>
+<p>可以通过以下函数获取真实路径：</p>
+<pre><code>    private String getRealPathFromURI(Context context,Uri contentUri) &#123;
+        String[] proj = &#123; MediaStore.Images.Media.DATA &#125;;
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor != null) &#123;
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(proj[0]);
+            String path = cursor.getString(columnIndex);
+            cursor.close();
+            return path;
+        &#125;
+        return contentUri.getPath();
+       &#125;</code></pre>
+<ol start="2">
+<li>Uri获取bitmap的方法可以参考<a href="http://niorgai.github.io/2015/02/22/Bitmap%E7%9B%B8%E5%85%B3-%E8%AF%BB%E5%8F%96%E5%A4%A7%E5%9B%BE%E7%89%87/">Bitmap相关:读取大图片</a>.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/23/Mac%E4%B8%8B%E5%8F%8D%E7%BC%96%E8%AF%91Android-APK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/23/Mac%E4%B8%8B%E5%8F%8D%E7%BC%96%E8%AF%91Android-APK/" class="post-title-link" itemprop="url">Mac下反编译Android APK</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-23 16:44:04" itemprop="dateCreated datePublished" datetime="2014-12-23T16:44:04+08:00">2014-12-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-05-05 12:18:40" itemprop="dateModified" datetime="2019-05-05T12:18:40+08:00">2019-05-05</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/23/Mac%E4%B8%8B%E5%8F%8D%E7%BC%96%E8%AF%91Android-APK/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/23/Mac下反编译Android-APK/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>所需工具：</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="http://jd.benow.ca/">JD-GUI</a>,主要反编译Java源代码。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ibotpeaches.github.io/Apktool/">apktool</a>,主要反编译xml等资源文件。需要下载apktool及apktool-install-macosx.</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/pxb1988/dex2jar/releases">dex2jar</a>,主要将apk中的dex文件转为jar。</p>
+</li>
+</ol>
+</li>
+<li><p>部署：</p>
+<ol>
+<li><p>JD-GUI直接解压就是app了。</p>
+</li>
+<li><p>apktool 网页有说明.</p>
+</li>
+<li><p>解压即可。</p>
+</li>
+</ol>
+</li>
+<li><p>获取xml(使用apktool)：</p>
+<ol>
+<li><p>使用apktool，命令如下： apktool d “apk的路径”。</p>
+<p> eg(我已经cd到apk路径):</p>
+<pre><code> apktool d test.apk        </code></pre>
+</li>
+<li><p>解压后的res路径就是你想要的了。</p>
+</li>
+</ol>
+</li>
+<li><p>获取java(使用dex2jar和JD-GUI)：</p>
+<p> 2.1 之后的版本, 直接使用 apk 就可以</p>
+<pre><code>     ./d2j-dex2jar.sh app-release.apk</code></pre>
+<p> 然后在该目录下会产生一个”classes-dex2jar.jar”的jar文件。</p>
+<ol start="3">
+<li>利用JD-GUI打开该jar文件，所有的代码变一目了然了。可以使用File-Save All Source保存所有的源文件。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/18/Android%E8%A3%81%E5%89%AA%E5%9B%BE%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/18/Android%E8%A3%81%E5%89%AA%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">Android裁剪图片</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-18 20:53:20" itemprop="dateCreated datePublished" datetime="2014-12-18T20:53:20+08:00">2014-12-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2015-11-29 21:20:34" itemprop="dateModified" datetime="2015-11-29T21:20:34+08:00">2015-11-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/18/Android%E8%A3%81%E5%89%AA%E5%9B%BE%E7%89%87/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/18/Android裁剪图片/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>使用Intent：</p>
+<p>注意点：</p>
+<ol>
+<li><strong>非官方提供的代码，该方法并不通用，不是所有机器都支持这个intent，不推荐</strong></li>
+<li>裁剪时putExtra设置crop为true即可。</li>
+<li><strong>Uri必须以file://开头，不然会导致“无法保存剪裁的图片”的错误。</strong></li>
+</ol>
+<p>可以封装这样一段代码：</p>
+<pre><code>private void cropImageUri(Uri uri, int outputX, int outputY, int requestCode,Uri outputUri)&#123;
+    Intent intent = new Intent(&quot;com.android.camera.action.CROP&quot;);
+    intent.setDataAndType(uri, &quot;image/*&quot;);
+    intent.putExtra(&quot;crop&quot;, &quot;true&quot;);
+    intent.putExtra(&quot;aspectX&quot;, 2);
+    intent.putExtra(&quot;aspectY&quot;, 1);
+    intent.putExtra(&quot;outputX&quot;, outputX);
+    intent.putExtra(&quot;outputY&quot;, outputY);
+    intent.putExtra(&quot;scale&quot;, true);
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+    intent.putExtra(&quot;return-data&quot;, false);
+    intent.putExtra(&quot;outputFormat&quot;, Bitmap.CompressFormat.JPEG.toString());
+    intent.putExtra(&quot;noFaceDetection&quot;, true); // no face detection
+    startActivityForResult(intent, requestCode);
+&#125;</code></pre>
+<p>另外关于putExtra的信号：</p>
+<table>
+<thead>
+<tr>
+<th>附加选项</th>
+<th>数据类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>crop</td>
+<td>String</td>
+<td>发送裁剪信号</td>
+</tr>
+<tr>
+<td>aspectX</td>
+<td>int</td>
+<td>X方向上的比例</td>
+</tr>
+<tr>
+<td>aspectY</td>
+<td>int</td>
+<td>Y方向上的比例</td>
+</tr>
+<tr>
+<td>outputX</td>
+<td>int</td>
+<td>裁剪区的宽</td>
+</tr>
+<tr>
+<td>outputY</td>
+<td>int</td>
+<td>裁剪区的高</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>boolean</td>
+<td>是否保留比例</td>
+</tr>
+<tr>
+<td>return-data</td>
+<td>boolean</td>
+<td>是否将数据保留在Bitmap中返回</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Parcelable</td>
+<td>相应的Bitmap数据</td>
+</tr>
+<tr>
+<td>circleCrop</td>
+<td>String</td>
+<td>圆形裁剪区域？</td>
+</tr>
+<tr>
+<td>MediaStore.EXTRA_OUTPUT (“output”)</td>
+<td>URI</td>
+<td>将URI指向相应的file:///…</td>
+</tr>
+</tbody></table>
+<hr>
+<p>使用Github lib,<br>以下是一些star比较高的lib：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/lvillani/android-cropimage">https://github.com/lvillani/android-cropimage</a></p>
+<p>  这是基于Gradle的，可以收到加上com.android.camera这个包里面的代码，加上resource即可使用，example里面有使用示例。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/biokys/cropimage">https://github.com/biokys/cropimage</a></p>
+<p>  提供ant及gradle的lib，但在我机器(vivo Xplay)上crash了。。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/13/ListView%E4%B8%8EBaseAdapter%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/13/ListView%E4%B8%8EBaseAdapter%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">ListView与BaseAdapter优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-13 12:39:52" itemprop="dateCreated datePublished" datetime="2014-12-13T12:39:52+08:00">2014-12-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2016-03-02 01:33:57" itemprop="dateModified" datetime="2016-03-02T01:33:57+08:00">2016-03-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/13/ListView%E4%B8%8EBaseAdapter%E4%BC%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/13/ListView与BaseAdapter优化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>ListView使用BaseAdapter作适配器的时候，在初始化获取View或者滚动获取View时，都会调用getView方法返回View添加到ListView中，这也是ListView每一项的item。</p>
+<pre><code> public View getView(int position, View convertView, ViewGroup parent)</code></pre>
+<p> 所传递的三个参数中，</p>
+<p> position表示所添加的view的位置，parent一般为listview。</p>
+<p> 而convertView参数：</p>
+<ol>
+<li><p>如果listView的layout_height设置为wrap_content时，除了position=0时convertView为null，其他时候convertView都不为空。(因为这样会疯狂调用getView方法，不推荐)</p>
+</li>
+<li><p>如果listView的layout_height设置为fill_parent或者指定高度时，当listView没有填充到所需高度时，每一个convertView都为null，后面都不为null。</p>
+<p>因为listView所需的全部view不可能全部加载到内存中，所以不需要显示的view就需要回收，回收的view即为convertView。<br>以listview的高度为fill_parent为例：</p>
+</li>
+<li><p>当convertView为null时，每个item的View需要通过LayoutInflater实例化返回。</p>
+</li>
+<li><p>当convertView不为null时，如果整个listView的item使用的是一样的布局，那我们可以直接使用这个view，只需更新convertView中的数据即可。</p>
+</li>
+</ol>
+</li>
+<li><p>ViewHolder</p>
+<p> 经常在文章中看到ViewHolder来优化ListView，但其实ViewHolder不是库函数，而是需要自己定义的类。（<strong>注意viewHolder里面item方法重绘：如invalidate，setVisiblity，requestLayout后，会调用adapter的getView方法</strong>）</p>
+<p> 使用ViewHolder的原因是findViewById方法耗时较大，如果控件个数过多，会严重影响性能，而使用ViewHolder主要是为了可以省去这个时间。通过setTag，getTag直接获取View。</p>
+<pre><code> class  ViewHolder&#123;
+     ImageView img;
+     TextView name;
+ &#125;
+
+ public View getView(int position, View convertView, ViewGroup parent) &#123;
+     ViewHolder holder = null;
+     if(convertView==null)&#123;
+         convertView = inflater.inflate(R.layout.list_item, parent, false);
+         holder.img = (ImageView) convertView.findViewById(R.id.img);
+         holder.name = (TextView) convertView.findViewById(R.id.name);
+         holder = new ViewHolder();
+         convertView.setTag(holder);
+     &#125;else&#123;
+         holder = (ViewHolder) convertView.getTag();
+     &#125;
+     //设置holder
+     holder.img.setImageResource(R.drawable.ic_launcher);
+     holder.name.setText(list.get(position).partname);
+     return convertView;
+ &#125;</code></pre>
+</li>
+<li><p>OnScrollListener</p>
+<p> ListView经常需要展示图片，如果在滑动时对滑动过的每张图片都要加载，会比较占内存。推荐的优化方法是设置OnScrollListener，在滑动完成后再下载当前页面的图片。</p>
+<pre><code> listView.setOnScrollListener(new AbsListView.OnScrollListener() &#123;
+     @Override
+     public void onScrollStateChanged(AbsListView view, int scrollState) &#123;
+         switch (scrollState)&#123;
+             // 用户手指滑动中
+             case SCROLL_STATE_TOUCH_SCROLL:
+             // 用户手指离开，但滑动动画进行中
+             case SCROLL_STATE_FLING:
+                 break;
+             // 滑动结束
+             case SCROLL_STATE_IDLE:
+                 int start = listView.getFirstVisiblePosition();
+                 int end = listView.getLastVisiblePosition();
+                 if(end &gt;= listView.getCount())&#123;
+                     end = listView.getCount() - 1;
+                 &#125;
+                 //展示start－end之间的图片
+                 break;
+         &#125;
+     &#125;
+
+     @Override
+     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) &#123;
+
+     &#125;
+ &#125;);</code></pre>
+</li>
+<li><p><code>onClickListener</code>,当ListView的item中有比如button这些子view时，需要对其设置onclickListener，通常的写法是在getView方法中一个个设置，比如</p>
+<pre><code> holder.img.setonClickListener(new onClickListenr)...</code></pre>
+<p> 但是这种写法每次调用getView时都设置了一个新的onClick事件，效率很低。高效的写法可以直接在ViewHolder中设置一个position，然后viewHolder implements OnClickListenr：</p>
+<pre><code>     class  ViewHolder implements OnClickListener&#123;
+         int position;
+         TextView name;
+
+         public void setPosition(int position)&#123;
+             this.position = position;
+         &#125;
+
+         @Override
+         public void onClick(View v) &#123;
+             switch (v.getId())&#123;
+                 //XXXX
+             &#125;
+         &#125;
+     &#125;
+
+     public View getView(int position, View convertView, ViewGroup parent) &#123;
+         ViewHolder holder = null;
+         if (convertView == null) &#123;
+             convertView = inflater.inflate(R.layout.list_item, parent, false);
+             holder = new ViewHolder();
+             holder.name = (TextView) convertView.findViewById(R.id.name);
+             holder.name.setOnClickListener(holder);
+             convertView.setTag(holder);
+         &#125; else &#123;
+             holder = (ViewHolder) convertView.getTag();
+         &#125;
+         //设置holder
+         holder.name.setText(list.get(position).partname);
+         //设置position
+         holder.setPosition(position);
+         return convertView;
+     &#125;</code></pre>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/13/EditText%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/13/EditText%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">EditText优化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-13 11:23:50" itemprop="dateCreated datePublished" datetime="2014-12-13T11:23:50+08:00">2014-12-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2017-08-18 11:08:21" itemprop="dateModified" datetime="2017-08-18T11:08:21+08:00">2017-08-18</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/13/EditText%E4%BC%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/13/EditText优化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>光标设置</p>
+<p> 如果EditText设置的高度比较大，光标默认会显示在居中的坐标，需要设置android:gravity=”top”。<br>如果光标太贴近边框，只需设置android:paddingLeft即可。</p>
+</li>
+<li><p>多行输入</p>
+<p> 在多行输入后光标会水平往右滚动，为了保持换行输入的习惯，还要设置</p>
+<pre><code> android:inputType=&quot;textMultiLine&quot;
+ android:singleLine=&quot;false&quot;
+ android:scrollHorizontally=&quot;false&quot;    </code></pre>
+<p> 为了直观显示，可以设置</p>
+<pre><code> android:scrollbars=&quot;vertical&quot;
+ android:scrollbarStyle=&quot;insideInset&quot;</code></pre>
+<p> 但输入框满了后，如果继续输入，EditText会不断增加高度，这样会隐藏上面的控件，最好设置    android:minLines和 android:maxLines确认最大最小行数。</p>
+</li>
+<li><p>软键盘遮挡<br> 可以在AndroidManifext.xml中设置Activity的软键盘：</p>
+<pre><code> android:windowSoftInputMode=&quot;adjustPan&quot;</code></pre>
+<p> 最后为了软键盘不挡住下方控件，最好还是全部添加一个scrollView。</p>
+<p> 为了防止ScorllView和EditText(TextView)的滚动相冲突：<br> 除了在xml中设置editText：</p>
+<pre><code> android:scrollbars=&quot;vertical&quot;</code></pre>
+<p> 还需要在代码中设置：</p>
+<pre><code> textViewExtras.setOnTouchListener(new View.OnTouchListener() &#123;
+     @Override
+     public boolean onTouch(View v, MotionEvent event) &#123;
+         textViewExtras.getParent().requestDisallowInterceptTouchEvent(true);
+         return false;
+     &#125;
+ &#125;);
+ textViewExtras.setMovementMethod(ScrollingMovementMethod.getInstance());</code></pre>
+</li>
+<li><ol>
+<li>中划线 : textview.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG );</li>
+<li>底部横线: textview.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG )</li>
+</ol>
+</li>
+<li><p>设置<code>android:imeOptions</code>属性时,有可能会失效.只需要再设置<code>android:singleLine</code>为true或者设置<code>android:inputType</code>为text,就可以修复~</p>
+</li>
+<li><p>设置<code>setOnEditorActionListener()</code>在键盘控制模拟器时会失效(检测不到回车键), 所以还是建议使用<code>setOnKeyListener()</code>.</p>
+</li>
+</ol>
+<ol start="6">
+<li>EditText支持长按复制,TextView也可以通过<code>android:textIsSelectable=&quot;true&quot;</code>来设置.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">Android壁纸设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-06 22:04:32" itemprop="dateCreated datePublished" datetime="2014-12-06T22:04:32+08:00">2014-12-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2016-02-10 13:33:41" itemprop="dateModified" datetime="2016-02-10T13:33:41+08:00">2016-02-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/06/Android%E5%A3%81%E7%BA%B8%E8%AE%BE%E7%BD%AE/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/06/Android壁纸设置/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>####设置壁纸最常规的想法就是通过默认的WallpaperManager,方法如下：</p>
+<pre><code> WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+                        wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());
+ wallpaperManager.setBitmap(bitmap);</code></pre>
+</li>
+</ol>
+<p>注意这里的</p>
+<pre><code>wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());</code></pre>
+<p>是表示设置目前的像素是图片的像素，最好先获取手机屏幕像素大小，然后传递宽度和高度作为参数。</p>
+<pre><code>WallpaperManager wallpaperManager = WallpaperManager.getInstance(DisplayPicture.this);
+        wallpaperManager.suggestDesiredDimensions(Utils.getDisplayWidth(),Utils.getDisplayHeight());</code></pre>
+<p>因为某些手机是可以设置壁纸跟桌面一起滑动的，这样所需的壁纸长宽跟手机屏幕的长宽是不一样的，所以需要这样设置。</p>
+<p>###但是问题来了，这样加载的bitmap需要裁减，并且加载后非常容易out of memory。所以尝试以下的解决方法：</p>
+<ol start="2">
+<li>####通过系统intent来设置，即传递一个image对象，系统luancher选择相应的程序来处理，这种方法还可以设置锁屏壁纸~~</li>
+</ol>
+<p>传递的sendUri为图片的Uri，代码如下：</p>
+<pre><code>Intent setAs = new Intent(Intent.ACTION_ATTACH_DATA);
+        setAs.setDataAndType(sendUri, &quot;image/jpg&quot;);
+        setAs.putExtra(&quot;mimeType&quot;,&quot;image/jpg&quot;);
+        startActivity(Intent.createChooser(setAs, &quot;set As&quot;));</code></pre>
+<p>其中</p>
+<pre><code>setAs.putExtra(&quot;mineType&quot;,&quot;image/jpg&quot;)</code></pre>
+<p>非常重要，通过这句告诉intent的Filter当前intent的data传递的是什么内容，不加这一句会导致某些机型的相册程序崩溃。如vivo。。</p>
+<p>另外关于mineType的其他可以参考<a target="_blank" rel="noopener" href="http://www.apkbus.com/blog-56077-44963.html">这里</a></p>
+<ol start="3">
+<li><p>####将bitmap传入系统裁减intent，裁减至手机屏幕大小，然后在onActivitiyResult中捕捉bitmap并设置壁纸（强行避免OOM）</p>
+<pre><code> Intent intent = new Intent(&quot;com.android.camera.action.CROP&quot;);
+     intent.setDataAndType(sendUri, &quot;image/*&quot;);
+     intent.putExtra(&quot;crop&quot;, &quot;true&quot;);
+     //裁剪框的比例，1：1
+     DisplayMetrics dm = new DisplayMetrics();
+     dm = getResources().getDisplayMetrics();
+     // float scale = (float)dm.heightPixels / (float)dm.widthPixels;
+     intent.putExtra(&quot;aspectX&quot;, dm.widthPixels);
+     intent.putExtra(&quot;aspectY&quot;, dm.heightPixels);
+     intent.putExtra(&quot;scale&quot;,true);
+     //裁剪后输出图片的尺寸大小
+     intent.putExtra(&quot;outputX&quot;, dm.widthPixels);
+     intent.putExtra(&quot;outputY&quot;, dm.heightPixels);
+     Uri uri = Uri.fromFile(file);
+     intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+     //图片格式
+     intent.putExtra(&quot;outputFormat&quot;, &quot;JPEG&quot;);
+     intent.putExtra(&quot;noFaceDetection&quot;, true);
+     intent.putExtra(&quot;return-data&quot;,false);
+     startActivityForResult(intent, 1);</code></pre>
+</li>
+</ol>
+<p>返回这里(file是通过sendUri new出来的)：</p>
+<pre><code>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;
+    if(requestCode == 1)&#123;
+        Uri uri = Uri.fromFile(file);
+         Bitmap bitmap = null;
+        if(uri != null)&#123;
+            try &#123;
+                bitmap= imgLoader.getBitmapByPath(uri.getPath());
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(DisplayPicture.this);
+                wallpaperManager.suggestDesiredDimensions(bitmap.getWidth(),bitmap.getHeight());
+                wallpaperManager.setBitmap(bitmap);
+            &#125;catch (Exception e)&#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+    super.onActivityResult(requestCode, resultCode, data);
+&#125;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2014/12/06/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E5%8D%95%E4%BD%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2014/12/06/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E5%8D%95%E4%BD%8D/" class="post-title-link" itemprop="url">手机屏幕单位</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2014-12-06 13:31:42" itemprop="dateCreated datePublished" datetime="2014-12-06T13:31:42+08:00">2014-12-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-07-14 00:25:53" itemprop="dateModified" datetime="2019-07-14T00:25:53+08:00">2019-07-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">Android基础知识</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2014/12/06/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E5%8D%95%E4%BD%8D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/06/手机屏幕单位/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>先插一句比较小白的话。。<br>点动成线，其实我们看到的屏幕是一个个像素点显示的，密集的点显示成所看到的图像。</p>
+<p>###常见的单位：in、px、dpi(ppi、density)、dp(dip)、sp</p>
+<p>in：inch，英寸，每英寸大约是2.54厘米，一般手机所说的屏幕多少寸都是指对角线的长度。</p>
+<p>px：Pixel，像素，最小单位，指每一个像素点。通常所说的分辨率1920*1080就是指各个方向上的像素点的数量。</p>
+<p>dpi(ppi、density)：<br>dpi为Dots Per Inch的缩写，表示每英寸点的个数，一般用于打印分辨率。<br>ppi为Pixels Per Inch的缩写，表示每英寸像素点的个数，一般用于显示分辨率。<br>density，密度，表示每Inch点的个数。<br>计算方法为px/in即可。</p>
+<p>安卓的资源列表文件夹与其对应：</p>
+<pre><code>drawable-ldpi         (dpi=120 , density = 0.75)
+drawable-mdpi         (dpi=160 , density = 1,这也是默认的layout文件夹)
+drawable-hdpi         (dpi=240 , density = 1.5)
+drawable-xhdpi         (dpi=320 , density = 2)
+drawable-xhdpi         (dpi=480 , density = 3)
+drawable-xxxhdpi     (dpi=640 , density = 4)</code></pre>
+<p>dp(dip)：密度无关像素， Density Independent Pixels的缩写，dp * density = px。不会因为像素而导致显示效果不同。</p>
+<p>sp：Scaled Pixel, 主要用于调整字体大小,转换方法与dp一样,但是会随着系统设置而变化字体大小.</p>
+<p><strong>默认的icon大小为48dp*48dp</strong></p>
+<p><strong>默认的通知栏icon大小为24dp*24dp</strong></p>
+<p>适配时建议根据设计图计算密度，如iphone5的设备分辨率为640X1164, 屏幕尺寸为4英寸，那么由勾股定理对角线平方为640*640+1164*1164=1764496,开根号得出对角线分辨率为1328，1328/4=332,这就是iphone5的”dpi”,所以可以把iphone5的对应设计图放在xhdpi文件夹中。</p>
+<p>加载资源时，Android会先根据屏幕的dpi在dpi相同的资源文件夹中找资源，然后从最大的资源文件夹开始找。<br>所以推荐在dpi最高的文件夹放置一套资源文件即可，对资源的长高设定wrap_content，系统会自动缩放保持显示效果。如100px*100px的图放在xhdpi中，那么mdpi的设备显示时,100<em>1/2 = 50px,那么该图就会以50px\</em>50px的大小显示。 </p>
+<p>LayoutParams实例化时传的参数为px，需要将布局的dp转为px才能使效果一样。<br>LayoutParams初始化时需要初始化为父布局的类型<br>dp转px的方法为：</p>
+<pre><code>int dip = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,60,getResources().getDisplayMetrics());</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+
+</body>
+</html>

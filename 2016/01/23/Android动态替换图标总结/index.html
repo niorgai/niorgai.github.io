@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="现在淘宝,京东等App在节假日打开时,都是采用一套节假日的图标,这种不用发版本,又可以随着后台配置动态替换图标固然是很方便,体验很好的事情. 准备工作:全部按钮的不同状态改为纯图片实现.现在很多应用的通知策略都是采用小红点提示,小红点可以单独画出来,与图标分离,单独控制隐藏.但是现在需要动态替换图标,小红点就不能与图片分离了,否则会导致红点位置不理想或红点被图标遮住等问题.为此,所有的状态都需要改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android动态替换图标总结">
+<meta property="og:url" content="http://niorgai.github.io/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="现在淘宝,京东等App在节假日打开时,都是采用一套节假日的图标,这种不用发版本,又可以随着后台配置动态替换图标固然是很方便,体验很好的事情. 准备工作:全部按钮的不同状态改为纯图片实现.现在很多应用的通知策略都是采用小红点提示,小红点可以单独画出来,与图标分离,单独控制隐藏.但是现在需要动态替换图标,小红点就不能与图片分离了,否则会导致红点位置不理想或红点被图标遮住等问题.为此,所有的状态都需要改">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-01-23T11:10:43.000Z">
+<meta property="article:modified_time" content="2016-01-23T11:52:10.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta property="article:tag" content="selector">
+<meta property="article:tag" content="Drawable">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Android动态替换图标总结 | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-%E5%85%A8%E9%83%A8%E6%8C%89%E9%92%AE%E7%9A%84%E4%B8%8D%E5%90%8C%E7%8A%B6%E6%80%81%E6%94%B9%E4%B8%BA%E7%BA%AF%E5%9B%BE%E7%89%87%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">准备工作:全部按钮的不同状态改为纯图片实现.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BADrawable%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">创建Drawable对象</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android动态替换图标总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2016-01-23 19:10:43 / Modified: 19:52:10" itemprop="dateCreated datePublished" datetime="2016-01-23T19:10:43+08:00">2016-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/23/Android动态替换图标总结/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>现在淘宝,京东等App在节假日打开时,都是采用一套节假日的图标,这种不用发版本,又可以随着后台配置动态替换图标固然是很方便,体验很好的事情.</p>
+<h2 id="准备工作-全部按钮的不同状态改为纯图片实现"><a href="#准备工作-全部按钮的不同状态改为纯图片实现" class="headerlink" title="准备工作:全部按钮的不同状态改为纯图片实现."></a>准备工作:全部按钮的不同状态改为纯图片实现.</h2><p>现在很多应用的通知策略都是采用小红点提示,小红点可以单独画出来,与图标分离,单独控制隐藏.但是现在需要动态替换图标,小红点就不能与图片分离了,否则会导致红点位置不理想或红点被图标遮住等问题.为此,所有的状态都需要改为纯图片实现.</p>
+<p>首页的tab,目前应用采用的是<code>RadioButton + Fragment</code>的实现,为此,需要自定义RadioButton的selector.</p>
+<ol>
+<li><p>定义attr.</p>
+<pre><code> //下面定义的state_new_message表示有新消息
+ &lt;declare-styleable name=&quot;MessageRadioButton&quot;&gt;
+     &lt;attr name=&quot;state_new_message&quot; format=&quot;boolean&quot;/&gt;
+ &lt;/declare-styleable&gt;</code></pre>
+</li>
+<li><p>定义selector.</p>
+<pre><code> //xxx为你的包名
+ //为了配合state_checked,需要4张图片
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+ &lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+     xmlns:message=&quot;http://schemas.android.com/apk/res/xxx&quot;&gt;
+     &lt;item android:drawable=&quot;@drawable/icon_union_selected&quot;
+         android:state_checked=&quot;true&quot;
+         message:state_new_message=&quot;false&quot;/&gt;
+     &lt;item android:drawable=&quot;@drawable/icon_union_selected_new&quot;
+         android:state_checked=&quot;true&quot;
+         message:state_new_message=&quot;true&quot;/&gt;
+     &lt;item android:drawable=&quot;@drawable/icon_union_normal&quot; 
+         android:state_checked=&quot;false&quot;
+         message:state_new_message=&quot;false&quot;/&gt;
+     &lt;item android:drawable=&quot;@drawable/icon_union_normal_new&quot; 
+         android:state_checked=&quot;false&quot;
+         message:state_new_message=&quot;true&quot;/&gt;
+ &lt;/selector&gt;</code></pre>
+</li>
+<li><p>重写RadioButton(ImageView等控件也同样适用).</p>
+<pre><code> public class MessageRadioButton extends RadioButton &#123;
+     //定义的状态
+     private static final int[] STATE_NEW_MESSAGE = &#123;R.attr.state_new_message&#125;;
+     //是否有新消息
+     private boolean hasNewMessage;
+
+     /**
+      * 构造函数
+      **/
+
+     /**
+      * 关键需要此函数,添加状态
+      **/
+     @Override
+     protected int[] onCreateDrawableState(int extraSpace) &#123;
+         if (hasNewMessage) &#123;
+             final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+             mergeDrawableStates(drawableState, STATE_NEW_MESSAGE);
+             return drawableState;
+         &#125;
+         return super.onCreateDrawableState(extraSpace);
+     &#125;
+
+     /**
+      * 设置是否有新消息数
+      * @param newMessage, 是否有新消息数
+      */
+     public void setHasNewMessage(boolean newMessage) &#123;
+         if (hasNewMessage != newMessage) &#123;
+             hasNewMessage = newMessage;
+             refreshDrawableState();
+         &#125;
+     &#125;
+
+ &#125;</code></pre>
+</li>
+</ol>
+<p>使用MessageRadioButton的<code>setHasNewMessage()</code>方法即可以显示带小红点的图片.<br>即<strong>所有按钮改为图片实现.</strong></p>
+<h2 id="创建Drawable对象"><a href="#创建Drawable对象" class="headerlink" title="创建Drawable对象"></a>创建Drawable对象</h2><p>动态配置就是下载图片成功后,从文件中获取每个按钮的Drawable对象.但是实现时需要注意细节:</p>
+<ol>
+<li><p>根据图片生成的Drawable对象即<strong>BitmapDrawable</strong>.</p>
+<ul>
+<li><p>目前BitmapDrawable对应的构造函数未被弃用的还有</p>
+<pre><code>  BitmapDrawable(Resources res, Bitmap bitmap)
+  BitmapDrawable(Resources res, String path)</code></pre>
+<p>  但使用<code>BitmapDrawable(Resources res, String path)</code>时发现在vivo手机上没有生效,所以还是推荐<code>BitmapDrawable(Resources res, Bitmap bitmap)</code>方法.</p>
+</li>
+<li><p>图片在使用时也需要区分dpi,对应<code>Bitmap.setDensity()</code>方法,参数为160的倍数.</p>
+</li>
+</ul>
+</li>
+<li><p>selector对应的Drawable对象即<strong>StateListDrawable</strong>.</p>
+<ul>
+<li><p><code>StateListDrawable.addState(int[] stateSet, Drawable drawable)</code>方法可以添加状态对应的drawable.</p>
+<pre><code>  //state_new_message为false
+  listDrawable.addState(new int[]&#123;-R.attr.state_new_message&#125;, drawable);
+  //state_new_message为true
+  listDrawable.addState(new int[]&#123;R.attr.state_new_message&#125;, drawable);</code></pre>
+</li>
+<li><p>listDrawable必须调用<code>setBounds()</code>方法才能显示.</p>
+</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/selector/" rel="tag"># selector</a>
+              <a href="/tags/Drawable/" rel="tag"># Drawable</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/01/13/%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8ViewPager%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="无限滚动ViewPager的实现">
+                  <i class="fa fa-chevron-left"></i> 无限滚动ViewPager的实现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/01/30/Android-tab-with-fragment/" rel="next" title="Android使用Fragment切换tab">
+                  Android使用Fragment切换tab <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/";
+    this.page.identifier = "2016/01/23/Android动态替换图标总结/";
+    this.page.title = "Android动态替换图标总结";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

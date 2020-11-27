@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="在Android线程相关这篇文章中说到了利用handler实现多线程并通信的方法，于是翻阅了很多博客，也查看了源码，终于从自己的角度理解了handler的原理。于是来梳理一下～ 参考：  Android异步消息处理机制完全解析，带你从源码的角度彻底理解 Android异步处理三：Handler+Looper+MessageQueue深入详解  以线程A为主线程，B为新线程为例：  A线程通过Loo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Handler原理浅析">
+<meta property="og:url" content="http://niorgai.github.io/2015/03/19/Handler%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="在Android线程相关这篇文章中说到了利用handler实现多线程并通信的方法，于是翻阅了很多博客，也查看了源码，终于从自己的角度理解了handler的原理。于是来梳理一下～ 参考：  Android异步消息处理机制完全解析，带你从源码的角度彻底理解 Android异步处理三：Handler+Looper+MessageQueue深入详解  以线程A为主线程，B为新线程为例：  A线程通过Loo">
+<meta property="og:locale">
+<meta property="article:published_time" content="2015-03-19T13:52:44.000Z">
+<meta property="article:modified_time" content="2015-11-29T13:22:15.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta property="article:tag" content="Handler">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2015/03/19/Handler%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Handler原理浅析 | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2015/03/19/Handler%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Handler原理浅析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-03-19 21:52:44" itemprop="dateCreated datePublished" datetime="2015-03-19T21:52:44+08:00">2015-03-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2015-11-29 21:22:15" itemprop="dateModified" datetime="2015-11-29T21:22:15+08:00">2015-11-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">Android基础知识</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/03/19/Handler%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/19/Handler原理浅析/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在<a href="http://niorgai.github.io/2015/01/14/Android%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3/">Android线程相关</a>这篇文章中说到了利用handler实现多线程并通信的方法，于是翻阅了很多博客，也查看了源码，终于从自己的角度理解了handler的原理。于是来梳理一下～</p>
+<p>参考：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/guolin_blog/article/details/9991569">Android异步消息处理机制完全解析，带你从源码的角度彻底理解</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/mylzc/article/details/6771331">Android异步处理三：Handler+Looper+MessageQueue深入详解</a></li>
+</ol>
+<p>以线程A为主线程，B为新线程为例：</p>
+<ol>
+<li><strong>A线程</strong>通过<code>Looper.prepare()</code>创建Looper对象，并初始化其MessageQueue消息队列，此时Looper与线程A绑定。</li>
+<li><strong>A线程</strong>中new handler对象，构造函数中绑定Looper对象，同时也绑定了MessageQueue。</li>
+<li>新建<strong>线程B</strong>，并执行操作，最后通过A线程中的handler调用<code>sendMessage()</code>方法或<code>post()</code>方法使Message入队Looper中的MessageQueue。</li>
+<li><strong>A线程</strong>中的Looper对象通过调用<code>Looper.loop()</code>方法使MessageQueue中的Message不断出队，并分发到handler中。</li>
+<li><strong>A线程</strong>中的handler的handleMessage方法处理回调。</li>
+</ol>
+<p>从源码的角度：</p>
+<ol>
+<li><p><code>Looper.prepare()</code>，即初始化Looper对象，及MessageQueue，同时绑定线程(ThreadLocal).</p>
+<pre><code> static final ThreadLocal&lt;Looper&gt; sThreadLocal = new ThreadLocal&lt;Looper&gt;();
+ private static Looper sMainLooper;  // guarded by Looper.class
+
+ final MessageQueue mQueue;
+ final Thread mThread;
+
+ public static void prepare() &#123;
+     prepare(true);
+ &#125;
+
+ private static void prepare(boolean quitAllowed) &#123;
+     if (sThreadLocal.get() != null) &#123;
+         throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;);
+     &#125;
+     sThreadLocal.set(new Looper(quitAllowed));
+ &#125;
+
+ private Looper(boolean quitAllowed) &#123;
+     mQueue = new MessageQueue(quitAllowed);
+     mThread = Thread.currentThread();
+ &#125;</code></pre>
+</li>
+<li><p><code>Handler handler = new Handler()</code>，新建hanlder对象，同时绑定Looper对象及MessageQueue。</p>
+<pre><code> public Handler(Callback callback, boolean async) &#123;
+ if (FIND_POTENTIAL_LEAKS) &#123;
+     final Class&lt;? extends Handler&gt; klass = getClass();
+     if ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;
+             (klass.getModifiers() &amp; Modifier.STATIC) == 0) &#123;
+         Log.w(TAG, &quot;The following Handler class should be static or leaks might occur: &quot; +
+             klass.getCanonicalName());
+     &#125;
+ &#125;
+
+ mLooper = Looper.myLooper();
+ if (mLooper == null) &#123;
+     throw new RuntimeException(
+         &quot;Can&#39;t create handler inside thread that has not called Looper.prepare()&quot;);
+ &#125;
+ mQueue = mLooper.mQueue;
+ mCallback = callback;
+ mAsynchronous = async;</code></pre>
+<p> }</p>
+</li>
+<li><p>新建线程B，在其runnable的run方法中调用线程A的handler的<code>sendMessage(Message)</code>或<code>post(Runnable)</code>方法，这两种方法最后都会调用handler中MessageQueue的<code>enqueueMessage</code>方法。该方法使Message按时间顺序排列。</p>
+</li>
+</ol>
+<pre><code>`post(Runnable)`方法会新建带有Runnable对象的Message对象，然后在辗转调用`enqueueMessage`方法。
+
+    public final boolean post(Runnable r)
+    &#123;
+           return  sendMessageDelayed(getPostMessage(r), 0);
+    &#125;
+
+    boolean enqueueMessage(Message msg, long when) &#123;
+        if (msg.target == null) &#123;
+            throw new IllegalArgumentException(&quot;Message must have a target.&quot;);
+        &#125;
+        if (msg.isInUse()) &#123;
+            throw new IllegalStateException(msg + &quot; This message is already in use.&quot;);
+        &#125;
+
+        synchronized (this) &#123;
+            if (mQuitting) &#123;
+                IllegalStateException e = new IllegalStateException(
+                        msg.target + &quot; sending message to a Handler on a dead thread&quot;);
+                Log.w(&quot;MessageQueue&quot;, e.getMessage(), e);
+                msg.recycle();
+                return false;
+            &#125;
+
+            msg.markInUse();
+            msg.when = when;
+            Message p = mMessages;
+            boolean needWake;
+            if (p == null || when == 0 || when &lt; p.when) &#123;
+                // New head, wake up the event queue if blocked.
+                msg.next = p;
+                mMessages = msg;
+                needWake = mBlocked;
+            &#125; else &#123;
+                // Inserted within the middle of the queue.  Usually we don&#39;t have to wake
+                // up the event queue unless there is a barrier at the head of the queue
+                // and the message is the earliest asynchronous message in the queue.
+                needWake = mBlocked &amp;&amp; p.target == null &amp;&amp; msg.isAsynchronous();
+                Message prev;
+                for (;;) &#123;
+                    prev = p;
+                    p = p.next;
+                    if (p == null || when &lt; p.when) &#123;
+                        break;
+                    &#125;
+                    if (needWake &amp;&amp; p.isAsynchronous()) &#123;
+                        needWake = false;
+                    &#125;
+                &#125;
+                msg.next = p; // invariant: p == prev.next
+                prev.next = msg;
+            &#125;
+
+            // We can assume mPtr != 0 because mQuitting is false.
+            if (needWake) &#123;
+                nativeWake(mPtr);
+            &#125;
+        &#125;
+        return true;
+    &#125;</code></pre>
+<ol start="4">
+<li><p><code>Looper.loop()</code>通过死循环使MessageQueue中的Message出队直到队列为空，message.target即为handler的回调。</p>
+<pre><code> public static void loop() &#123;
+     final Looper me = myLooper();
+     if (me == null) &#123;
+         throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&#39;t called on this thread.&quot;);
+     &#125;
+     final MessageQueue queue = me.mQueue;
+
+     // Make sure the identity of this thread is that of the local process,
+     // and keep track of what that identity token actually is.
+     Binder.clearCallingIdentity();
+     final long ident = Binder.clearCallingIdentity();
+
+     for (;;) &#123;
+         Message msg = queue.next(); // might block
+         if (msg == null) &#123;
+             // No message indicates that the message queue is quitting.
+             return;
+         &#125;
+
+         // This must be in a local variable, in case a UI event sets the logger
+         Printer logging = me.mLogging;
+         if (logging != null) &#123;
+             logging.println(&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot; + msg.target + &quot; &quot; +
+                     msg.callback + &quot;: &quot; + msg.what);
+         &#125;
+
+         msg.target.dispatchMessage(msg);
+
+         if (logging != null) &#123;
+             logging.println(&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot; + msg.target + &quot; &quot; + msg.callback);
+         &#125;
+
+         // Make sure that during the course of dispatching the
+         // identity of the thread wasn&#39;t corrupted.
+         final long newIdent = Binder.clearCallingIdentity();
+         if (ident != newIdent) &#123;
+             Log.wtf(TAG, &quot;Thread identity changed from 0x&quot;
+                 + Long.toHexString(ident) + &quot; to 0x&quot;
+                 + Long.toHexString(newIdent) + &quot; while dispatching to &quot;
+                 + msg.target.getClass().getName() + &quot; &quot;
+                 + msg.callback + &quot; what=&quot; + msg.what);
+         &#125;
+
+         msg.recycleUnchecked();
+     &#125;
+ &#125;</code></pre>
+</li>
+<li><p>handler重写<code>handleMessage</code>方法处理回调，可以看到<code>dispatchMessage</code>方法即先判断有没有callback，而callback就是handler构造函数中的callback。</p>
+<pre><code> public void dispatchMessage(Message msg) &#123;
+     if (msg.callback != null) &#123;
+         handleCallback(msg);
+     &#125; else &#123;
+         if (mCallback != null) &#123;
+             if (mCallback.handleMessage(msg)) &#123;
+                    return;
+             &#125;
+         &#125;
+         handleMessage(msg);
+     &#125;
+ &#125;</code></pre>
+</li>
+</ol>
+<hr>
+<p>所以标准的线程通信写法为(可以从Looper的源码中看到)：</p>
+<pre><code>class LooperThread extends Thread &#123;
+      public Handler mHandler;
+
+  public void run() &#123;
+      Looper.prepare();
+
+      mHandler = new Handler() &#123;
+          public void handleMessage(Message msg) &#123;
+              // process incoming messages here
+          &#125;
+      &#125;;
+
+      Looper.loop();
+  &#125;</code></pre>
+<p>  }</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Handler/" rel="tag"># Handler</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/03/19/Android-Studio%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="Android Studio开发遇到的问题">
+                  <i class="fa fa-chevron-left"></i> Android Studio开发遇到的问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/03/23/Android%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8/" rel="next" title="Android文件存储">
+                  Android文件存储 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2015/03/19/Handler%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/";
+    this.page.identifier = "2015/03/19/Handler原理浅析/";
+    this.page.title = "Handler原理浅析";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

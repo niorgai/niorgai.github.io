@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"niorgai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="App 之间回调是常有的事, 特别是一些提供第三方登录&#x2F;第三方支付的 App, 更是需要提供调起, 登录&#x2F;支付, 回调原 App 的功能. 在实现的过程中遇到一些问题, 所以记录一下. 接下来调起界面称为 CallActivity, 调起 App 称为 Call App , 被调起页面称为 PayActivity. 被调起 App 称为 Pay App. 常见方案: startActivityFo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App-Callback-Mark">
+<meta property="og:url" content="http://niorgai.github.io/2018/01/18/App-Callback-Mark/index.html">
+<meta property="og:site_name" content="Jianqiu&#39;s blog">
+<meta property="og:description" content="App 之间回调是常有的事, 特别是一些提供第三方登录&#x2F;第三方支付的 App, 更是需要提供调起, 登录&#x2F;支付, 回调原 App 的功能. 在实现的过程中遇到一些问题, 所以记录一下. 接下来调起界面称为 CallActivity, 调起 App 称为 Call App , 被调起页面称为 PayActivity. 被调起 App 称为 Pay App. 常见方案: startActivityFo">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-01-17T17:09:06.000Z">
+<meta property="article:modified_time" content="2018-01-19T09:51:18.000Z">
+<meta property="article:author" content="Jianqiu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://niorgai.github.io/2018/01/18/App-Callback-Mark/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>App-Callback-Mark | Jianqiu's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59068424-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-59068424-1');
+      }
+    </script>
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jianqiu's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learn More</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%A1%88-startActivityForResult"><span class="nav-number">1.</span> <span class="nav-text">常见方案: startActivityForResult</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E4%B8%AD%E9%97%B4%E9%A1%B5-%E5%B9%BF%E6%92%AD%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">透明中间页 + 广播方案</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianqiu</p>
+  <div class="site-description" itemprop="description">Android | jianqiu's blog</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/niorgai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;niorgai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2018/01/18/App-Callback-Mark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          App-Callback-Mark
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-18 01:09:06" itemprop="dateCreated datePublished" datetime="2018-01-18T01:09:06+08:00">2018-01-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2018-01-19 17:51:18" itemprop="dateModified" datetime="2018-01-19T17:51:18+08:00">2018-01-19</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2018/01/18/App-Callback-Mark/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/18/App-Callback-Mark/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>App 之间回调是常有的事, 特别是一些提供第三方登录/第三方支付的 App, 更是需要提供调起, 登录/支付, 回调原 App 的功能. 在实现的过程中遇到一些问题, 所以记录一下.</p>
+<p>接下来调起界面称为 <code>CallActivity</code>, 调起 App 称为 <code>Call App</code> , 被调起页面称为 <code>PayActivity</code>. 被调起 App 称为 <code>Pay App</code>.</p>
+<h2 id="常见方案-startActivityForResult"><a href="#常见方案-startActivityForResult" class="headerlink" title="常见方案: startActivityForResult"></a>常见方案: startActivityForResult</h2><p>最常见的当然是 通过 <code>startActivityForResult()</code> 使用隐式 Intent 调起, 然后在 <code>onActivityResult()</code> 中捕捉回调并处理成功失败逻辑了. 这种方法大部分人都会, 说点遇到的问题吧:</p>
+<ul>
+<li><p>问题来了</p>
+<ul>
+<li>问题一:<ul>
+<li>打开 <code>Pay Activity</code> 后可以切到后台, 再切回来, 这样做一方面安全性不够, 另一方面不符合支付工具的特性. 第三方应用调起支付应用后, 对用户的感觉不应该是完整的打开了一个应用, 而应该是仅仅启动了支付的一个功能, 切到后台后应该无法再切回该支付页面, 最近打开的应用页面也不该展示 Pay App.</li>
+<li>在 <code>AndroidManifest.xml</code> 中加上 <code>android:excludeFromRecents=&quot;true&quot;</code></li>
+</ul>
+</li>
+<li>问题二:<ul>
+<li>支付成功后, 按 Home 键切到后台, 再切回 <code>Call App</code>, 这时候没有触发 <code>onActivityResult()</code></li>
+<li>这是系统问题, 正常逻辑, 只能在 <code>onResume()</code> 里面查询后台是否成功.</li>
+</ul>
+</li>
+<li>问题三:<ul>
+<li>如果已经打开了 <code>Pay App</code>, 然后切到后台, 打开到 <code>Call App</code>, 调起 <code>Pay Activity</code> 后按返回键, 返回到 <code>Pay App</code> 的界面了.</li>
+<li>需要指定 <code>PayActivity</code> 的 luanchMode 为 <code>singleInstance</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>大坑来了</p>
+<p>  坑就在于这个 <code>singleInstance</code>, 在 Android 5.0 上一切正常, 但是在 Android 4.4 及以下版本, <code>Call Activity</code> 调用 <code>startActivityForResult()</code> 后, 直接回调了 <code>onActivityResult()</code>, 然后才打开 <code>Pay Activity</code>.</p>
+<p>  为此我记录了一下不同 luanchMode 对 Android 4.4 及以下版本回调的影响.</p>
+<p>  <strong>正常回调 -&gt; Y</strong></p>
+<p>  <strong>直接回调 -&gt; N</strong></p>
+<pre><code>   | Call Activity  | Standard | SingleTop | SingleTask | SingleInstance 
+  :---: | :---:  | :---: | :---: | :---: | :---: 
+  Pay Activity  |
+  Standard | | Y | Y | Y | N 
+  SingleTop | | Y | Y | Y | N 
+  SingleTask | | N | N | N | N 
+  SingleInstance | | N | N | N | N </code></pre>
+</li>
+<li><p>startActivityForResult 方案不可行</p>
+<p>  对于 <code>startActivityForResult()</code> 来说, 想实现对 singleInstance 的回调是不可能了, 同时还有问题二也需要优化, 所以最好还是换个方案来执行.</p>
+</li>
+</ul>
+<h2 id="透明中间页-广播方案"><a href="#透明中间页-广播方案" class="headerlink" title="透明中间页 + 广播方案"></a>透明中间页 + 广播方案</h2><p>之前版本由于已经发布, 需要兼容旧版本, 同时为了优化问题二, 考虑在接入 sdk 中提供一个中间页面 <code>Entry Activity</code>. 另外对于 singleInstance 的问题, 考虑用广播来替代.</p>
+<p><code>Call Activity</code> -&gt; <code>Entry Activity</code> -&gt; <code>Pay Activity</code></p>
+<ul>
+<li><p>各页面功能如下:</p>
+<p>  <code>Call Activity</code></p>
+<ul>
+<li><p>依旧执行 startActivityForResult 方法, sdk 内部直接调起 <code>Pay Activity</code> 改为调起透明 <code>Entry Activity</code>.</p>
+</li>
+<li><p>在 onActivityResult 中处理回调逻辑.</p>
+<p><code>Entry Activity</code></p>
+</li>
+<li><p>设置 theme 为透明, 同时取消进入和退出的动画. 设置 luanchMode 为 singleTop</p>
+</li>
+<li><p>注册广播, 监听 <code>Pay Activity</code> 发来的支付成功的广播</p>
+</li>
+<li><p>直接通过 <code>startActivity</code> 调起 <code>PayActivity</code></p>
+</li>
+<li><p>在第二次进入 <code>onResume()</code> 时判断是否收到了支付成功的广播, 否则当做支付失败处理.</p>
+</li>
+<li><p>成功及支付都通过 <code>setResult()</code> 的方式回调</p>
+<p><code>Pay Activity</code></p>
+</li>
+<li><p>支付成功使用广播通知.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/12/07/AndroidTest/" rel="prev" title="AndroidTest">
+                  <i class="fa fa-chevron-left"></i> AndroidTest
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/23/Lifecycle-arch-summary/" rel="next" title="Lifecycle-arch-ViewModel">
+                  Lifecycle-arch-ViewModel <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianqiu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://blog-niorgai.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://niorgai.github.io/2018/01/18/App-Callback-Mark/";
+    this.page.identifier = "2018/01/18/App-Callback-Mark/";
+    this.page.title = "App-Callback-Mark";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://blog-niorgai.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
