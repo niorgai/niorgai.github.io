@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,164 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2015/01/31/Android%E6%8B%8D%E7%85%A7%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2015/01/31/Android%E6%8B%8D%E7%85%A7%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">Android拍照选取图片</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-01-31 00:44:05" itemprop="dateCreated datePublished" datetime="2015-01-31T00:44:05+08:00">2015-01-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2017-10-10 15:17:43" itemprop="dateModified" datetime="2017-10-10T15:17:43+08:00">2017-10-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/01/31/Android%E6%8B%8D%E7%85%A7%E9%80%89%E5%8F%96%E5%9B%BE%E7%89%87/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/01/31/Android拍照选取图片/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Android经常会需要拍照、裁剪及图库中选择图片，其实都是通过intent调用系统相机或者系统图册，然后在onActivityResult中捕捉返回即可。</p>
+<p>#####正常拍照选择图片的代码：</p>
+<pre><code>Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);</code></pre>
+<p>在onActivityResult中通过返回的<code>intent.getExtras().get(&quot;data&quot;)</code>便可以获取图片，但Android默认可用的应用内存大约为16M.所以Android为了不超出内存限制，在拍照返回时通过intent返回的bitmap会被压缩，这样导致一直都是获取的小图。所以在拍照时如果想返回大图需要通过Uri返回。</p>
+<p>#####拍照选择大图代码(tampUri为路径，开发者文档提供的代码)：</p>
+<pre><code>Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+// 指定调用相机拍照后照片的储存路径
+intent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);</code></pre>
+<p>在onActivityResult中通过tempUri进行下一步操作。</p>
+<p>说明：</p>
+<ol>
+<li><p>存储图片的路径建议使用 <code>Activity.this.getExternalCacheDir()</code>返回的<code>/storage/sdcard0/Android/data/&lt;package name&gt;/cache</code>路径.</p>
+</li>
+<li><p>通过路径获取 Uri 的方法,需要对不同版本兼容处理:</p>
+<ol>
+<li><p>7.0 以下系统: 使用 <code>Uri.fromFile(new File(path))</code> 等即可.</p>
+<pre><code> String fileName ＝ &quot;temp.jpg&quot;;
+ File tmpFile = new File(this.getExternalCacheDir(),fileName);
+ Uri tmpUri = Uri.fromFile(tmpFile);</code></pre>
+</li>
+<li><p>7.0 系统上,因为不允许传递通过 intent 传递 file:// 路径, 如果设置 targetSDK 为 24(7.0), 系统相机则无法获得 Uri.需要使用以下方法来获取 Uri.</p>
+<ol>
+<li><p>在 <code>AndroidManifest.xml</code> 中设置 provider: </p>
+<pre><code> &lt;provider
+     android:authorities=&quot;$&#123;applicationId&#125;&quot;
+     android:name=&quot;android.support.v4.content.FileProvider&quot;
+     android:exported=&quot;false&quot;
+     android:grantUriPermissions=&quot;true&quot;&gt;
+     &lt;meta-data
+         android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;
+          android:resource=&quot;@xml/provider_paths&quot;/&gt;
+&lt;/provider&gt;</code></pre>
+</li>
+<li><p>在 <code>res</code> 目录下新建 <code>xml</code> 目录, 新建 <code>provider_paths.xml</code> 文件:</p>
+<p> 这里我使用了外部存储 <code>external-path</code>, 具体标签参考 <a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/support/v4/content/FileProvider.html">FileProvider</a> .</p>
+<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+ &lt;paths xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+     &lt;external-path name=&quot;image_file&quot; path=&quot;.&quot;/&gt;
+ &lt;/paths&gt;</code></pre>
+</li>
+<li><p>判断系统版本大于7.0时,采用 FileProvider 获取 Uri:</p>
+<pre><code> tring fileName ＝ &quot;temp.jpg&quot;;
+ File tmpFile = new File(this.getExternalCacheDir(),fileName);
+ tmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, tmpFile)</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>为了防止Uri路径不对导致不能保存，使用前必须确保文件路径无误，不然会导致“无法保存剪裁的图片”的错误。或者无提示但不能点击确定保存图片。正确获取的Uri最终以file://开头。</strong>。</p>
+<p>常见问题：</p>
+<ol>
+<li><p>设置通过Uri返回后，onActivityResult中返回的intent为null。</p>
+</li>
+<li><p>开发者文档中只说了简单调用的方法，其实可以添加一些其他属性。</p>
+<pre><code> intent.putExtra(&quot;return-data&quot;,false);
+ intent.putExtra(&quot;outputFormat&quot;,Bitmap.CompressFormat.JPEG.toString());
+ intent.putExtra(&quot;noFaceDetection&quot;, true);</code></pre>
+</li>
+<li><p>不能添加<code>intent.setType(&quot;image/*&quot;);</code>，会因为找不到intent导致ActivityNotFoundException。</p>
+</li>
+<li><p><code>intent.putExtra(&quot;android.intent.extras.CAMERA_FACING&quot;,1);</code>，系统默认开启的是后置摄像头，如果希望选择前置摄像头可以加这句。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 

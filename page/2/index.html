@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,146 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/03/21/draw_system/Android-Draw-System/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/03/21/draw_system/Android-Draw-System/" class="post-title-link" itemprop="url">Android 绘制原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-03-21 20:23:27" itemprop="dateCreated datePublished" datetime="2017-03-21T20:23:27+08:00">2017-03-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-05-30 17:14:09" itemprop="dateModified" datetime="2019-05-30T17:14:09+08:00">2019-05-30</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/03/21/draw_system/Android-Draw-System/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/21/draw_system/Android-Draw-System/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="硬件分工"><a href="#硬件分工" class="headerlink" title="硬件分工"></a>硬件分工</h2><p>在计算机硬件中, 通常 CPU 用来处理数据, GPU 用来渲染数据. Android 系统也不例外, 绘制过程首先是 CPU 准备数据, 通过 Driver 层把数据交给 GPU 渲染. 其中 CPU 主要负责 Measure 、Layout 、Record 、Execute 的数据计算工作, GPU 负责 Rasterization（栅格化）、渲染. 由于图形 API 不允许 CPU 直接与 GPU 通信, 而是通过中间的一个图形驱动层（Graphics Driver）来连接这两部分. 图形驱动维护了一个队列, CPU 把 display list 添加到队列中, GPU 从这个队列取出数据进行绘制, 最终才在显示屏上显示出来.</p>
+<p>那么无论是 CPU 准备的数据, 还是 GPU 渲染的数据, 都是以一帧一帧的形式来的. 我们所看到的界面也是有一帧一帧的图像连续显示而来. 对于人眼来说, 每秒钟看到60帧则比较流畅了, 即 FPS(Frame Per second) 为60, <code>1/60 = 0.01666667</code>, 即每 16ms 进行一次准备-渲染操作.</p>
+<h2 id="系统变更历史"><a href="#系统变更历史" class="headerlink" title="系统变更历史"></a>系统变更历史</h2><p>在 Android 4.1 以前, 每一次渲染的流程可以用下图表示:</p>
+<p><img src="image/android_draw_system_img_before.png"></p>
+<p>横轴表示时间, 每条 VSync 线表示 16ms:</p>
+<ol>
+<li>第一个16ms中, 系统显示缓存块 A 中的第0帧, 同时 CPU 和 GPU 在缓存块 B 中准备第1帧.</li>
+<li>第二个16ms中, 系统显示缓存块 B 中的第1帧, 但是此时 CPU 可能在处理其他事情, 所以在第二个16ms快结束时才开始在缓存块 A 中准备第2帧.</li>
+<li>第三个16ms中, 由于第2帧还没准备好, 所以只能继续显示第1帧, 此时用户就会感知到卡顿.</li>
+</ol>
+<p>在 Android 4.1 版本中, 为了解决这些问题推出了 Project Butter, 主要引入 VSync, Triple Buffer和Choreographer.</p>
+<ul>
+<li><p>VSync : Vertical Synchronization, 即垂直同步, 可以理解为一种定时中断, GPU 和 CPU 在收到 VSync 信号时开始准备数据.</p>
+<p>  引入 VSync 后的渲染流程如下:</p>
+<p>  <img src="image/android_draw_system_with_vsync.png"></p>
+<ol>
+<li>这样每次收到 VSync 中断时, CPU 和 GPU 开始工作. <strong>只要 CPU 和 GPU 的 FPS 略高于 Display 的 FPS</strong>, 则每次都能在 16ms 之内准备好下一帧, 能够顺利显示. </li>
+<li>如果 CPU 和 GPU 已经准备完毕, 只要没有收到 VSync 信号, 都不会进行渲染工作.</li>
+</ol>
+</li>
+<li><p>Triple Buffer: 即3个缓存块. 在 Android 4.1 以前, 只有2个缓存块用于准备数据, 两个缓存块交替使用. 在引入 VSync 后, 如果 CPU 和 GPU 的 FPS 比 Display 的 FPS 低, 即不能在 16ms 内准备好数据, 会导致很严重的掉帧效果.</p>
+<p>  <img src="image/android_draw_system_fps_small.png"></p>
+<ol>
+<li>在第一个16ms中, 系统显示缓存块A, CPU 和 GPU 在缓存块 B 中准备第1帧.</li>
+<li>在第二个16ms中, 由于 GPU 还没有准备好, 所以只能继续显示缓存块 A 的内容, 用户感知到卡顿.</li>
+</ol>
+<p>为了解决这个问题, Android 4.1 引入第三个缓存块:</p>
+<p><img src="image/android_draw_system_triple_buffer.png"></p>
+<ol>
+<li><p>在第一个16ms中, 系统显示缓存块A, CPU 和 GPU 在缓存块 B 中准备第1帧.</p>
+</li>
+<li><p>在第二个16ms中, 由于 GPU 还没有准备好, 所以只能继续显示缓存块 A 的内容, 用户感知到卡顿. 但此时 CPU 可以在缓存块 C 中准备数据.</p>
+</li>
+<li><p>正常显示不会再丢帧.</p>
+<p>但是缓存块并不是越多越好, CPU 和 GPU 准备的数据最好在下一个 16ms 显示, 但是 Triple Buffer 中 CPU 准备的缓存块C, 在第四个 16ms 中才显示, 滞后了 16ms. 所以第三个缓存块主要是备用, 一般来说两个缓存块就够了.</p>
+</li>
+</ol>
+</li>
+<li><p>Choreographer: 译为舞蹈编排, 起到调度作用, 收到 VSync 信号时调用用户设置的回调函数, 回调类型有三种:</p>
+<ul>
+<li>CALLBACK_INPUT：优先级最高，和输入事件处理有关。</li>
+<li>CALLBACK_ANIMATION：优先级其次，和Animation的处理有关。</li>
+<li>CALLBACK_TRAVERSAL：优先级最低，和UI等控件绘制有关。</li>
+</ul>
+</li>
+</ul>
+<h4 id="invalidate-调用顺序"><a href="#invalidate-调用顺序" class="headerlink" title="invalidate() 调用顺序"></a>invalidate() 调用顺序</h4><ul>
+<li>View.invalidate()</li>
+<li>View.invalidateInternal() -&gt; 找到 dirty 区域并传给 ViewParent</li>
+<li>ViewParent.invalidateChild -&gt; 接口, 由 ViewGroup 和 ViewRootImpl 实现</li>
+<li>ViewGroup.invalidateChild -&gt; 向上递归调用 ViewParent.invalidateChildInParent, 直到 ViewRootImpl</li>
+<li>ViewRootImpl.invalidateChildInParent -&gt; ViewRootImpl.scheduleTraversals</li>
+<li>ViewRootImpl.scheduleTraversals -&gt; Choreographer.postCallback(Choreographer.TRAVERSAL)</li>
+<li>Choreographer 调度到下一个 VSYNC 信号来时再回调. ViewRootImpl.doTraversal</li>
+<li>ViewRootImpl.doTraversal -&gt; ViewRootImpl.performTraversals 开始绘制</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1897,143 +2037,6 @@ mSocketConnector.dispose();</code></pre>
  &#125;</code></pre>
 </li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2015/12/05/%E6%88%91%E7%9C%BC%E4%B8%AD%E7%9A%84%E5%88%B7%E6%96%B0%E4%B8%8E%E5%8A%A0%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jianqiu">
-      <meta itemprop="description" content="Android | jianqiu's blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianqiu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/05/%E6%88%91%E7%9C%BC%E4%B8%AD%E7%9A%84%E5%88%B7%E6%96%B0%E4%B8%8E%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">我眼中的刷新与加载</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2015-12-05 23:43:43" itemprop="dateCreated datePublished" datetime="2015-12-05T23:43:43+08:00">2015-12-05</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2015-12-06 18:18:24" itemprop="dateModified" datetime="2015-12-06T18:18:24+08:00">2015-12-06</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Android%E5%BC%80%E5%8F%91%E9%97%B2%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">Android开发闲谈</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2015/12/05/%E6%88%91%E7%9C%BC%E4%B8%AD%E7%9A%84%E5%88%B7%E6%96%B0%E4%B8%8E%E5%8A%A0%E8%BD%BD/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/05/我眼中的刷新与加载/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>下拉刷新,在我看来是非常有革命性的一种交互形式,使用过程非常自然.而与之对应的,就有上拉加载.为了实现下拉刷新和上拉加载,通常都是将整个界面分为三部分:</p>
-<pre><code>*************************
-     TopLoadingView
-*************************
-
-       childView
-
-*************************
-    BottomLoadingView
-*************************</code></pre>
-<p>###下拉刷新<br>目前常用的下拉刷新有几种样式,在这里推荐一个库<a target="_blank" rel="noopener" href="https://github.com/Aspsine/SwipeToLoadLayout">SwipeToLoadLayout</a>, </p>
-<p>这个库的Demo中把刷新的几种样式: </p>
-<table>
-<thead>
-<tr>
-<th>名字</th>
-<th>效果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>classic</td>
-<td>拉动时LoadingView与childView一起滑动</td>
-</tr>
-<tr>
-<td>above</td>
-<td>拉动时只滑动LoadingView, childView不滑动</td>
-</tr>
-<tr>
-<td>below</td>
-<td>拉动时只滑动childView,不滑动LoadingView</td>
-</tr>
-<tr>
-<td>scale</td>
-<td>拉动时childView跟随拉动距离移动,loadingView滑动较慢</td>
-</tr>
-</tbody></table>
-<p>###上拉加载<br>与下拉刷新相同,上拉加载也可以同时支持这几种样式.</p>
-<p>###交互上的细节点:</p>
-<ol>
-<li>无论是下拉刷新还是上拉加载,手指在整个过程中都不应该离开屏幕,应该让用户感觉更加自然.解决办法如下:<a href="http://niorgai.github.io/2015/10/12/%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3-%E8%81%94%E5%8A%A8%E5%AD%90View/">联动子View</a>.</li>
-<li>注意与横向滑动View的冲突解决,如<code>ViewPager</code>等.解决方法可以参考<a href="http://niorgai.github.io/2015/10/15/%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3-%E6%9B%B4%E5%90%88%E7%90%86%E7%9A%84%E6%8B%A6%E6%88%AA/">更合理的拦截</a>.</li>
-<li>下拉刷新是很多App培养出来的用户习惯,用户会习惯性下拉刷新.但是上拉加载却不是,用户并不能很明确得了解是否有更多.同时在除classic的其他模式中,刷新完后loadingView隐藏,界面布局并没有任何变化,用户并不知道是否加载出来.于是就想出一种更加直接的加载**<code>滑动到底部自动加载</code>**.</li>
-</ol>
-<p>###实现<br><a href="">RefreshView:包含下拉刷新和自动加载的View</a></p>
 
       
     </div>
