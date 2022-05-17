@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -203,7 +203,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -237,6 +237,157 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/08/01/Android-Resource-Usage-Count/" class="post-title-link" itemprop="url">Android-Resource-Usage-Count</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-08-01 19:32:55" itemprop="dateCreated datePublished" datetime="2017-08-01T19:32:55+08:00">2017-08-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2017-08-21 18:39:12" itemprop="dateModified" datetime="2017-08-21T18:39:12+08:00">2017-08-21</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/08/01/Android-Resource-Usage-Count/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/01/Android-Resource-Usage-Count/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>插件地址: <a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/9885-android-resource-usage-count">Jetbrains Plugin Page</a></p>
+<p>Github 地址: <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Android-Resource-Usage-Count</a></p>
+<h2 id="插件说明"><a href="#插件说明" class="headerlink" title="插件说明"></a>插件说明</h2><p>使用 <code>IntelliJ IDEA</code> 或者 <code>Android Studio</code> 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 <code>build</code> 路径和 <code>bin</code> 路径的引用.</p>
+<p><img src="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg"></p>
+<ul>
+<li><p>支持的标签: </p>
+<ul>
+<li><code>array</code></li>
+<li><code>attr</code></li>
+<li><code>bool</code></li>
+<li><code>color</code></li>
+<li><code>declare-styleable</code></li>
+<li><code>dimen</code></li>
+<li><code>drawable</code></li>
+<li><code>eat-comment</code></li>
+<li><code>fraction</code></li>
+<li><code>integer</code></li>
+<li><code>integer-array</code></li>
+<li><code>item</code></li>
+<li><code>plurals</code></li>
+<li><code>string</code></li>
+<li><code>string-array</code></li>
+<li><code>style</code></li>
+</ul>
+</li>
+<li><p>颜色说明:</p>
+<ul>
+<li>0 - 灰色</li>
+<li>1 - 蓝色</li>
+<li>其他 - 红色</li>
+<li>可以在 <code>Preferences</code> - <code>Other Settings</code> - <code>Android Resource Usage Count</code> 中自定义颜色</li>
+</ul>
+</li>
+</ul>
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>在 Android 项目开发过程中, 我一直都是把各种 <code>string</code> <code>color</code> 等资源定义在资源文件中, 再在代码中引用它. 如果有新的 <code>string</code> 或者 <code>color</code>, 我会先对比一下是否存在, 如果存在直接使用, 不存在才创建新的资源文件.</p>
+<p>但是资源文件可能会改动, 经常产品需要改动一个 <code>string</code>, 或者设计需要改动一个 <code>color</code>, 我都要先手动在那个资源文件上右键 - Find Usage , 引用次数为1就直接改动这个标签内容, 否则要新建一个标签. 但是觉得每次都要搜索很繁琐, 所以才产生了开发这个插件的想法, 直接显示每个资源文件的引用次数.</p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><p>其实插件开发的文档还是比较少的, <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started.html">官网</a> 提供的只是一个通用的开发过程, 按照文档你可以顺利创建项目, 然后就懵 B 了.</p>
+<p>不过这里也是因为不同的插件需求不同, 所以还是建议想清楚自己想实现的功能和展示方式, 再多参考一下已有的系统功能怎么实现的, 已有的开源库怎么实现的, 最后当然是善用搜索.</p>
+<p>说说我自己的开发过程, 我前期想实现的效果是</p>
+<ol>
+<li>打开资源文件时自动对每个标签统计引用次数. (功能)</li>
+<li>在标签上以 hint 的形式展示其引用次数. (展示形式)</li>
+</ol>
+<p>先说功能这块: </p>
+<ul>
+<li><p>开发的时候我也是先从一个大多数例子都会提到的 <code>Action</code> 开始, 可是我怎么也找不到自己想要的 <code>Action</code> (打开某个资源文件). 最后只好随便建一个 <code>Action</code> 作为触发按钮, 先实现 FindUsage 的功能.</p>
+</li>
+<li><p>然后在实现 FindUsage 的功能时, 直接参考系统的 <code>FindUsageAction</code> 类, 还可以通过 debug 模式直接断点代码, 简直不能更爽. 根据 <code>FindUsageAction</code> 类的实现过程, 把核心代码复制到自己的工具类, 简单修改后就实现了功能. 这里要说明的是, <strong>尽量使用老版本的代码, 新版本的代码可能会在老版本上找不到方法而报错.</strong></p>
+</li>
+</ul>
+<p>然后是展示形式:</p>
+<ul>
+<li>一开始我是希望像 <a target="_blank" rel="noopener" href="http://www.methodscount.com/plugins">Methods Count</a> 这样 <img src="http://www.methodscount.com/images/methods-count-plugin-1.png"><br>不过我找不到它是怎么实现的…尴尬</li>
+<li>后面翻到了 <code>LineMarkerProvider </code> 这个类, 感觉这也是一种实现形式, 查看一下实现后也很简单, 最重要的是 <code>LineMarkerProvider </code> 是通过打开文件触发, 我还不用去找 <code>Action</code> 了.</li>
+</ul>
+<p>最后是设置界面:</p>
+<ul>
+<li>主要参考了 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/f017097e4b26">Android Studio插件开发实践–从创建到发布</a> 这篇文章的设置代码.</li>
+</ul>
+<h2 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h2><ul>
+<li>打包主要按照 <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/deploying_plugin.html">官网</a> 操作.</li>
+<li>发布时, 在提交页面提交 jar 包后会进去编辑页面, 在 <code>Supported products</code> 模块去掉勾选 <code>Determine supported products by dependencies in plugin.xml</code>, 改为自定义支持所需平台就好. 我发布时发现 <code>plugin.xml</code> 无法解析 <code>com.intellij.modules.androidstudio</code>, 不知道是我的问题还是写法不对.</li>
+</ul>
+<h2 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h2><ol>
+<li>插件是由 <code>LineMarkerProvider</code> 来实现的, 打开文件会自动触发搜索统计操作. 但是有时候统计结果显示比较慢, 如果没有显示, 可以尝试重新打开文件/编辑文件/等待.</li>
+</ol>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>因为自己在开发插件方面的经历实在有限, 这个插件也是根据自己的需求而实现的. 一方面是想看看大家是否也会有这样的需求, 另一方面也是希望大家可以多帮忙看看代码, 有没有更好的实现或者插件本身有值得改进的地方, 博客通知不及时, 如果遇到问题多多去 <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Github</a> 上提 Issues 交流吧~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1915,146 +2066,6 @@ mSocketConnector.dispose();</code></pre>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2015/12/22/%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AEMenuItem%E9%A2%9C%E8%89%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jianqiu">
-      <meta itemprop="description" content="Android | jianqiu's blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianqiu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/22/%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AEMenuItem%E9%A2%9C%E8%89%B2/" class="post-title-link" itemprop="url">动态设置MenuItem颜色</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2015-12-22 01:01:33 / Modified: 01:14:13" itemprop="dateCreated datePublished" datetime="2015-12-22T01:01:33+08:00">2015-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Android%E9%80%82%E9%85%8D%E9%97%AE%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">Android适配问题</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2015/12/22/%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AEMenuItem%E9%A2%9C%E8%89%B2/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/22/动态设置MenuItem颜色/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>为了更好的贴近Google设计规范,开始使用Toolbar自定义布局同时设置为ActionBar,在设置的过程中,为了更好的贴近App风格,MenuItem的颜色就需要改变了.</p>
-<ol>
-<li><p>style中设置颜色:</p>
-<pre><code> &lt;style name=&quot;ActionBarMenuText&quot; parent=&quot;TextAppearance.AppCompat.Widget.ActionBar.Menu&quot;&gt;
-     &lt;item name=&quot;android:textColor&quot;&gt;@color/dark_pink&lt;/item&gt;
-     &lt;item name=&quot;android:textSize&quot;&gt;@dimen/title_text_size&lt;/item&gt;
-     &lt;item name=&quot;android:layout_marginRight&quot;&gt;10dp&lt;/item&gt;
- &lt;/style&gt;</code></pre>
-<p> 这种方式在Nexus上测试可以直接改变,当时也就没有太注意,可是突然发现小米竟然没有改变颜色,于是就只能使用反射来改变了</p>
-</li>
-<li><p>利用反射改变:</p>
-<pre><code> public static void setActionBarText(final Activity activity) &#123;
-     try &#123;
-         final LayoutInflater inflater = activity.getLayoutInflater();
-         Field field = LayoutInflater.class.getDeclaredField(&quot;mFactorySet&quot;);
-         field.setAccessible(true);
-         field.setBoolean(inflater, false);
-         LayoutInflaterCompat.setFactory(inflater, new LayoutInflaterFactory() &#123;
-             @Override
-             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) &#123;
-             //因为我使用的是supportv7包
-                 if (name.equalsIgnoreCase(&quot;android.support.v7.view.menu.IconMenuItemView&quot;)
-                         || name.equalsIgnoreCase(&quot;android.support.v7.view.menu.ActionMenuItemView&quot;)) &#123;
-                     final View view;
-                     try &#123;
-                         view = inflater.createView(name, null, attrs);
-                         if (view instanceof TextView)
-                             ((TextView) view).setTextColor(activity.getResources().getColor(R.color.dark_pink));
-                         return view;
-                     &#125; catch (ClassNotFoundException e) &#123;
-                         e.printStackTrace();
-                     &#125; catch (InflateException ex) &#123;
-                         ex.printStackTrace();
-                     &#125;
-                 &#125;
-                 return null;
-             &#125;
-         &#125;);
-     &#125; catch (Exception e) &#123;
-
-     &#125;
-
- &#125;</code></pre>
-<p> 该方法在Activity的onCreate()时调用即可.</p>
-</li>
-<li><p>无论是style还是反射去改变,都只会在Activity创建时设置一次,创建后不好再改变其颜色.但事实上MenuItem也是一个View,在运行时也可以通过View的寻找方式去动态设置:</p>
-<pre><code> View title = getWindow().getDecorView().findViewById(&lt;-- textView的id --&gt;);
- //当然也可以通过findViewByTag()等方法
- if (title != null &amp;&amp; title instanceof TextView) &#123;
-    ((TextView) title).setTextColor(getResources().getColor(R.color.dark_pink));
- &#125;</code></pre>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -2090,7 +2101,7 @@ mSocketConnector.dispose();</code></pre>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

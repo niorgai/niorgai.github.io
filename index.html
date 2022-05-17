@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -203,7 +203,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -237,6 +237,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2022/01/14/Android-Dialog-Tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/14/Android-Dialog-Tips/" class="post-title-link" itemprop="url">Android Dialog Tips</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-01-14 12:15:20 / Modified: 14:48:51" itemprop="dateCreated datePublished" datetime="2022-01-14T12:15:20+08:00">2022-01-14</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/01/14/Android-Dialog-Tips/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/14/Android-Dialog-Tips/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Dialog 使用的常见坑.</p>
+<ol>
+<li>dismiss 错误堆栈</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java.lang.IllegalArgumentException View=DecorView@984ba6d[MainActivity] not attached to window manager</span><br><span class="line">	android.view.WindowManagerGlobal.findViewLocked(WindowManagerGlobal.java:<span class="number">619</span>)</span><br><span class="line">	android.view.WindowManagerGlobal.removeView(WindowManagerGlobal.java:<span class="number">511</span>)</span><br><span class="line">	android.view.WindowManagerImpl.removeViewImmediate(WindowManagerImpl.java:<span class="number">200</span>)</span><br><span class="line">	android.app.Dialog.dismissDialog(Dialog.java:<span class="number">766</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里查看堆栈是 DIalog dismiss 的堆栈, 但是一般看不到调用 dialog.dismiss 的业务堆栈.</p>
+<p>主要是因为这种情况下一般是子线程调用了 dismiss, 但是 Dialog 的 dismiss 会有一个切线程的操作:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dismiss</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (Looper.myLooper() == mHandler.getLooper()) &#123;</span><br><span class="line">          dismissDialog();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          mHandler.post(mDismissAction);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 mHandler 对象是在 Dialog 创建的时候初始化的, 所以 Looper 也是和创建 Dialog 的时候的线程绑定的, 同时因为 Handler 是 private 的, 所以目前想到的 hook 方式是自己同步创建一个 Handler , 在调用 dismiss 时自己切线程, 这样就可以正确 try catch 这个 Exception.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDialog</span></span>(context: Context): Dialog(context) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> handler = Handler()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">dismiss</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (Looper.myLooper() == handler.looper) &#123;</span><br><span class="line">            superDismiss()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            handler.post &#123; superDismiss() &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">superDismiss</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">super</span>.dismiss()</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">            <span class="comment">// catch success</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1524,157 +1615,6 @@ PhantomReference pr = new PhantomReference (object, queue);</code></pre>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/08/01/Android-Resource-Usage-Count/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jianqiu">
-      <meta itemprop="description" content="Android | jianqiu's blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianqiu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/08/01/Android-Resource-Usage-Count/" class="post-title-link" itemprop="url">Android-Resource-Usage-Count</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-08-01 19:32:55" itemprop="dateCreated datePublished" datetime="2017-08-01T19:32:55+08:00">2017-08-01</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2017-08-21 18:39:12" itemprop="dateModified" datetime="2017-08-21T18:39:12+08:00">2017-08-21</time>
-      </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2017/08/01/Android-Resource-Usage-Count/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/01/Android-Resource-Usage-Count/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>插件地址: <a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/9885-android-resource-usage-count">Jetbrains Plugin Page</a></p>
-<p>Github 地址: <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Android-Resource-Usage-Count</a></p>
-<h2 id="插件说明"><a href="#插件说明" class="headerlink" title="插件说明"></a>插件说明</h2><p>使用 <code>IntelliJ IDEA</code> 或者 <code>Android Studio</code> 打开 Android 项目的资源文件时, 会自动对文件中的资源标签统计其被引用次数, 展示在标签的前面, 统计结果会过滤 <code>build</code> 路径和 <code>bin</code> 路径的引用.</p>
-<p><img src="http://7sbqys.com1.z0.glb.clouddn.com/resouce_count_plugin_example.jpeg"></p>
-<ul>
-<li><p>支持的标签: </p>
-<ul>
-<li><code>array</code></li>
-<li><code>attr</code></li>
-<li><code>bool</code></li>
-<li><code>color</code></li>
-<li><code>declare-styleable</code></li>
-<li><code>dimen</code></li>
-<li><code>drawable</code></li>
-<li><code>eat-comment</code></li>
-<li><code>fraction</code></li>
-<li><code>integer</code></li>
-<li><code>integer-array</code></li>
-<li><code>item</code></li>
-<li><code>plurals</code></li>
-<li><code>string</code></li>
-<li><code>string-array</code></li>
-<li><code>style</code></li>
-</ul>
-</li>
-<li><p>颜色说明:</p>
-<ul>
-<li>0 - 灰色</li>
-<li>1 - 蓝色</li>
-<li>其他 - 红色</li>
-<li>可以在 <code>Preferences</code> - <code>Other Settings</code> - <code>Android Resource Usage Count</code> 中自定义颜色</li>
-</ul>
-</li>
-</ul>
-<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>在 Android 项目开发过程中, 我一直都是把各种 <code>string</code> <code>color</code> 等资源定义在资源文件中, 再在代码中引用它. 如果有新的 <code>string</code> 或者 <code>color</code>, 我会先对比一下是否存在, 如果存在直接使用, 不存在才创建新的资源文件.</p>
-<p>但是资源文件可能会改动, 经常产品需要改动一个 <code>string</code>, 或者设计需要改动一个 <code>color</code>, 我都要先手动在那个资源文件上右键 - Find Usage , 引用次数为1就直接改动这个标签内容, 否则要新建一个标签. 但是觉得每次都要搜索很繁琐, 所以才产生了开发这个插件的想法, 直接显示每个资源文件的引用次数.</p>
-<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><p>其实插件开发的文档还是比较少的, <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started.html">官网</a> 提供的只是一个通用的开发过程, 按照文档你可以顺利创建项目, 然后就懵 B 了.</p>
-<p>不过这里也是因为不同的插件需求不同, 所以还是建议想清楚自己想实现的功能和展示方式, 再多参考一下已有的系统功能怎么实现的, 已有的开源库怎么实现的, 最后当然是善用搜索.</p>
-<p>说说我自己的开发过程, 我前期想实现的效果是</p>
-<ol>
-<li>打开资源文件时自动对每个标签统计引用次数. (功能)</li>
-<li>在标签上以 hint 的形式展示其引用次数. (展示形式)</li>
-</ol>
-<p>先说功能这块: </p>
-<ul>
-<li><p>开发的时候我也是先从一个大多数例子都会提到的 <code>Action</code> 开始, 可是我怎么也找不到自己想要的 <code>Action</code> (打开某个资源文件). 最后只好随便建一个 <code>Action</code> 作为触发按钮, 先实现 FindUsage 的功能.</p>
-</li>
-<li><p>然后在实现 FindUsage 的功能时, 直接参考系统的 <code>FindUsageAction</code> 类, 还可以通过 debug 模式直接断点代码, 简直不能更爽. 根据 <code>FindUsageAction</code> 类的实现过程, 把核心代码复制到自己的工具类, 简单修改后就实现了功能. 这里要说明的是, <strong>尽量使用老版本的代码, 新版本的代码可能会在老版本上找不到方法而报错.</strong></p>
-</li>
-</ul>
-<p>然后是展示形式:</p>
-<ul>
-<li>一开始我是希望像 <a target="_blank" rel="noopener" href="http://www.methodscount.com/plugins">Methods Count</a> 这样 <img src="http://www.methodscount.com/images/methods-count-plugin-1.png"><br>不过我找不到它是怎么实现的…尴尬</li>
-<li>后面翻到了 <code>LineMarkerProvider </code> 这个类, 感觉这也是一种实现形式, 查看一下实现后也很简单, 最重要的是 <code>LineMarkerProvider </code> 是通过打开文件触发, 我还不用去找 <code>Action</code> 了.</li>
-</ul>
-<p>最后是设置界面:</p>
-<ul>
-<li>主要参考了 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/f017097e4b26">Android Studio插件开发实践–从创建到发布</a> 这篇文章的设置代码.</li>
-</ul>
-<h2 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h2><ul>
-<li>打包主要按照 <a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/deploying_plugin.html">官网</a> 操作.</li>
-<li>发布时, 在提交页面提交 jar 包后会进去编辑页面, 在 <code>Supported products</code> 模块去掉勾选 <code>Determine supported products by dependencies in plugin.xml</code>, 改为自定义支持所需平台就好. 我发布时发现 <code>plugin.xml</code> 无法解析 <code>com.intellij.modules.androidstudio</code>, 不知道是我的问题还是写法不对.</li>
-</ul>
-<h2 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h2><ol>
-<li>插件是由 <code>LineMarkerProvider</code> 来实现的, 打开文件会自动触发搜索统计操作. 但是有时候统计结果显示比较慢, 如果没有显示, 可以尝试重新打开文件/编辑文件/等待.</li>
-</ol>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>因为自己在开发插件方面的经历实在有限, 这个插件也是根据自己的需求而实现的. 一方面是想看看大家是否也会有这样的需求, 另一方面也是希望大家可以多帮忙看看代码, 有没有更好的实现或者插件本身有值得改进的地方, 博客通知不及时, 如果遇到问题多多去 <a target="_blank" rel="noopener" href="https://github.com/niorgai/Android-Resource-Usage-Count">Github</a> 上提 Issues 交流吧~</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1710,7 +1650,7 @@ PhantomReference pr = new PhantomReference (object, queue);</code></pre>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
