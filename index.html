@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -246,7 +246,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2022/01/14/Android-Dialog-Tips/">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2022/10/14/Load-Url-With-Etag/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -259,7 +259,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/14/Android-Dialog-Tips/" class="post-title-link" itemprop="url">Android Dialog Tips</a>
+          <a href="/2022/10/14/Load-Url-With-Etag/" class="post-title-link" itemprop="url">Load url with etag by glide</a>
         </h2>
 
         <div class="post-meta-container">
@@ -269,10 +269,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-01-14 12:15:20 / Modified: 14:48:51" itemprop="dateCreated datePublished" datetime="2022-01-14T12:15:20+08:00">2022-01-14</time>
+      <time title="Created: 2022-10-14 22:35:05" itemprop="dateCreated datePublished" datetime="2022-10-14T22:35:05+08:00">2022-10-14</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-10-15 00:12:39" itemprop="dateModified" datetime="2022-10-15T00:12:39+08:00">2022-10-15</time>
+      </span>
 
   
   
@@ -283,8 +289,157 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2022/01/14/Android-Dialog-Tips/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/14/Android-Dialog-Tips/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/10/14/Load-Url-With-Etag/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/14/Load-Url-With-Etag/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h2><p>通过固定的 url 加载图片, 在 url 不变的情况下, 服务器可能会更新 url 对应的资源, 客户端需要能够及时检测到图片的更新并加载最新资源.</p>
+<h4 id="服务器能够提供的交互"><a href="#服务器能够提供的交互" class="headerlink" title="服务器能够提供的交互"></a>服务器能够提供的交互</h4><ol>
+<li><p>在正常情况下, 加载成功后, 返回 200 成功, Response Body 返回对应的图片资源, 同时 Response Header 中带上 etag 表示该 url 对应资源的特征值. 如:         </p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etag:&quot;bd6d0ff25778318b238ac530cb147247&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>后续的请求, Request Header 带上 <code>if-none-match</code> 给服务器检查是否更新, 如果图片资源未更新, 直接返回 304, 否则正常返回.</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Request Header</span><br><span class="line">if-none-match: &quot;bd6d0ff25778318b238ac530cb147247&quot;</span><br><span class="line">// </span><br><span class="line"></span><br><span class="line">// Response (未改变)</span><br><span class="line">Statue Code : 304</span><br><span class="line">// </span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="客户端实现"><a href="#客户端实现" class="headerlink" title="客户端实现"></a>客户端实现</h2><p>客户端需要</p>
+<ol>
+<li>本地缓存 url 对应的 etag, 同时在后续请求的时候带上. </li>
+<li>加载图片的时候需要支持给 url 设置 Header</li>
+<li>在图片加载成功后, 如果是远程 url 也需要读取 Response 的 Header.</li>
+</ol>
+<p>由于客户端一般都有通用的图片加载库, 所以 2,3 点需要图片库支持</p>
+<h4 id="本地缓存-url-对应的-etag"><a href="#本地缓存-url-对应的-etag" class="headerlink" title="本地缓存 url 对应的 etag"></a>本地缓存 url 对应的 etag</h4><p>这个使用通用的 Key-Value 缓存都能实现, 可以用 SharedPrference, sqlite, MMKV 或 DataStore 都能实现, 我比较推荐用 MMKV 的形式, 最主要的特点是不需要切线程, 同时也是属于能够接受丢失的数据.</p>
+<h4 id="图片库的支持"><a href="#图片库的支持" class="headerlink" title="图片库的支持"></a>图片库的支持</h4><p>这里以 Glide 举例, 常见的写法是 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Glide.with()</span><br><span class="line">    .asDrawable()</span><br><span class="line">    .load(url)</span><br><span class="line">    .signature(etag)</span><br><span class="line">    .into()</span><br></pre></td></tr></table></figure>
+
+
+<ol>
+<li>设置 Header, 这个比较简单, 可以通过自带的 GlideUrl 设置<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> header = LazyHeaders.Builder()</span><br><span class="line">               .addHeader(<span class="string">&quot;if-none-match&quot;</span>, etag)</span><br><span class="line">               .build()</span><br><span class="line"> <span class="keyword">val</span> glideUrl = GlideUrl(url, header)</span><br><span class="line"> Glide.load(glideUrl)</span><br></pre></td></tr></table></figure></li>
+<li>Glide 取出 Http Response Header 中的 etag.<br> 我这边想到的办法比较麻烦:<ol>
+<li>调整 Glide 的网络库实现为 OKHttp</li>
+<li>给 Glide 设置 OKHttpClient 时添加自定义的 Interceptor , 然后就可以取出 Response 中的 etag.</li>
+</ol>
+</li>
+</ol>
+<p>但是这样有个问题, 就是 etag 无法与 Glide 的 Request 进行关联, 导致同一个 url 必定会有两次网络请求.</p>
+<ol>
+<li>第一次加载, 由于没有 etag 缓存, signature 传入的 etag 为 null. 此时 Glide 图片以 url 作为缓存 key.</li>
+<li>第一次加载后, response 中取出 etag , 记录与 url 的映射关系.</li>
+<li>第二次加载, signature 传入 url 对应的 etag, 由于该 etag 缓存 key 未找到对应的缓存图片, 所以又会发起一次网络请求.</li>
+</ol>
+<p>所以纯粹修改 Glide 图片库似乎不太好.</p>
+<h4 id="先发起一次网络请求"><a href="#先发起一次网络请求" class="headerlink" title="先发起一次网络请求"></a>先发起一次网络请求</h4><p>由于图片正常返回时, Http Body 就是所需加载的图片资源 byte, 所以可以先发起一次网络请求, 拿到 etag 后, 设置 signature 并使用 <code>Glide.load(byte[])</code> 方法直接加载 Http 的 Body, 这样<strong>只有一次网络请求</strong>.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> request = Request.Builder()</span><br><span class="line">                .url(url)</span><br><span class="line">                .build()</span><br><span class="line">client.newCall(request).enqueue(<span class="keyword">object</span>: Callback &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onFailure</span><span class="params">(call: <span class="type">Call</span>, e: <span class="type">IOException</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// Error</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResponse</span><span class="params">(call: <span class="type">Call</span>, response: <span class="type">Response</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!response.isSuccessful) &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> eTag = response.header(<span class="string">&quot;etag&quot;</span>) ?: url</span><br><span class="line">        Glide.with(getContext()).asDrawable()</span><br><span class="line">                .load(response.body?.bytes() ?: ByteArray(<span class="number">0</span>)))</span><br><span class="line">                .signature(ObjectKey(etag))</span><br><span class="line">                .into()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但是这样测试之后, 发现有新的问题, 即第二次请求虽然 etag 都匹配传入了, 但是依然发起了网络请求. 排查之后发现 <code>Glide.load(byte[])</code> 方法使用的 <code>ByteArrayLoader</code> 中定义的 DataSource 为 Local, 所以使用该方法就不会写入本地缓存, 第二次请求就不会命中缓存.</p>
+<p>解决办法也比较简单, 可以仿照 <code>ByteArrayLoader</code> 写一个自定义的 Loader , 然后注册到 Glide 中, 注意替换 DataSource 为 Remote.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 主要用于直接加载 HttpBody</span></span><br><span class="line"><span class="comment"> * 配合 ETag 使用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETagByteModel</span></span>(<span class="keyword">val</span> eTag: String, <span class="keyword">val</span> <span class="keyword">data</span>: ByteArray): Key &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">updateDiskCacheKey</span><span class="params">(messageDigest: <span class="type">MessageDigest</span>)</span></span> &#123;</span><br><span class="line">        messageDigest.update(eTag.toByteArray(Key.CHARSET))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">equals</span><span class="params">(other: <span class="type">Any</span>?)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> === other) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">if</span> (javaClass != other?.javaClass) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">        other <span class="keyword">as</span> ETagByteModel</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (eTag != other.eTag) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">hashCode</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> eTag.hashCode()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参考 ByteArrayLoader 实现</span></span><br><span class="line"><span class="comment"> * 调整 DataSource 为 remote, 这样可以走缓存逻辑</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETagByteLoader</span>&lt;<span class="type">Data</span>&gt;</span>(<span class="keyword">val</span> converter: ByteArrayLoader.Converter&lt;Data&gt;) : ModelLoader&lt;ETagByteModel, Data&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">buildLoadData</span><span class="params">(model: <span class="type">ETagByteModel</span>, width: <span class="type">Int</span>, height: <span class="type">Int</span>, options: <span class="type">Options</span>)</span></span>: ModelLoader.LoadData&lt;Data&gt;? &#123;</span><br><span class="line">        <span class="keyword">return</span> ModelLoader.LoadData(model, Fetcher(model.<span class="keyword">data</span>, converter))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">handles</span><span class="params">(model: <span class="type">ETagByteModel</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Fetcher</span>&lt;<span class="type">Data</span>&gt;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> model We really ought to copy the model, but doing so can be hugely expensive and/or</span></span><br><span class="line"><span class="comment">     * lead to OOMs. In practice it&#x27;s unlikely that users would pass an array into Glide and</span></span><br><span class="line"><span class="comment">     * then mutate it.</span></span><br><span class="line"><span class="comment">     */</span> <span class="keyword">internal</span> <span class="keyword">constructor</span>(<span class="keyword">private</span> <span class="keyword">val</span> model: ByteArray, <span class="keyword">private</span> <span class="keyword">val</span> converter: ByteArrayLoader.Converter&lt;Data&gt;) : DataFetcher&lt;Data&gt; &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadData</span><span class="params">(priority: <span class="type">Priority</span>, callback: <span class="type">DataFetcher</span>.<span class="type">DataCallback</span>&lt;<span class="type">in</span> <span class="type">Data</span>&gt;)</span></span> &#123;</span><br><span class="line">            <span class="keyword">val</span> result = converter.convert(model)</span><br><span class="line">            callback.onDataReady(result)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">cleanup</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="comment">// Do nothing.</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">cancel</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="comment">// Do nothing.</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getDataClass</span><span class="params">()</span></span>: Class&lt;Data&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> converter.dataClass</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getDataSource</span><span class="params">()</span></span>: DataSource &#123;</span><br><span class="line">          <span class="comment">// 注意 DataSource 的值</span></span><br><span class="line">            <span class="keyword">return</span> DataSource.REMOTE</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对应 InputStream 解析</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StreamFactory</span> : <span class="type">ModelLoaderFactory</span>&lt;<span class="type">ETagByteModel, InputStream</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">build</span><span class="params">(multiFactory: <span class="type">MultiModelLoaderFactory</span>)</span></span>: ModelLoader&lt;ETagByteModel, InputStream&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> ETagByteLoader&lt;InputStream&gt;(</span><br><span class="line">                <span class="keyword">object</span> : ByteArrayLoader.Converter&lt;InputStream&gt; &#123;</span><br><span class="line">                    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">convert</span><span class="params">(model: <span class="type">ByteArray</span>?)</span></span>: InputStream &#123;</span><br><span class="line">                        <span class="keyword">return</span> ByteArrayInputStream(model)</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getDataClass</span><span class="params">()</span></span>: Class&lt;InputStream&gt; &#123;</span><br><span class="line">                        <span class="keyword">return</span> InputStream::<span class="keyword">class</span>.java</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">teardown</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// Do nothing.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后注册到 Glide</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GlideModule</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">OkHttpLibraryGlideModule</span> <span class="keyword">extends</span> <span class="title">LibraryGlideModule</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide, Registry registry)</span> </span>&#123;</span><br><span class="line">      registry.replace(ETagByteModel.class, InputStream.class, <span class="keyword">new</span> StreamFactory());</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后加载的时候调用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> eTag = response.header(<span class="string">&quot;etag&quot;</span>) ?: url</span><br><span class="line">Glide.with(getContext()).asDrawable()</span><br><span class="line">        .load(EtagByteModel(etag, response.body?.bytes() ?: ByteArray(<span class="number">0</span>)))</span><br><span class="line">        .signature(ObjectKey(etag))</span><br><span class="line">        .into()</span><br></pre></td></tr></table></figure>
+
+<p>这样即可以实现 etag 更新, 也可以利用到 Glide 的缓存, 对项目修改比较小.</p>
+<h2 id="最终流程"><a href="#最终流程" class="headerlink" title="最终流程"></a>最终流程</h2><ol>
+<li>首先检查是否有 url 对应的 etag 缓存<ul>
+<li>如果没有缓存, 先发起一次网络请求, 成功之后利用 Glide 设置 signature 加载 http body.</li>
+<li>如果有缓存<ol>
+<li>先通过Glide 设置 signature 加载 url</li>
+<li>在 Glide 的成功回调里面带上 if-none-match 的 Header 发起网络请求, 用于检查服务器是否更新了图片.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="预加载与缓存的坑"><a href="#预加载与缓存的坑" class="headerlink" title="预加载与缓存的坑"></a>预加载与缓存的坑</h2><p>如果使用 Glide 的 preload 方法并且缓存了 preload 返回的 Drawable, 需要注意 Drawable 中的 Bitmap 对象在 preload 完成后会释放掉, 此时 Bitmap 会被 Glide 回收后复用给其他请求.<br>如果自己缓存了该 Bitmap, 会导致两种结果:</p>
+<ol>
+<li>Bitmap 错误展示了其他地方请求的结果, 即展示的图片与实际的 url 对不上.</li>
+<li>Bitmap 复用 Crash<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java.lang.RuntimeException</span><br><span class="line">Canvas: trying to use a recycled bitmap android.graphics.Bitmap@111bacc</span><br><span class="line">    android.graphics.BaseCanvas.throwIfCannotDraw(BaseCanvas.java:<span class="number">77</span>)</span><br><span class="line">    android.graphics.MiuiCanvas.throwIfCannotDraw(MiuiCanvas.java:<span class="number">329</span>)</span><br><span class="line">    android.graphics.RecordingCanvas.throwIfCannotDraw(RecordingCanvas.java:<span class="number">277</span>)</span><br><span class="line">    android.graphics.BaseRecordingCanvas.drawBitmap(BaseRecordingCanvas.java:<span class="number">88</span>)</span><br><span class="line">    android.graphics.drawable.BitmapDrawable.draw(BitmapDrawable.java:<span class="number">548</span>)</span><br><span class="line">    android.widget.ImageView.onDraw(ImageView.java:<span class="number">1434</span>)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+解决办法是自己缓存的场景不要用 preload, preload 的实现也是 CustomTarget, 并且在 preload 成功后 clear 了资源. 所以我们使用 into CustomTarget 即可.</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.into(<span class="keyword">object</span>: CustomTarget&lt;Drawable&gt;() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResourceReady</span><span class="params">(resource: <span class="type">Drawable</span>, transition: <span class="type">Transition</span>&lt;<span class="type">in</span> <span class="type">Drawable</span>&gt;?)</span></span> &#123;</span><br><span class="line">			<span class="comment">// 保存 Drawable</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onLoadCleared</span><span class="params">(placeholder: <span class="type">Drawable</span>?)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 释放 Drawable</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2021/01/14/Android-Dialog-Tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/14/Android-Dialog-Tips/" class="post-title-link" itemprop="url">Android Dialog Tips</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-01-14 12:15:20" itemprop="dateCreated datePublished" datetime="2021-01-14T12:15:20+08:00">2021-01-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-05-19 17:06:50" itemprop="dateModified" datetime="2022-05-19T17:06:50+08:00">2022-05-19</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/14/Android-Dialog-Tips/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/14/Android-Dialog-Tips/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1423,180 +1578,6 @@ PhantomReference pr = new PhantomReference (object, queue);</code></pre>
 <li><p>ViewModel: 其实只是普通 Java 类, 因为有 binding 的关系, 可以控制 View.</p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/09/01/Android-TraceView/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jianqiu">
-      <meta itemprop="description" content="Android | jianqiu's blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianqiu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/09/01/Android-TraceView/" class="post-title-link" itemprop="url">Android绘制检测工具 -- TraceView</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2017-09-01 13:50:03 / Modified: 16:28:29" itemprop="dateCreated datePublished" datetime="2017-09-01T13:50:03+08:00">2017-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">性能检测</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2017/09/01/Android-TraceView/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/01/Android-TraceView/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>TraceView 是 Android 自带的工具, 可以在 DDMS 中找到. 最终的分析结果会导出为 .trace 格式的文件. 文件获取有以下方式:</p>
-<h5 id="获取方式"><a href="#获取方式" class="headerlink" title="获取方式"></a>获取方式</h5><ol>
-<li><p>手动检测:</p>
-<ul>
-<li>在 DDMS 中选择进程.</li>
-<li>点击 Start Method Profiling 开始记录.</li>
-<li>操作完成后点击 Stop Method Profiling 结束记录.</li>
-</ul>
-</li>
-<li><p>代码检测 (需要权限 <code>WRITE_EXTERNAL_STORAGE</code>):</p>
-<ul>
-<li>在开始监控的地方调用 <code>Debug.startMethodTracing(&quot;name&quot;)</code> .</li>
-<li>在结束监控的地方调用 <code>Debug.stopMethodTracing()</code>.</li>
-<li>在 sd 卡中生成 name.trace 文件.</li>
-</ul>
-</li>
-</ol>
-<p>通过 DDMS 打开 trace 文件, 下面会有一个表格展示每个函数的各项数据, 分别介绍一下各个数据的含义.</p>
-<h5 id="分析表格"><a href="#分析表格" class="headerlink" title="分析表格"></a>分析表格</h5><p>以下面这个函数块为例子:</p>
-<pre><code>    void main() &#123;                --- 10s
-        A();                    --- 1s
-        B();                    --- 5s
-        XXX;                    --- 4s
-    &#125;</code></pre>
-<ul>
-<li><p><code>Incl Cpu Time %</code> : 表示每个函数运行所占 Cpu 时间的<strong>百分比</strong>, <strong>包括</strong>该函数内所调用的其他函数的时间.</p>
-<p>  如果记录的正好是 main() 的执行周期, 那么 main() 的百分比就是 100%. 以 100% 为总和来计算, 每个函数执行的时间所占百分比就是其 <code>Incl Cpu Time %</code> 的值.</p>
-<pre><code>  void main() &#123;                --- 100%
-      A();                    --- 10%
-      B();                    --- 50%
-      XXX;                    --- 40%
-  &#125;</code></pre>
-</li>
-<li><p><code>Incl Cpu Time</code> : 表示每个函数运行所占的 Cpu <strong>时间</strong>, <strong>包括</strong>该函数内调用的其他函数的时间.</p>
-</li>
-<li><p><code>Excl Cpu Time %</code> : 表示每个函数运行所占 Cpu 时间的<strong>百分比</strong>, <strong>不包括</strong>该函数内所调用的其他函数的时间.</p>
-</li>
-<li><p><code>Excl Cpu Time</code> : 表示每个函数运行所占的 Cpu <strong>时间</strong>, <strong>不包括</strong>该函数内调用的其他函数的时间.</p>
-</li>
-<li><p><code>Incl Real Time %</code> : 表示每个函数运行所占实际时间的<strong>百分比</strong>, <strong>包括</strong>该函数内调用其他函数的时间.</p>
-<table>
-<thead>
-<tr>
-<th>Cpu Time</th>
-<th>Real Time</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>进程运行在 Cpu 上的时间</td>
-<td>从进程开始到进程结束的整个时间, 包括 I/O 的等待时间</td>
-</tr>
-</tbody></table>
-</li>
-<li><p><code>Incl Real Time</code> : 表示每个函数运行所占的实际<strong>时间</strong>, <strong>包括</strong>该函数内调用其他函数的时间.</p>
-</li>
-<li><p><code>Excl Real Time %</code> : 表示每个函数运行所占实际时间的<strong>百分比</strong>, <strong>不包括</strong>该函数内调用其他函数的时间.</p>
-</li>
-<li><p><code>Excl Real Time</code> : 表示每个函数运行所占的实际<strong>时间</strong>, <strong>不包括</strong>该函数内调用其他函数的时间.</p>
-</li>
-<li><p><code>Calls + Recur Calls / Total</code> : 对于父函数而言, 会显示 <code>调用次数 + 递归调用次数</code>. 对于子函数而言, 会显示 <code>该子函数被父函数调用的次数 / 该子函数总共被调用的次数</code>.</p>
-<p>  以下面的表格为例子.</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Calls + Recur Calls / Total</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>main()</td>
-<td>10 + 0</td>
-<td>main() 是父函数, 被调用了10次, 被递归调用了0次.</td>
-</tr>
-<tr>
-<td>A()</td>
-<td>1 / 3</td>
-<td>A() 是子函数, 被 main() 调用了1次, 被其他函数调用了3次.</td>
-</tr>
-</tbody></table>
-</li>
-<li><p><code>Cpu Time / Call</code> : <code>Incl Cpu Time</code> / <code>Calls</code> , 表示每个函数在 Cpu 上的执行时间.</p>
-</li>
-<li><p><code>Real Time / Call</code> : <code>Incl Real Time</code> / <code>Calls</code> , 表示每个函数运行的实际时间.</p>
-</li>
-</ul>
-<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><p>TraceView 的思路是把一段时间内所有的函数都记录下来, 因为记录的东西太多, 所以记录的结果比不开启 TraceView 要慢一些.</p>
 
       
     </div>
