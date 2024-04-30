@@ -194,7 +194,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,139 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2017/11/20/Android-Arch-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianqiu">
+      <meta itemprop="description" content="Android | jianqiu's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jianqiu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/11/20/Android-Arch-summary/" class="post-title-link" itemprop="url">Android-Arch-summary</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2017-11-20 17:00:08 / Modified: 17:00:33" itemprop="dateCreated datePublished" datetime="2017-11-20T17:00:08+08:00">2017-11-20</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/11/20/Android-Arch-summary/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/20/Android-Arch-summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本文主要列举一些常见的架构及自己的理解.</p>
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p><a target="_blank" rel="noopener" href="https://heim.ifi.uio.no/~trygver/themes/mvc/mvc-index.html">经典 MVC 架构</a>, 是在 1979 年由 Trygve Reenskaug 在<a target="_blank" rel="noopener" href="https://heim.ifi.uio.no/~trygver/1979/mvc-2/1979-12-MVC.pdf">这篇论文</a>中提出的, 这里附上一篇 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/winter-cn/archive/2012/06/13/2547662.html">winter 老师的翻译</a>, 当时文章提到的关键词有 <code>Model</code>, <code>View</code>, <code>Controller</code> 和 <code>Editor</code>.</p>
+<p>那时候并没有操作系统和消息循环(即不像现在的 Android ,不是事件驱动), 当时更多是面对鼠标, 键盘驱动这样的底层环境, 甚至鼠标的光标 UI 都要自己绘制.</p>
+<p>原作者给出的关系图是这样的 <img src="https://camo.githubusercontent.com/17749aa6915f9bab027dddc91783c86ac0a2010c/68747470733a2f2f6865696d2e6966692e75696f2e6e6f2f253745747279677665722f7468656d65732f6d76632f4d56432d323030362e676966?_=4285171"></p>
+<ul>
+<li><p>Model</p>
+<p>  Model 是计算机对现实世界建立的模型, 可以是数据存储, 也可以是数据对象.</p>
+</li>
+<li><p>Controller</p>
+<p>  因为用户是接触鼠标和键盘, 所以输入是从 Controller 开始, Controller 根据指定的输入选择相应的 View 来显示, 即 Controller 与 View 是一对多的关系.</p>
+</li>
+<li><p>View</p>
+<p>  View 是 model 的表现形式, 可以从一个或多个 model 获取想要的数据. View 向 model 获取数据, 也可以更新 model. View 不知道用户输入, 只是用来展示给用户.</p>
+</li>
+<li><p>Editor</p>
+<p>  Controller 与 View 连接, 而某些 View 提供一种特殊的 Controller, 即 Editor, 它允许用户修改 View 表示的信息.</p>
+</li>
+</ul>
+<p>由于当年的开发环境与现在有很大不同, 所以我认为<strong>经典MVC架构已经不适用于现在的开发</strong>.</p>
+<p>1996年, Mike(提出 MVP 架构)对当时的开发架构以 MVC 的角度给出了另一个<strong>依赖关系</strong>图:<img src="https://camo.githubusercontent.com/c3dd0f9f77b116f5b5b4ce9fb82ac136a68664b3/687474703a2f2f7777322e73696e61696d672e636e2f6d773639302f34373465626633356777316570346f6b727a34716a6a32306f6d3065753430352e6a7067?_=4285171"></p>
+<p>此时用户输入已经从 Controller(mouse.onClick) 转移到 View (View.onClick) 上.</p>
+<h5 id="Android-中的-MVC"><a href="#Android-中的-MVC" class="headerlink" title="Android 中的 MVC"></a>Android 中的 MVC</h5><p>Android 并不是完全符合 MVC 架构, 各组件之间并不是能够完全解耦. 以下是我的理解:</p>
+<ul>
+<li><p>View : xml布局, 即用户接触到的界面和控件.</p>
+</li>
+<li><p>Model: Java 对象, POJO 和 Java Bean, 还有一些数据中心, 如 Retrofit 的 Service.</p>
+</li>
+<li><p>Controller: Activity 或 Fragment.  因为 View 不能根据逻辑控制自己, 所以 Controller 会操作 View, 同时也会获取数据. 这些操作都放在 Controller 里面了.</p>
+</li>
+</ul>
+<h2 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h2><p>随着计算机的发展, 操作系统对开发提供的帮助越来越多, Controller 所提供的桥梁功能, 已经逐渐被操作系统代替. 而 Mike 提出的 Presenter , 只是在 MVC 的基础上对 Controller 做了更详细的规定:</p>
+<p><img src="https://camo.githubusercontent.com/5dc631b7b8b34d3bd1e98debbbe138604e3186f5/687474703a2f2f7777322e73696e61696d672e636e2f6d773639302f34373465626633356777316570346f697a7575776f6a3230767730666f7768612e6a7067?_=4285171"></p>
+<p>他在论文中提到 <code>we refer to this kind（指应用程序全局且使用interactor, command以及selection概念的） of controller as a presenter</code>, 所以 Presenter 也是一种 Controller. MVC 和 MVP 的<strong>依赖关系</strong>图是一样的.</p>
+<h5 id="Android-中的-MVP"><a href="#Android-中的-MVP" class="headerlink" title="Android 中的 MVP"></a>Android 中的 MVP</h5><p>Android 中的 MVP, Presenter 作为桥梁的功能更加明显, 但是也有一些变种类型, 比如 Google 的 MVP 模式, 添加了 Contract 作为合约类, 定义了 View 和 Presenter 之间的接口, 而 Model 则作为数据中心, 提供所有获取数据的接口, Prsenter 中只需要选择是使用测试的 Data Repo 还是 正式的 Data Repo 即可.</p>
+<p>这里我习惯用另一种 MVP:</p>
+<ul>
+<li><p>View: Activity 和 Xml, 作为页面的展示, Activity 控制 View 的逻辑.</p>
+</li>
+<li><p>Model : Java 对象. 部分共用的 Data Repo.</p>
+</li>
+<li><p>Presenter : 每个 View 对应一个 Presenter, Presenter 获取数据(Retrofit 或 DataBase).</p>
+</li>
+<li><p>Contract : 约定 View 与 Presenter 之间的接口.</p>
+</li>
+</ul>
+<p>按照 Google 的做法, MVP 中 Model 应该包含数据中心, 负责提供获取数据的接口. 这样确实方便切换和测试. 但是实际项目中, 我认为大部分接口都只调用一次, 并且是在特定的页面, 所以我没有这样做.</p>
+<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h2><p>由于现在大部分开发的模式是标记语言 + 程序语音的组合, 如 (Android 的 Java + xml), view 与其他部分解耦得更加彻底, 2005年微软架构师在<a target="_blank" rel="noopener" href="https://blogs.msdn.microsoft.com/johngossman/2005/10/08/introduction-to-modelviewviewmodel-pattern-for-building-wpf-apps/">这篇文章</a>中提出了 MVVM 的概念, 最重要的一点便是 View 和 ViewModel 之间实现了双向绑定.</p>
+<ul>
+<li><p>View : xml 和 Activity, 与用户交互.</p>
+</li>
+<li><p>Model : 数据中心.</p>
+</li>
+<li><p>ViewModel: 其实只是普通 Java 类, 因为有 binding 的关系, 可以控制 View.</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1889,190 +2022,8 @@ mSocketConnector.dispose();</code></pre>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://niorgai.github.io/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jianqiu">
-      <meta itemprop="description" content="Android | jianqiu's blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jianqiu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Android动态替换图标总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2016-01-23 19:10:43 / Modified: 19:52:10" itemprop="dateCreated datePublished" datetime="2016-01-23T19:10:43+08:00">2016-01-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Android%E5%BC%80%E5%8F%91%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Android开发经验</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2016/01/23/Android%E5%8A%A8%E6%80%81%E6%9B%BF%E6%8D%A2%E5%9B%BE%E6%A0%87%E6%80%BB%E7%BB%93/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/23/Android动态替换图标总结/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>现在淘宝,京东等App在节假日打开时,都是采用一套节假日的图标,这种不用发版本,又可以随着后台配置动态替换图标固然是很方便,体验很好的事情.</p>
-<h2 id="准备工作-全部按钮的不同状态改为纯图片实现"><a href="#准备工作-全部按钮的不同状态改为纯图片实现" class="headerlink" title="准备工作:全部按钮的不同状态改为纯图片实现."></a>准备工作:全部按钮的不同状态改为纯图片实现.</h2><p>现在很多应用的通知策略都是采用小红点提示,小红点可以单独画出来,与图标分离,单独控制隐藏.但是现在需要动态替换图标,小红点就不能与图片分离了,否则会导致红点位置不理想或红点被图标遮住等问题.为此,所有的状态都需要改为纯图片实现.</p>
-<p>首页的tab,目前应用采用的是<code>RadioButton + Fragment</code>的实现,为此,需要自定义RadioButton的selector.</p>
-<ol>
-<li><p>定义attr.</p>
-<pre><code> //下面定义的state_new_message表示有新消息
- &lt;declare-styleable name=&quot;MessageRadioButton&quot;&gt;
-     &lt;attr name=&quot;state_new_message&quot; format=&quot;boolean&quot;/&gt;
- &lt;/declare-styleable&gt;</code></pre>
-</li>
-<li><p>定义selector.</p>
-<pre><code> //xxx为你的包名
- //为了配合state_checked,需要4张图片
- &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
- &lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-     xmlns:message=&quot;http://schemas.android.com/apk/res/xxx&quot;&gt;
-     &lt;item android:drawable=&quot;@drawable/icon_union_selected&quot;
-         android:state_checked=&quot;true&quot;
-         message:state_new_message=&quot;false&quot;/&gt;
-     &lt;item android:drawable=&quot;@drawable/icon_union_selected_new&quot;
-         android:state_checked=&quot;true&quot;
-         message:state_new_message=&quot;true&quot;/&gt;
-     &lt;item android:drawable=&quot;@drawable/icon_union_normal&quot; 
-         android:state_checked=&quot;false&quot;
-         message:state_new_message=&quot;false&quot;/&gt;
-     &lt;item android:drawable=&quot;@drawable/icon_union_normal_new&quot; 
-         android:state_checked=&quot;false&quot;
-         message:state_new_message=&quot;true&quot;/&gt;
- &lt;/selector&gt;</code></pre>
-</li>
-<li><p>重写RadioButton(ImageView等控件也同样适用).</p>
-<pre><code> public class MessageRadioButton extends RadioButton &#123;
-     //定义的状态
-     private static final int[] STATE_NEW_MESSAGE = &#123;R.attr.state_new_message&#125;;
-     //是否有新消息
-     private boolean hasNewMessage;
-
-     /**
-      * 构造函数
-      **/
-
-     /**
-      * 关键需要此函数,添加状态
-      **/
-     @Override
-     protected int[] onCreateDrawableState(int extraSpace) &#123;
-         if (hasNewMessage) &#123;
-             final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-             mergeDrawableStates(drawableState, STATE_NEW_MESSAGE);
-             return drawableState;
-         &#125;
-         return super.onCreateDrawableState(extraSpace);
-     &#125;
-
-     /**
-      * 设置是否有新消息数
-      * @param newMessage, 是否有新消息数
-      */
-     public void setHasNewMessage(boolean newMessage) &#123;
-         if (hasNewMessage != newMessage) &#123;
-             hasNewMessage = newMessage;
-             refreshDrawableState();
-         &#125;
-     &#125;
-
- &#125;</code></pre>
-</li>
-</ol>
-<p>使用MessageRadioButton的<code>setHasNewMessage()</code>方法即可以显示带小红点的图片.<br>即<strong>所有按钮改为图片实现.</strong></p>
-<h2 id="创建Drawable对象"><a href="#创建Drawable对象" class="headerlink" title="创建Drawable对象"></a>创建Drawable对象</h2><p>动态配置就是下载图片成功后,从文件中获取每个按钮的Drawable对象.但是实现时需要注意细节:</p>
-<ol>
-<li><p>根据图片生成的Drawable对象即<strong>BitmapDrawable</strong>.</p>
-<ul>
-<li><p>目前BitmapDrawable对应的构造函数未被弃用的还有</p>
-<pre><code>  BitmapDrawable(Resources res, Bitmap bitmap)
-  BitmapDrawable(Resources res, String path)</code></pre>
-<p>  但使用<code>BitmapDrawable(Resources res, String path)</code>时发现在vivo手机上没有生效,所以还是推荐<code>BitmapDrawable(Resources res, Bitmap bitmap)</code>方法.</p>
-</li>
-<li><p>图片在使用时也需要区分dpi,对应<code>Bitmap.setDensity()</code>方法,参数为160的倍数.</p>
-</li>
-</ul>
-</li>
-<li><p>selector对应的Drawable对象即<strong>StateListDrawable</strong>.</p>
-<ul>
-<li><p><code>StateListDrawable.addState(int[] stateSet, Drawable drawable)</code>方法可以添加状态对应的drawable.</p>
-<pre><code>  //state_new_message为false
-  listDrawable.addState(new int[]&#123;-R.attr.state_new_message&#125;, drawable);
-  //state_new_message为true
-  listDrawable.addState(new int[]&#123;R.attr.state_new_message&#125;, drawable);</code></pre>
-</li>
-<li><p>listDrawable必须调用<code>setBounds()</code>方法才能显示.</p>
-</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2106,7 +2057,7 @@ mSocketConnector.dispose();</code></pre>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
